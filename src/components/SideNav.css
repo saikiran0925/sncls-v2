@@ -1,0 +1,8 @@
+.side-nav-container{
+    display: flex;
+    flex-direction: column-reverse;
+}
+
+.nav-box{
+    display: flex;
+}
