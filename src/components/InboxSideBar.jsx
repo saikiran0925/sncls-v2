@@ -1,5 +1,5 @@
-import React from 'react';
-import './InboxSidebar.css';
+import React from "react";
+import "./InboxSidebar.css";
 
 const Card = ({ name, title, content, timestamp }) => {
   return (
@@ -14,101 +14,7 @@ const Card = ({ name, title, content, timestamp }) => {
   );
 };
 
-const InboxSidebar = () => {
-  const cardsData = [
-    {
-      name: "William Smith",
-      title: "Meeting Tomorrow",
-      content:
-        "Hi, let's have a meeting tomorrow to discuss the project. I've been reviewing the project details and have some ideas I'd like to share. It's...",
-      timestamp: "about 1 year ago",
-    },
-    {
-      name: "Alice Smith",
-      title: "Re: Project Update",
-      content:
-        "Thank you for the project update. It looks great! I've gone through the report, and the progress is impressive. The team has done a fantastic...",
-      timestamp: "about 1 year ago",
-    },
-    {
-      name: "Bob Johnson",
-      title: "Weekend Plans",
-      content:
-        "Any plans for the weekend? I was thinking of going hiking in the nearby mountains. It's been a while since we had some outdoor fun. If...",
-      timestamp: "over 1 year ago",
-    },
-    {
-      name: "Alice Smith",
-      title: "Re: Project Update",
-      content:
-        "Thank you for the project update. It looks great! I've gone through the report, and the progress is impressive. The team has done a fantastic...",
-      timestamp: "about 1 year ago",
-    },
-    {
-      name: "Bob Johnson",
-      title: "Weekend Plans",
-      content:
-        "Any plans for the weekend? I was thinking of going hiking in the nearby mountains. It's been a while since we had some outdoor fun. If...",
-      timestamp: "over 1 year ago",
-    },
-    {
-      name: "Alice Smith",
-      title: "Re: Project Update",
-      content:
-        "Thank you for the project update. It looks great! I've gone through the report, and the progress is impressive. The team has done a fantastic...",
-      timestamp: "about 1 year ago",
-    },
-    {
-      name: "Bob Johnson",
-      title: "Weekend Plans",
-      content:
-        "Any plans for the weekend? I was thinking of going hiking in the nearby mountains. It's been a while since we had some outdoor fun. If...",
-      timestamp: "over 1 year ago",
-    },
-    {
-      name: "Alice Smith",
-      title: "Re: Project Update",
-      content:
-        "Thank you for the project update. It looks great! I've gone through the report, and the progress is impressive. The team has done a fantastic...",
-      timestamp: "about 1 year ago",
-    },
-    {
-      name: "Bob Johnson",
-      title: "Weekend Plans",
-      content:
-        "Any plans for the weekend? I was thinking of going hiking in the nearby mountains. It's been a while since we had some outdoor fun. If...",
-      timestamp: "over 1 year ago",
-    },
-    {
-      name: "Alice Smith",
-      title: "Re: Project Update",
-      content:
-        "Thank you for the project update. It looks great! I've gone through the report, and the progress is impressive. The team has done a fantastic...",
-      timestamp: "about 1 year ago",
-    },
-    {
-      name: "Bob Johnson",
-      title: "Weekend Plans",
-      content:
-        "Any plans for the weekend? I was thinking of going hiking in the nearby mountains. It's been a while since we had some outdoor fun. If...",
-      timestamp: "over 1 year ago",
-    },
-    {
-      name: "Alice Smith",
-      title: "Re: Project Update",
-      content:
-        "Thank you for the project update. It looks great! I've gone through the report, and the progress is impressive. The team has done a fantastic...",
-      timestamp: "about 1 year ago",
-    },
-    {
-      name: "Bob Johnson",
-      title: "Weekend Plans",
-      content:
-        "Any plans for the weekend? I was thinking of going hiking in the nearby mountains. It's been a while since we had some outdoor fun. If...",
-      timestamp: "over 1 year ago",
-    },
-  ];
-
+const InboxSidebar = ({ cardsData }) => {
   return (
     <div className="sidebar-container">
       <div className="inbox-header">
