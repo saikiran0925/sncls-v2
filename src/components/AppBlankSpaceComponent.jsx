@@ -1,39 +1,32 @@
 import Editor from "@monaco-editor/react";
+import { useEffect, useRef } from "react";
 
-function AppBlankSpaceComponent(props) {
-  const editorRef = props.editorRef;
-  let editorContent;
-  let currentEditorState;
-  if (editorRef.current) {
-    currentEditorState = editorRef.current.editorState;
-  }
+function AppBlankSpaceComponent({ selectedCardContent, onEditorStateChange }) {
+  const editorRef = useRef(null);
 
-  console.log("Current editorRef is: ", editorRef.current);
   const height = `${window.innerHeight - 120}px`;
   const width = `${window.innerWidth - 432}px`;
 
-  function handleEditorMount(editor, monaco) {
-    console.log("Editor instance: ", editor);
-    console.log("Editor value: ", editor.getValue());
-    // const originalEditor = editor.getModifiedEditor();
-    // const originalEditor = editor.getOriginalEditor();
+  useEffect(() => {
+    if (editorRef.current) {
+      // Update the editor's content when selectedCardContent changes
+      editorRef.current.setValue(selectedCardContent || "");
+    }
+  }, [selectedCardContent]);
 
-    const originalContent = props.editorState?.editorContent || "";
+  function handleEditorMount(editor) {
+    editorRef.current = editor;
 
-    editor.setValue(originalContent);
-
-    editor.onDidChangeModelContent((_) => {
-      console.log(editor.getValue());
-      editorContent = editor.getValue();
+    editor.onDidChangeModelContent(() => {
+      const editorContent = editor.getValue();
       const editorState = {
         editorContent,
       };
-      currentEditorState = editorState;
-      console.log("Editor State: ", currentEditorState);
-      props.onEditorStateChange(currentEditorState);
+      onEditorStateChange(editorState);
     });
   }
 
   return <Editor height={height} width={width} onMount={handleEditorMount} />;
 }
+
 export default AppBlankSpaceComponent;

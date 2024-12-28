@@ -1,20 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import "./InboxSidebar.css";
 
-const Card = ({ name, title, content, timestamp }) => {
-  return (
-    <div className="card">
-      <div className="card-header">
-        <h3 className="card-title">{name}</h3>
-        <span className="card-timestamp">{timestamp}</span>
-      </div>
-      <h4 className="card-subtitle">{title}</h4>
-      <p className="card-content">{content}</p>
-    </div>
-  );
-};
+const InboxSidebar = ({ cardsData, onCardSelect }) => {
+  const [activeCardIndex, setActiveCardIndex] = useState(null);
 
-const InboxSidebar = ({ cardsData }) => {
+  if (!Array.isArray(cardsData)) {
+    console.error("cardsData is not an array:", cardsData);
+    return <div>Error: Invalid data provided</div>;
+  }
+
   return (
     <div className="sidebar-container">
       <div className="inbox-header">
@@ -27,13 +21,21 @@ const InboxSidebar = ({ cardsData }) => {
       <input className="search-bar" type="text" placeholder="Search" />
       <div className="card-list">
         {cardsData.map((card, index) => (
-          <Card
+          <div
             key={index}
-            name={card.name}
-            title={card.title}
-            content={card.content}
-            timestamp={card.timestamp}
-          />
+            className={`card ${activeCardIndex === index ? "active-card" : ""}`}
+            onClick={() => {
+              setActiveCardIndex(index);
+              onCardSelect(card); // Notify parent of the selected card
+            }}
+          >
+            <div className="card-header">
+              <h3 className="card-title">{card.name}</h3>
+              <span className="card-timestamp">{card.timestamp}</span>
+            </div>
+            <h4 className="card-subtitle">{card.title}</h4>
+            <p className="card-content">{card.content}</p>
+          </div>
         ))}
       </div>
     </div>

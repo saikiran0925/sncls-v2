@@ -2,8 +2,8 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import SideNav from "./components/SideNav";
 import InboxSideBar from "./components/InboxSideBar";
-import EditorComponent from "./components/Editor";
 import "./App.css"
+import EditorRouter from "./components/EditorRouter";
 
 const App = () => {
   const cardData = {
@@ -46,18 +46,17 @@ const App = () => {
         <Routes>
           <Route
             path="/jsonify"
-            element={<InboxSideBar cardsData={cardData.jsonify} />}
+            element={<EditorRouter cardData={cardData} />}
           />
           <Route
             path="/blank-space"
-            element={<InboxSideBar cardsData={cardData.blankSpace} />}
+            element={<EditorRouter cardData={cardData} />}
           />
           <Route
             path="/diff-editor"
-            element={<InboxSideBar cardsData={cardData.diffEditor} />}
+            element={<EditorRouter cardData={cardData} />}
           />
         </Routes>
-        <EditorComponent className="editor" />
       </div>
     </Router>
   );
