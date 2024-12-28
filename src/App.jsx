@@ -2,6 +2,8 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import SideNav from "./components/SideNav";
 import InboxSideBar from "./components/InboxSideBar";
+import EditorComponent from "./components/Editor";
+import "./App.css"
 
 const App = () => {
   const cardData = {
@@ -39,7 +41,7 @@ const App = () => {
 
   return (
     <Router>
-      <div style={{ display: "flex" }}>
+      <div className="ui-container">
         <SideNav />
         <Routes>
           <Route
@@ -55,6 +57,7 @@ const App = () => {
             element={<InboxSideBar cardsData={cardData.diffEditor} />}
           />
         </Routes>
+        <EditorComponent className="editor" />
       </div>
     </Router>
   );

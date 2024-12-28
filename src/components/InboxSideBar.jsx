@@ -18,10 +18,10 @@ const InboxSidebar = ({ cardsData }) => {
   return (
     <div className="sidebar-container">
       <div className="inbox-header">
-        <h2>Inbox</h2>
+        <h2>SNCLS</h2>
         <div className="tabs">
-          <button className="tab active">All mail</button>
-          <button className="tab">Unread</button>
+          <button className="tab active">All</button>
+          <button className="tab">Starred</button>
         </div>
       </div>
       <input className="search-bar" type="text" placeholder="Search" />
