@@ -1,7 +1,7 @@
+import React, { useEffect, useRef } from "react";
 import Editor from "@monaco-editor/react";
-import { useEffect, useRef } from "react";
 
-function AppBlankSpaceComponent({ selectedCardContent, onEditorStateChange }) {
+function AppBlankSpaceComponent({ selectedCardContent, language, onEditorStateChange }) {
   const editorRef = useRef(null);
 
   const height = `${window.innerHeight - 120}px`;
@@ -9,7 +9,6 @@ function AppBlankSpaceComponent({ selectedCardContent, onEditorStateChange }) {
 
   useEffect(() => {
     if (editorRef.current) {
-      // Update the editor's content when selectedCardContent changes
       editorRef.current.setValue(selectedCardContent || "");
     }
   }, [selectedCardContent]);
@@ -26,7 +25,21 @@ function AppBlankSpaceComponent({ selectedCardContent, onEditorStateChange }) {
     });
   }
 
-  return <Editor height={height} width={width} onMount={handleEditorMount} />;
+  /*  path is an identifier for the model. When you specify a path prop, the Editor component checks if it has a model by that path or not. 
+   *  If yes, the existing model will be shown, otherwise, a new one will be created */
+
+  return (
+    <Editor
+      height={height}
+      width={width}
+      onMount={handleEditorMount}
+      path={language}
+      defaultLanguage={language}
+      options={{
+        wordWrap: "on",
+      }}
+    />
+  );
 }
 
 export default AppBlankSpaceComponent;

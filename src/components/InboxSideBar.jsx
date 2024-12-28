@@ -1,8 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./InboxSidebar.css";
 
 const InboxSidebar = ({ cardsData, onCardSelect }) => {
   const [activeCardIndex, setActiveCardIndex] = useState(null);
+
+  useEffect(() => {
+    if (cardsData.length > 0 && activeCardIndex === null) {
+      setActiveCardIndex(0);
+      onCardSelect(cardsData[0]);
+    }
+  }, [cardsData, activeCardIndex, onCardSelect]);
 
   if (!Array.isArray(cardsData)) {
     console.error("cardsData is not an array:", cardsData);
@@ -26,7 +33,7 @@ const InboxSidebar = ({ cardsData, onCardSelect }) => {
             className={`card ${activeCardIndex === index ? "active-card" : ""}`}
             onClick={() => {
               setActiveCardIndex(index);
-              onCardSelect(card); // Notify parent of the selected card
+              onCardSelect(card);
             }}
           >
             <div className="card-header">
