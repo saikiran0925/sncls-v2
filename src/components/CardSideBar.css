@@ -109,6 +109,10 @@
 }
 
 .card-content {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
   margin: 0;
   font-size: 14px;
   color: #666;

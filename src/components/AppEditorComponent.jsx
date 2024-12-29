@@ -3,11 +3,13 @@ import Editor from "@monaco-editor/react";
 
 function AppEditorComponent({ selectedCardContent, language, onEditorStateChange }) {
   const editorRef = useRef(null);
+  const cardContentRef = useRef("");
 
   const height = `${window.innerHeight - 120}px`;
   const width = `${window.innerWidth - 432}px`;
 
   useEffect(() => {
+    cardContentRef.current = selectedCardContent;
     if (editorRef.current) {
       editorRef.current.setValue(selectedCardContent || "");
     }
@@ -15,7 +17,7 @@ function AppEditorComponent({ selectedCardContent, language, onEditorStateChange
 
   function handleEditorMount(editor) {
     editorRef.current = editor;
-
+    editor.setValue(cardContentRef.current);
     editor.onDidChangeModelContent(() => {
       const editorContent = editor.getValue();
       const editorState = {

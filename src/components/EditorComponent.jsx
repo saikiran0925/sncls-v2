@@ -5,6 +5,7 @@ import { useLocation } from "react-router-dom";
 import "./EditorComponent.css";
 
 const EditorComponent = ({ selectedCardContent, onContentChange }) => {
+  console.log("EditorComponent:: content: ", selectedCardContent)
   const routeToConfig = {
     jsonify: {
       title: "JSONify",

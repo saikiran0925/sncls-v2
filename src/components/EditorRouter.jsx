@@ -18,20 +18,20 @@ const EditorRouter = ({ cardData }) => {
 
   const dataKey = routeToDataKey[path];
   const cardsData = dataKey === "diff-editor" ? { left: "", right: "" } : cardData[dataKey] || [];
-  console.log("Path:", dataKey);
-  console.log("Card Data:", cardsData);
 
   useEffect(() => {
+    console.log("Inside useEffect:", cardsData);
+
     if (cardsData.length > 0) {
+      console.log("Inside useEffect, setting content", cardsData[0].content);
       setSelectedCardContent(cardsData[0].content);
     } else {
       setSelectedCardContent("");
     }
   }, [cardsData]);
 
-  // This callback will be passed to EditorComponent
   const handleContentChange = (newContent) => {
-    setSelectedCardContent(newContent);  // Update the content
+    setSelectedCardContent(newContent);
   };
 
   return (
@@ -43,7 +43,7 @@ const EditorRouter = ({ cardData }) => {
       />
       <EditorComponent
         selectedCardContent={selectedCardContent}
-        onContentChange={handleContentChange}  // Pass the callback here
+        onContentChange={handleContentChange}
       />
     </div>
   );

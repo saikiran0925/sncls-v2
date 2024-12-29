@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from "react";
 import "./CardSideBar.css";
+import { useLocation } from "react-router-dom";
 
 const CardSideBar = ({ cardsData, onCardSelect, dataKey }) => {
   const [activeCardIndex, setActiveCardIndex] = useState(null);
+  const location = useLocation();
 
   useEffect(() => {
-    if (cardsData.length > 0 && activeCardIndex === null) {
+    if (cardsData.length > 0) {
       setActiveCardIndex(0);
       onCardSelect(cardsData[0]);
     }
-  }, [cardsData, activeCardIndex, onCardSelect]);
+  }, [cardsData, location]);
 
   if (!Array.isArray(cardsData)) {
     console.error("cardsData is not an array:", cardsData);
