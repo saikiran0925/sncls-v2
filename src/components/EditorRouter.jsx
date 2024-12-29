@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import InboxSidebar from "./InboxSideBar";
+import CardSideBar from "./CardSideBar";
 import EditorComponent from "./EditorComponent";
 import "../App.css";
 
@@ -17,7 +17,9 @@ const EditorRouter = ({ cardData }) => {
   const path = location.pathname.slice(1);
 
   const dataKey = routeToDataKey[path];
-  const cardsData = cardData[dataKey] || [];
+  const cardsData = dataKey === "diff-editor" ? { left: "", right: "" } : cardData[dataKey] || [];
+  console.log("Path:", dataKey);
+  console.log("Card Data:", cardsData);
 
   useEffect(() => {
     if (cardsData.length > 0) {
@@ -34,9 +36,10 @@ const EditorRouter = ({ cardData }) => {
 
   return (
     <div style={{ display: "flex" }}>
-      <InboxSidebar
+      <CardSideBar
         cardsData={cardsData}
         onCardSelect={(card) => setSelectedCardContent(card.content)}
+        dataKey={dataKey}
       />
       <EditorComponent
         selectedCardContent={selectedCardContent}

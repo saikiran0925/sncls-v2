@@ -1,5 +1,6 @@
 import React from "react";
-import AppBlankSpaceComponent from "./AppBlankSpaceComponent";
+import AppEditorComponent from "./AppEditorComponent";
+import AppDiffEditorComponent from "./AppDiffEditorComponent";
 import { useLocation } from "react-router-dom";
 import "./EditorComponent.css";
 
@@ -31,33 +32,54 @@ const EditorComponent = ({ selectedCardContent, onContentChange }) => {
     buttons: [],
   };
 
-  // Handle Prettify button click
   const handlePrettify = () => {
     try {
-      const parsedJson = JSON.parse(selectedCardContent); // Parse the JSON string to object
-      const prettifiedJson = JSON.stringify(parsedJson, null, 2); // Prettify with indentation
-      onContentChange(prettifiedJson); // Pass the updated prettified content to parent
+      const parsedJson = JSON.parse(selectedCardContent);
+      const prettifiedJson = JSON.stringify(parsedJson, null, 2);
+      onContentChange(prettifiedJson);
     } catch (error) {
       alert("Invalid JSON format. Please check the content.");
     }
   };
 
-  // Handle Stringify button click
   const handleStringify = (content) => {
     try {
-      // If the content is already a string, it should not be stringified again
       if (typeof content === "string") {
         const parsedContent = JSON.parse(content);
-        const stringifiedContent = JSON.stringify(parsedContent); // Stringify without spaces
-        onContentChange(stringifiedContent); // Pass the stringified content to parent
+        const stringifiedContent = JSON.stringify(parsedContent);
+        onContentChange(stringifiedContent);
       } else {
-        const stringifiedContent = JSON.stringify(content); // Stringify the object
-        onContentChange(stringifiedContent); // Pass the stringified content to parent
+        const stringifiedContent = JSON.stringify(content);
+        onContentChange(stringifiedContent);
       }
     } catch (error) {
       alert("Error during stringification.");
-      return content; // Return original content if error occurs
+      return content;
     }
+  };
+
+  const renderEditor = () => {
+
+    if (path === "diff-editor") {
+      console.log("Content: ", selectedCardContent);
+      console.log("left: ", selectedCardContent.left);
+      const left = selectedCardContent?.left || "";
+      const right = selectedCardContent?.right || "";
+      return (
+        <AppDiffEditorComponent
+          editorState={{ originalEditorContent: left, modifiedEditorContent: right }}
+          onEditorStateChange={(state) => console.log("Diff Editor State Updated: ", state)}
+        />
+      );
+    }
+
+    return (
+      <AppEditorComponent
+        selectedCardContent={selectedCardContent}
+        language={language}
+        onEditorStateChange={(state) => console.log("Editor State Updated: ", state)}
+      />
+    );
   };
 
   return (
@@ -71,9 +93,9 @@ const EditorComponent = ({ selectedCardContent, onContentChange }) => {
               className="tab"
               onClick={() => {
                 if (button === "Stringify") {
-                  handleStringify(selectedCardContent); // Call handleStringify when Stringify button is clicked
+                  handleStringify(selectedCardContent);
                 } else if (button === "Prettify") {
-                  handlePrettify(); // Call handlePrettify when Prettify button is clicked
+                  handlePrettify();
                 }
               }}
             >
@@ -82,15 +104,7 @@ const EditorComponent = ({ selectedCardContent, onContentChange }) => {
           ))}
         </div>
       </div>
-      <div className="editor-component">
-        <AppBlankSpaceComponent
-          selectedCardContent={selectedCardContent}
-          language={language}
-          onEditorStateChange={(state) =>
-            console.log("Editor State Updated: ", state)
-          }
-        />
-      </div>
+      <div className="editor-component">{renderEditor()}</div>
     </div>
   );
 };

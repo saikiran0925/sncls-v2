@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import Editor from "@monaco-editor/react";
 
-function AppBlankSpaceComponent({ selectedCardContent, language, onEditorStateChange }) {
+function AppEditorComponent({ selectedCardContent, language, onEditorStateChange }) {
   const editorRef = useRef(null);
 
   const height = `${window.innerHeight - 120}px`;
@@ -42,4 +42,4 @@ function AppBlankSpaceComponent({ selectedCardContent, language, onEditorStateCh
   );
 }
 
-export default AppBlankSpaceComponent;
+export default AppEditorComponent;

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import "./InboxSidebar.css";
+import "./CardSideBar.css";
 
-const InboxSidebar = ({ cardsData, onCardSelect }) => {
+const CardSideBar = ({ cardsData, onCardSelect, dataKey }) => {
   const [activeCardIndex, setActiveCardIndex] = useState(null);
 
   useEffect(() => {
@@ -41,7 +41,7 @@ const InboxSidebar = ({ cardsData, onCardSelect }) => {
               <span className="card-timestamp">{card.timestamp}</span>
             </div>
             <h4 className="card-subtitle">{card.title}</h4>
-            <p className="card-content">{card.content}</p>
+            {dataKey !== "diffEditor" && <p className="card-content">{card.content}</p>}
           </div>
         ))}
       </div>
@@ -49,4 +49,4 @@ const InboxSidebar = ({ cardsData, onCardSelect }) => {
   );
 };
 
-export default InboxSidebar;
+export default CardSideBar;
