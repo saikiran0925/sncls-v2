@@ -1,32 +1,33 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 import SideNav from "./components/SideNav";
 import "./App.css";
 import EditorRouter from "./components/EditorRouter";
-import sampleData from "./data/sampleData"; // Import the data
+import sampleData from "./data/sampleData";
+import LandingPage from "./components/LandingPage";
 
 const App = () => {
+  const location = useLocation();
+
+  const containerClass = location.pathname !== "/" ? "ui-container" : "";
+
   return (
-    <Router>
-      <div className="ui-container">
-        <SideNav />
-        <Routes>
-          <Route
-            path="/jsonify"
-            element={<EditorRouter cardData={sampleData} />}
-          />
-          <Route
-            path="/blank-space"
-            element={<EditorRouter cardData={sampleData} />}
-          />
-          <Route
-            path="/diff-editor"
-            element={<EditorRouter cardData={sampleData} />}
-          />
-        </Routes>
-      </div>
-    </Router>
+    <div className={containerClass}>
+      {location.pathname !== "/" && <SideNav />}
+      <Routes>
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/jsonify" element={<EditorRouter cardData={sampleData} />} />
+        <Route path="/blank-space" element={<EditorRouter cardData={sampleData} />} />
+        <Route path="/diff-editor" element={<EditorRouter cardData={sampleData} />} />
+      </Routes>
+    </div>
   );
 };
 
-export default App;
+const AppWrapper = () => (
+  <Router>
+    <App />
+  </Router>
+);
+
+export default AppWrapper;

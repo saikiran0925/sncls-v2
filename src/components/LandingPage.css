@@ -1,0 +1,304 @@
+/* Body and General Styling */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(to bottom right, #f0f4f8, #e8ecf1);
+  color: #333;
+  width: 100%;
+  overflow-x: hidden;
+  /* Prevent horizontal scrolling */
+}
+
+.landing-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  padding: 0;
+  overflow: hidden;
+}
+
+.background-shapes {
+  position: absolute;
+  top: -80px;
+  left: -100px;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(255, 111, 97, 0.5) 0%, rgba(255, 111, 97, 0) 70%);
+  border-radius: 50%;
+  z-index: -1;
+}
+
+.background-shapes::after {
+  content: '';
+  position: absolute;
+  top: 300px;
+  left: 600px;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(0, 123, 255, 0.4) 0%, rgba(0, 123, 255, 0) 80%);
+  border-radius: 50%;
+  z-index: -1;
+}
+
+.background-shapes-right {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 450px;
+  height: 450px;
+  background: radial-gradient(circle, rgba(76, 175, 80, 0.4) 0%, rgba(76, 175, 80, 0) 70%);
+  border-radius: 50%;
+  z-index: -1;
+}
+
+
+/* Hero Section */
+.hero-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  gap: 30px;
+  /* Spacing between content and buttons */
+  text-align: center;
+}
+
+.hero-content {
+  max-width: 800px;
+}
+
+.hero-content h1 {
+  font-size: 2.8rem;
+  color: #222;
+  margin: 0;
+}
+
+.hero-content p {
+  font-size: 1.2rem;
+  color: #555;
+  margin: 0;
+  margin-top: 10px;
+}
+
+.hero-buttons {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.hero-buttons .btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  font-size: 1rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.btn-login {
+  background-color: #0056b3;
+  color: #fff;
+}
+
+.btn-login:hover {
+  background-color: #003d82;
+  transform: scale(1.05);
+}
+
+.btn-signup {
+  background-color: #ff6f61;
+  color: #fff;
+}
+
+.btn-signup:hover {
+  background-color: #e6584e;
+  transform: scale(1.05);
+}
+
+/* Features Grid */
+.features-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  margin: 40px 0;
+  justify-content: center;
+}
+
+.feature-card {
+  max-width: 450px;
+  height: auto;
+  background: linear-gradient(145deg, #ffffff, #f1f3f5);
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 -2px 4px rgba(255, 255, 255, 0.6) inset;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  text-decoration: none;
+  color: inherit;
+  position: relative;
+  overflow: hidden;
+}
+
+.feature-card::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 150px;
+  height: 150px;
+  background: radial-gradient(circle, rgba(255, 111, 97, 0.2) 0%, rgba(255, 111, 97, 0) 70%);
+  transform: translate(-50%, -50%);
+  z-index: -1;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.feature-card:hover::before {
+  transform: translate(-50%, -50%) scale(1.2);
+  opacity: 0.6;
+}
+
+.feature-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 -2px 6px rgba(255, 255, 255, 0.7) inset;
+  border-color: #ff6f61;
+}
+
+.feature-card .icon {
+  font-size: 2.5rem;
+  color: #ff6f61;
+  margin-bottom: 15px;
+  transition: transform 0.3s ease;
+}
+
+.feature-card:hover .icon {
+  transform: scale(1.2);
+}
+
+.feature-card h3 {
+  font-size: 1.5rem;
+  color: #222;
+  margin-bottom: 10px;
+}
+
+.feature-card p {
+  font-size: 1rem;
+  color: #555;
+  margin-bottom: 20px;
+}
+
+.feature-card .action-btn {
+  display: inline-block;
+  padding: 8px 16px;
+  background-color: #0056b3;
+  color: #fff;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  text-decoration: none;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.feature-card .action-btn:hover {
+  background-color: #003d82;
+  transform: scale(1.05);
+}
+
+
+.highlight {
+  font-weight: bold;
+  color: #d87f1c;
+  /* Warm amber text color for a cozy, inviting vibe */
+  background: linear-gradient(135deg, rgba(255, 245, 220, 0.9), rgba(255, 202, 87, 0.3));
+  /* Softer gradient with higher opacity for better text contrast */
+  padding: 5px 10px;
+  /* Increased padding for more comfortable spacing */
+  border-radius: 8px;
+  /* Slightly larger border radius for a smoother look */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  /* Enhanced shadow for more noticeable depth */
+  letter-spacing: 0.6px;
+  /* Slightly wider letter-spacing for improved readability */
+  text-transform: uppercase;
+  /* Capitalizing text for emphasis */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  /* Smooth transition for hover effects */
+}
+
+.highlight:hover {
+  transform: scale(1.05);
+  /* Slight zoom effect on hover for interactivity */
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.25);
+  /* Stronger shadow on hover for more depth */
+}
+
+
+.highlight-title {
+  font-family: 'Arial', sans-serif;
+  /* Clean, modern font */
+  font-size: 2.5rem;
+  /* Larger size for a prominent title */
+  font-weight: bold;
+  color: #d35400;
+  /* Warm, deep orange for a bold yet refined feel */
+  background: linear-gradient(45deg, #f39c12, #f1c40f);
+  /* Gradient from a rich golden yellow to a soft mustard */
+  background-clip: text;
+  /* Gradient only on text */
+  -webkit-background-clip: text;
+  /* For webkit-based browsers */
+  text-fill-color: transparent;
+  /* Make text color transparent to show gradient */
+  letter-spacing: 1px;
+  /* Slightly spaced letters for clarity */
+  text-transform: uppercase;
+  /* Uppercase for emphasis */
+  padding: 12px 20px;
+  /* Generous padding around the title */
+  border-radius: 8px;
+  /* Smooth rounded corners */
+  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.15);
+  /* Subtle shadow for depth */
+  position: relative;
+  /* For positioning pseudo-elements */
+  display: inline-block;
+  /* Ensure padding and shadow work properly */
+  transition: transform 0.3s ease, color 0.3s ease;
+  /* Smooth transition for hover effects */
+}
+
+.highlight-title::before {
+  content: '';
+  /* Empty content for pseudo-element */
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 5px;
+  /* Thin line at the top */
+  background-color: #f39c12;
+  /* Matching golden color for consistency */
+  border-radius: 8px 8px 0 0;
+  /* Rounded top corners */
+  opacity: 0;
+  /* Hidden initially */
+  transition: opacity 0.3s ease;
+  /* Fade in on hover */
+}
+
+.highlight-title:hover {
+  transform: scale(1.1);
+  /* Slightly enlarge the title on hover */
+  color: #e67e22;
+  /* Change the text color to a vibrant orange on hover */
+}
+
+.highlight-title:hover::before {
+  opacity: 1;
+  /* Reveal the top line on hover */
+}

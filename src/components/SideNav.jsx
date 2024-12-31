@@ -12,7 +12,9 @@ const SideNav = () => {
     <div className="side-nav-container">
       <div className="nav-box">
         <div className="company-logo">
-          <SiTheboringcompany className="icon" />
+          <NavLink to="/"   >
+            <SiTheboringcompany className="icon" />
+          </NavLink>
         </div>
 
         <div className="divider"></div>
