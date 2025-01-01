@@ -27,7 +27,7 @@ const SignUpPage = () => {
 
     try {
       // Making API call using axiosInstance
-      const response = await axiosInstance.post('/auth/signup', { username: fullName, email, password });
+      const response = await axiosInstance.post('/auth/signup', { fullName: fullName, email, password });
 
       // Checking for a successful response (status code 200)
       if (response.status === 200) {

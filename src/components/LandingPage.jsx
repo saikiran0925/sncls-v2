@@ -50,7 +50,9 @@ const FeatureCard = ({ icon, title, description, route }) => {
 
 const LandingPage = () => {
   const { token } = useAuth();
-  const userName = token ? localStorage.getItem("userName") : null; // Retrieve the user name from localStorage or an API.
+  const storedUser = JSON.parse(localStorage.getItem("user"));
+
+  const fullName = storedUser ? storedUser.username : null;
 
   return (
     <div className="landing-page">
@@ -63,7 +65,7 @@ const LandingPage = () => {
         <div className="hero-buttons">
           {token ? (
             <div className="user-greeting">
-              <p>Welcome, <span className="user-name">{userName || "User"}</span>!</p>
+              <p>Welcome, <span className="user-name">{fullName || "User"}</span>!</p>
             </div>
           ) : (
             <>

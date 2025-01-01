@@ -8,7 +8,6 @@
   flex-direction: column;
   align-items: center;
   border-right: 2px solid rgb(228, 228, 231);
-  /* box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); */
 }
 
 .nav-box {
@@ -16,6 +15,14 @@
   flex-direction: column;
   gap: 20px;
   margin-top: 10px;
+  height: 100%;
+  /* Allow the container to take the full height */
+}
+
+.feature-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
 .nav-item {
@@ -55,15 +62,20 @@
   align-items: center;
   justify-content: center;
   width: 100%;
-  padding: 10px;
+  padding: 12px;
+  /* Adjust padding to match better */
   cursor: pointer;
   transition: background-color 0.3s ease;
   border-radius: 5px;
   background-color: blue;
+  height: 50px;
+  /* Set fixed height for consistency */
 }
 
 .company-logo .icon {
   color: #fff;
+  font-size: 24px;
+  /* Adjust font size of logo to match the feature icons */
 }
 
 .divider {
@@ -71,4 +83,39 @@
   background-color: #ccc;
   margin: 10px 0;
   width: 100%;
+}
+
+.utility-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-top: auto;
+  margin-bottom: 20px;
+  /* Space out the logout button from the bottom */
+}
+
+.utility-logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 12px;
+  /* Match padding with feature icons */
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  border-radius: 5px;
+  background-color: red;
+}
+
+.utility-logo .icon {
+  font-size: 18px;
+  color: black;
+}
+
+.utility-logo:hover {
+  background-color: black;
+}
+
+.utility-logo:hover .icon {
+  color: white;
 }

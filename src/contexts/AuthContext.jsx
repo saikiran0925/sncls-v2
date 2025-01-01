@@ -1,38 +1,39 @@
 import React, { createContext, useState, useEffect, useContext } from "react";
 
-// Create the Context
 const AuthContext = createContext();
 
-// Create the AuthProvider component
 export const AuthProvider = ({ children }) => {
-  // Get token from localStorage (if it exists)
+
   const storedToken = localStorage.getItem("authToken");
   const storedExpiry = localStorage.getItem("tokenExpiry");
+  const storedUser = localStorage.getItem("user");
 
-  // State to manage authentication
   const [token, setToken] = useState(storedToken || null);
   const [expiry, setExpiry] = useState(storedExpiry || null);
+  const [user, setUser] = useState(storedUser ? JSON.parse(storedUser) : null);
 
-  // Handle user login
-  const login = (authToken, expiresIn) => {
-    localStorage.setItem("authToken", authToken); // Save token to localStorage
-    localStorage.setItem("tokenExpiry", Date.now() + expiresIn); // Save expiry time
-    setToken(authToken); // Update token state
-    setExpiry(Date.now() + expiresIn); // Update expiry state
+  const login = (authToken, expiresIn, user) => {
+    localStorage.setItem("authToken", authToken);
+    localStorage.setItem("tokenExpiry", Date.now() + expiresIn);
+    localStorage.setItem("user", JSON.stringify(user));
+    setToken(authToken);
+    setExpiry(Date.now() + expiresIn);
+    setUser(user);
   };
 
-  // Handle user logout
   const logout = () => {
-    localStorage.removeItem("authToken"); // Remove token from localStorage
-    localStorage.removeItem("tokenExpiry"); // Remove expiry time from localStorage
-    setToken(null); // Clear token state
-    setExpiry(null); // Clear expiry state
+    localStorage.removeItem("authToken");
+    localStorage.removeItem("tokenExpiry");
+    localStorage.removeItem("user");
+    setToken(null);
+    setExpiry(null);
+    setUser(null)
   };
 
-  // Optionally, handle token expiration logic, for example:
+  // TODO: handle token expiration logic
   useEffect(() => {
     if (!token || (expiry && Date.now() > expiry)) {
-      logout(); // Token expired or removed
+      logout();
     }
   }, [token, expiry]);
 
@@ -43,7 +44,6 @@ export const AuthProvider = ({ children }) => {
   );
 };
 
-// Create and export useAuth hook
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (!context) {
