@@ -1,25 +1,26 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import './LandingPage.css';
+import React from "react";
+import { Link } from "react-router-dom";
+import { useAuth } from "../contexts/AuthContext";
+import "./LandingPage.css";
 
 const features = [
   {
     title: "JSONify",
     description: "A tool that allows you to edit and format JSON data with ease. Prettify, stringify, and more with just a click.",
     icon: "🛠️",
-    route: "/jsonify"
+    route: "/jsonify",
   },
   {
     title: "Blank Space",
     description: "A simple, blank page where you can write anything, just like taking notes.",
     icon: "📝",
-    route: "/blank-space"
+    route: "/blank-space",
   },
   {
     title: "Diff Editor",
     description: "Easily compare and identify differences between two sets of data or code.",
     icon: "🔍",
-    route: "/diff-editor"
+    route: "/diff-editor",
   },
 ];
 
@@ -27,7 +28,7 @@ const title = (
   <>
     What's inside <span className="highlight-title">SNCLS?</span>
   </>
-)
+);
 
 const desc = (
   <>
@@ -42,12 +43,15 @@ const FeatureCard = ({ icon, title, description, route }) => {
       <div className="icon">{icon}</div>
       <h3>{title}</h3>
       <p>{description}</p>
-      <Link to={route} className="action-btn">Explore</Link>
+      <div className="action-btn">Explore</div>
     </Link>
   );
 };
 
 const LandingPage = () => {
+  const { token } = useAuth();
+  const userName = token ? localStorage.getItem("userName") : null; // Retrieve the user name from localStorage or an API.
+
   return (
     <div className="landing-page">
       <div className="background-shapes"></div>
@@ -57,12 +61,20 @@ const LandingPage = () => {
           <p>{desc}</p>
         </div>
         <div className="hero-buttons">
-          <Link to="/login">
-            <button className="btn btn-login">Login</button>
-          </Link>
-          <Link to="/signup">
-            <button className="btn btn-signup">Sign Up</button>
-          </Link>
+          {token ? (
+            <div className="user-greeting">
+              <p>Welcome, <span className="user-name">{userName || "User"}</span>!</p>
+            </div>
+          ) : (
+            <>
+              <Link to="/login">
+                <button className="btn btn-login">Login</button>
+              </Link>
+              <Link to="/signup">
+                <button className="btn btn-signup">Sign Up</button>
+              </Link>
+            </>
+          )}
         </div>
         <div className="background-shapes-right"></div>
       </header>

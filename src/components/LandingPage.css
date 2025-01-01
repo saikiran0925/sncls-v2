@@ -302,3 +302,30 @@ body {
   opacity: 1;
   /* Reveal the top line on hover */
 }
+
+.user-greeting {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #4caf50;
+  /* A pleasant green shade */
+  background: linear-gradient(90deg, #e3f2fd, #e8f5e9);
+  /* Soft gradient */
+  padding: 10px 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.user-greeting p {
+  margin: 0;
+}
+
+.user-name {
+  color: #2e7d32;
+  /* Darker green for contrast */
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin-left: 5px;
+}
