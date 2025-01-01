@@ -57,8 +57,12 @@ const LandingPage = () => {
           <p>{desc}</p>
         </div>
         <div className="hero-buttons">
-          <button className="btn btn-login">Login</button>
-          <button className="btn btn-signup">Sign Up</button>
+          <Link to="/login">
+            <button className="btn btn-login">Login</button>
+          </Link>
+          <Link to="/signup">
+            <button className="btn btn-signup">Sign Up</button>
+          </Link>
         </div>
         <div className="background-shapes-right"></div>
       </header>

@@ -1,0 +1,137 @@
+/* General Styling */
+.signup-page {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* Gradient Background */
+.signup-gradient-background {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #ff416c 0%, #ff4b2b 100%);
+  z-index: -2;
+}
+
+.shaped-overlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at 70% 30%, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0) 80%);
+  clip-path: polygon(0 10%, 100% 0, 100% 90%, 0% 100%);
+  z-index: -1;
+}
+
+/* Content Container */
+.content-container {
+  z-index: 1;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  width: 100%;
+  max-width: 1200px;
+  padding: 2rem;
+}
+
+/* Typography Section */
+.typography-container {
+  color: #fff;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.main-heading {
+  font-size: 3rem;
+  font-weight: 700;
+  line-height: 1.2;
+  color: #ffffff;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+.sub-heading {
+  font-size: 1.4rem;
+  font-weight: 400;
+  margin-top: 0.5rem;
+  color: #f8d7da;
+  /* Softer pinkish tone */
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+/* SignUp Card */
+.signup-card {
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  padding: 2rem;
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+}
+
+.card-heading {
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.form-input {
+  width: 100%;
+  padding: 0.8rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+.signup-button {
+  width: 100%;
+  padding: 0.8rem;
+  font-size: 1rem;
+  color: #fff;
+  background-color: #ff416c;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.signup-button:hover {
+  background-color: #e0305c;
+}
+
+.login-link {
+  margin-top: 1rem;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.login-link a {
+  color: #ff416c;
+  text-decoration: none;
+}
+
+.login-link a:hover {
+  text-decoration: underline;
+}
+
+.home-link {
+  margin-top: 1rem;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.home-link a {
+  color: #ff416c;
+  text-decoration: none;
+}
+
+.home-link a:hover {
+  text-decoration: underline;
+}
