@@ -2,7 +2,7 @@ import React from "react";
 import AppEditorComponent from "./AppEditorComponent";
 import AppDiffEditorComponent from "./AppDiffEditorComponent";
 import { useLocation } from "react-router-dom";
-import "./EditorComponent.css";
+import "../css/EditorComponent.css";
 
 const EditorComponent = ({ selectedCardContent, onContentChange }) => {
   console.log("EditorComponent:: content: ", selectedCardContent)

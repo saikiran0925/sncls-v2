@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import CardSideBar from "./CardSideBar";
-import EditorComponent from "./EditorComponent";
+import CardSideBar from "../components/CardSideBar";
+import EditorComponent from "../components/EditorComponent";
 import "../App.css";
 
 const EditorRouter = ({ cardData }) => {

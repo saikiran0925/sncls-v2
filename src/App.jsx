@@ -2,13 +2,13 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from "react-router-dom";
 import SideNav from "./components/SideNav";
 import "./App.css";
-import EditorRouter from "./components/EditorRouter";
+import EditorRouter from "./services//EditorRouter";
 import sampleData from "./data/sampleData";
-import LandingPage from "./components/LandingPage";
-import LoginPage from "./components/LoginPage";
-import SignUpPage from "./components/SignUpPage";
-import { AuthProvider, useAuth } from "./contexts/AuthContext";
-import PrivateRoute from "./misc/PrivateRoute";
+import LandingPage from "./pages/LandingPage";
+import LoginPage from "./pages//LoginPage";
+import SignUpPage from "./pages//SignUpPage";
+import { AuthProvider, useAuth } from "./services/contexts/AuthContext";
+import PrivateRoute from "./services/PrivateRoute";
 
 const App = () => {
   const location = useLocation();

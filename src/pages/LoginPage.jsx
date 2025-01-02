@@ -1,9 +1,9 @@
 import React, { useState, useContext } from "react";
 import { Link, useNavigate } from 'react-router-dom';
 import { notification } from 'antd';
-import AuthContext from '../contexts/AuthContext';
-import axiosInstance from '../misc/axiosInstance';
-import "./LoginPage.css";
+import AuthContext from '../services/contexts/AuthContext';
+import axiosInstance from '../services/axiosInstance';
+import "../css/LoginPage.css";
 
 const LoginPage = () => {
   const { login } = useContext(AuthContext);

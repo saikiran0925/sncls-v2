@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { useAuth } from "../contexts/AuthContext";
-import "./LandingPage.css";
+import { useAuth } from "../services/contexts/AuthContext";
+import "../css/LandingPage.css";
 
 const features = [
   {

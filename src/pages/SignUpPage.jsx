@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import "./SignUpPage.css";
+import "../css/SignUpPage.css";
 import { Link, useNavigate } from "react-router-dom";
-import axiosInstance from '../misc/axiosInstance';
+import axiosInstance from '../services/axiosInstance';
 import { notification } from 'antd';
 
 const SignUpPage = () => {

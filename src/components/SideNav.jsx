@@ -1,5 +1,5 @@
 import React from "react";
-import "./SideNav.css";
+import "../css/SideNav.css";
 import { BsFiletypeJson } from "react-icons/bs";
 import { GrNotes } from "react-icons/gr";
 import { SiTheboringcompany } from "react-icons/si";
@@ -7,7 +7,7 @@ import { MdOutlineCompare } from "react-icons/md";
 import { IoIosLogOut } from "react-icons/io";
 import { Tooltip } from "antd";
 import { NavLink, useNavigate } from "react-router-dom";
-import { useAuth } from '../contexts/AuthContext';
+import { useAuth } from '../services/contexts/AuthContext';
 
 const SideNav = () => {
   const navigate = useNavigate();
