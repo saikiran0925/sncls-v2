@@ -1,6 +1,7 @@
 import "../css/CardSideBar.css";
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
+import { timeAgo } from "../utilities/utils";
 
 const CardSideBar = ({ cardsData, onCardSelect }) => {
   const [activeCardIndex, setActiveCardIndex] = useState(null);
@@ -36,7 +37,9 @@ const CardSideBar = ({ cardsData, onCardSelect }) => {
           >
             <div className="card-header">
               <h3 className="card-title">{card.cardId}</h3>
-              <span className="card-timestamp">{card.timestamp}</span>
+              <span className="card-timestamp">
+                {card?.metadata?.updatedAt ? timeAgo(card.metadata.updatedAt) : ""}
+              </span>
             </div>
             <h4 className="card-subtitle">{card.title}</h4>
             {path !== "diff-editor" && <p className="card-content">{card.content.data}</p>}

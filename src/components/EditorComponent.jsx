@@ -2,12 +2,12 @@ import React, { useContext, useState } from "react";
 import AppEditorComponent from "./AppEditorComponent";
 import AppDiffEditorComponent from "./AppDiffEditorComponent";
 import { useLocation } from "react-router-dom";
-import { MdFormatAlignLeft, MdCode, MdClearAll, MdFormatAlignJustify } from "react-icons/md";
+import { MdFormatAlignLeft, MdCode, MdFormatAlignJustify } from "react-icons/md";
 import { LuClipboardCopy } from "react-icons/lu";
 import { AiOutlineSave } from "react-icons/ai";
 import "../css/EditorComponent.css";
 import { Tooltip } from "antd";
-import { showNotification } from "../utilities/utils";
+import { showNotification, generateISO8601 } from "../utilities/utils";
 import axiosInstance from "../services/axiosInstance";
 import AuthContext from "../services/contexts/AuthContext";
 
@@ -124,14 +124,20 @@ const EditorComponent = ({ selectedCardContent, onContentChange }) => {
   const handleSave = async () => {
 
     const content = (currentEditorValue) ? (currentEditorValue) : selectedCardContent?.content?.data;
+    const updatedAt = generateISO8601();
 
     const authToken = localStorage.getItem("authToken");
     if (!authToken) {
       showNotification("error", "Auth token not found");
       return;
     }
+
     const updatedContent = {
       ...selectedCardContent,
+      metadata: {
+        ...selectedCardContent.metadata,
+        updatedAt: updatedAt,
+      },
       content: {
         ...selectedCardContent.content,
         data: content,
