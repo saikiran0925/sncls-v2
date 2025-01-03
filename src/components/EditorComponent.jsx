@@ -64,8 +64,8 @@ const EditorComponent = ({ selectedCardContent, onContentChange }) => {
     if (path === "diff-editor") {
       console.log("Content: ", selectedCardContent);
       console.log("left: ", selectedCardContent.left);
-      const left = selectedCardContent?.left || "";
-      const right = selectedCardContent?.right || "";
+      const left = selectedCardContent?.content?.data?.left || "";
+      const right = selectedCardContent?.content?.data?.right || "";
       return (
         <AppDiffEditorComponent
           editorState={{ originalEditorContent: left, modifiedEditorContent: right }}

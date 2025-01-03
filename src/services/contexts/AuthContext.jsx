@@ -33,14 +33,34 @@ export const AuthProvider = ({ children }) => {
     setLoading(true);
     try {
       const response = await axiosInstance.get('/api/dynamic/card', {
-        headers: { Authorization: `Bearer ${authToken}` }
+        headers: { Authorization: `Bearer ${authToken}` },
       });
 
-      console.log("===========");
-      console.log("CARDS DATA: ", response);
-      console.log("===========");
-      setCardData(response.data);
-      localStorage.setItem("cards", response.data);
+      const organizeDataByType = (data) => {
+        return data.reduce((acc, card) => {
+          const { type } = card;
+
+          if (!acc[type]) {
+            acc[type] = [];
+          }
+
+          acc[type].push(card);
+          return acc;
+        }, {});
+      };
+
+      const formattedData = response.data.map((card) => ({
+        ...card,
+        content: {
+          ...card.content,
+          data: card.content.data,
+        },
+      }));
+
+      const organizedData = organizeDataByType(formattedData);
+
+      setCardData(JSON.stringify(organizedData));
+      localStorage.setItem("cards", JSON.stringify(organizedData));
     } catch (error) {
       console.error("Error fetching data", error);
     } finally {
@@ -52,9 +72,11 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem("authToken");
     localStorage.removeItem("tokenExpiry");
     localStorage.removeItem("user");
+    localStorage.removeItem("cards");
     setToken(null);
     setExpiry(null);
     setUser(null)
+    setCardData(null);
   };
 
   // TODO: handle token expiration logic
@@ -65,7 +87,7 @@ export const AuthProvider = ({ children }) => {
   }, [token, expiry]);
 
   return (
-    <AuthContext.Provider value={{ token, login, logout }}>
+    <AuthContext.Provider value={{ token, login, logout, cardData }}>
       {children}
     </AuthContext.Provider>
   );

@@ -1,49 +1,41 @@
-import React, { useState, useEffect } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
+import AuthContext from "../services/contexts/AuthContext";
 import CardSideBar from "../components/CardSideBar";
 import EditorComponent from "../components/EditorComponent";
 import "../App.css";
 
-const EditorRouter = ({ cardData }) => {
+const EditorRouter = () => {
+  const { cardData } = useContext(AuthContext);
+
   const [selectedCardContent, setSelectedCardContent] = useState("");
 
-  const routeToDataKey = {
-    jsonify: "jsonify",
-    "blank-space": "blankSpace",
-    "diff-editor": "diffEditor",
-  };
+  const jsonObject = JSON.parse(cardData);
 
   const location = useLocation();
   const path = location.pathname.slice(1);
 
-  const dataKey = routeToDataKey[path];
-  const cardsData = dataKey === "diff-editor" ? { left: "", right: "" } : cardData[dataKey] || [];
+  const cardsForSelectedPath = jsonObject[path] || [];
 
   useEffect(() => {
-    console.log("Inside useEffect:", cardsData);
-
-    if (cardsData.length > 0) {
-      console.log("Inside useEffect, setting content", cardsData[0].content);
-      setSelectedCardContent(cardsData[0].content);
+    if (cardsForSelectedPath.length > 0) {
+      const initialCard = cardsForSelectedPath[0];
+      setSelectedCardContent(initialCard || "");
     } else {
       setSelectedCardContent("");
     }
-  }, [cardsData]);
-
-  const handleContentChange = (newContent) => {
-    setSelectedCardContent(newContent);
-  };
+  }, [cardData, location]);
 
   return (
     <div style={{ display: "flex" }}>
       <CardSideBar
-        cardsData={cardsData}
-        onCardSelect={(card) => setSelectedCardContent(card.content)}
-        dataKey={dataKey}
+        cardsData={cardsForSelectedPath}
+        onCardSelect={(card) => setSelectedCardContent(card)}
       />
+
       <EditorComponent
         selectedCardContent={selectedCardContent}
-        onContentChange={handleContentChange}
+        onContentChange={(newContent) => setSelectedCardContent(newContent)}
       />
     </div>
   );

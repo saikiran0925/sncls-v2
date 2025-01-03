@@ -1,22 +1,18 @@
-import React, { useState, useEffect } from "react";
 import "../css/CardSideBar.css";
+import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
-const CardSideBar = ({ cardsData, onCardSelect, dataKey }) => {
+const CardSideBar = ({ cardsData, onCardSelect }) => {
   const [activeCardIndex, setActiveCardIndex] = useState(null);
   const location = useLocation();
+  const path = location.pathname.slice(1);
 
   useEffect(() => {
     if (cardsData.length > 0) {
       setActiveCardIndex(0);
       onCardSelect(cardsData[0]);
     }
-  }, [cardsData, location]);
-
-  if (!Array.isArray(cardsData)) {
-    console.error("cardsData is not an array:", cardsData);
-    return <div>Error: Invalid data provided</div>;
-  }
+  }, [location]);
 
   return (
     <div className="sidebar-container">
@@ -31,7 +27,7 @@ const CardSideBar = ({ cardsData, onCardSelect, dataKey }) => {
       <div className="card-list">
         {cardsData.map((card, index) => (
           <div
-            key={index}
+            key={card.cardId}
             className={`card ${activeCardIndex === index ? "active-card" : ""}`}
             onClick={() => {
               setActiveCardIndex(index);
@@ -39,11 +35,11 @@ const CardSideBar = ({ cardsData, onCardSelect, dataKey }) => {
             }}
           >
             <div className="card-header">
-              <h3 className="card-title">{card.name}</h3>
+              <h3 className="card-title">{card.cardId}</h3>
               <span className="card-timestamp">{card.timestamp}</span>
             </div>
             <h4 className="card-subtitle">{card.title}</h4>
-            {dataKey !== "diffEditor" && <p className="card-content">{card.content}</p>}
+            {path !== "diff-editor" && <p className="card-content">{card.content.data}</p>}
           </div>
         ))}
       </div>

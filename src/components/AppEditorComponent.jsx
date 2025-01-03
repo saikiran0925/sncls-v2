@@ -5,13 +5,14 @@ function AppEditorComponent({ selectedCardContent, language, onEditorStateChange
   const editorRef = useRef(null);
   const cardContentRef = useRef("");
 
+  console.log("selectedCardContent: ", selectedCardContent);
   const height = `${window.innerHeight - 120}px`;
   const width = `${window.innerWidth - 432}px`;
 
   useEffect(() => {
-    cardContentRef.current = selectedCardContent;
+    cardContentRef.current = selectedCardContent?.content?.data;
     if (editorRef.current) {
-      editorRef.current.setValue(selectedCardContent || "");
+      editorRef.current.setValue(selectedCardContent.content.data || "");
     }
   }, [selectedCardContent]);
 

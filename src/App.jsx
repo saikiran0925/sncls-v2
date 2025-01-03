@@ -2,11 +2,10 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from "react-router-dom";
 import SideNav from "./components/SideNav";
 import "./App.css";
-import EditorRouter from "./services//EditorRouter";
-import sampleData from "./data/sampleData";
+import EditorRouter from "./services/EditorRouter";
 import LandingPage from "./pages/LandingPage";
-import LoginPage from "./pages//LoginPage";
-import SignUpPage from "./pages//SignUpPage";
+import LoginPage from "./pages/LoginPage";
+import SignUpPage from "./pages/SignUpPage";
 import { AuthProvider, useAuth } from "./services/contexts/AuthContext";
 import PrivateRoute from "./services/PrivateRoute";
 
@@ -27,9 +26,9 @@ const App = () => {
         <Route path="/signup" element={<RedirectIfLoggedIn component={<SignUpPage />} />} />
 
         <Route element={<PrivateRoute />}>
-          <Route path="/jsonify" element={<EditorRouter cardData={sampleData} />} />
-          <Route path="/blank-space" element={<EditorRouter cardData={sampleData} />} />
-          <Route path="/diff-editor" element={<EditorRouter cardData={sampleData} />} />
+          <Route path="/jsonify" element={<EditorRouter />} />
+          <Route path="/blank-space" element={<EditorRouter />} />
+          <Route path="/diff-editor" element={<EditorRouter />} />
         </Route>
 
         <Route path="*" element={<Navigate to="/" />} />
