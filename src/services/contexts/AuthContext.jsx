@@ -79,6 +79,41 @@ export const AuthProvider = ({ children }) => {
     setCardData(null);
   };
 
+
+  const updateCardContent = (type, id, newContent) => {
+    if (!newContent?.content?.data) {
+      console.log("No content data provided, exiting...");
+      return;
+    }
+    const cardContentString = cardData;
+    let cardContent;
+    try {
+      cardContent = JSON.parse(cardContentString);
+    } catch (error) {
+      console.error("Failed to parse cardContent JSON:", error);
+      return;
+    }
+
+    if (cardContent[type]) {
+      const cardIndex = cardContent[type].findIndex(card => card.id === id);
+
+      if (cardIndex !== -1) {
+
+        cardContent[type][cardIndex] = newContent;
+
+        setCardData(JSON.stringify(cardContent));
+        localStorage.setItem("cards", JSON.stringify(cardContent));
+
+      } else {
+        console.log(`Card with id ${id} not found in type ${type}`);
+        return;
+      }
+    } else {
+      console.log(`Type ${type} not found in card content`);
+      return;
+    }
+  };
+
   // TODO: handle token expiration logic
   useEffect(() => {
     if (!token || (expiry && Date.now() > expiry)) {
@@ -87,7 +122,7 @@ export const AuthProvider = ({ children }) => {
   }, [token, expiry]);
 
   return (
-    <AuthContext.Provider value={{ token, login, logout, cardData }}>
+    <AuthContext.Provider value={{ token, login, logout, cardData, updateCardContent }}>
       {children}
     </AuthContext.Provider>
   );

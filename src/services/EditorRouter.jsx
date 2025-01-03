@@ -27,7 +27,7 @@ const EditorRouter = () => {
   }, [cardData, location]);
 
   return (
-    <div style={{ display: "flex" }}>
+    <div style={{ display: "flex", flex: 1 }}>
       <CardSideBar
         cardsData={cardsForSelectedPath}
         onCardSelect={(card) => setSelectedCardContent(card)}

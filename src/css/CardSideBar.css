@@ -25,22 +25,63 @@
 
 .tabs {
   display: flex;
-  gap: 8px;
+  gap: 12px;
+  justify-content: center;
 }
 
+/* Tab button */
 .tab {
-  padding: 8px 16px;
-  font-size: 14px;
-  border: 1px solid #ddd;
-  border-radius: 16px;
-  background-color: #f9f9f9;
+  padding: 10px 20px;
+  font-size: 16px;
+  border: 1px solid #C8E6C9;
+  /* Muted Light Green Border (same as card border) */
+  border-radius: 30px;
+  background-color: #FFFFFF;
+  /* White background for clarity */
+  color: #388E3C;
+  /* Dark Green text color for contrast */
   cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+  /* Soft shadow for depth */
 }
 
+/* Hover state */
+.tab:hover {
+  background-color: #E8F5E9;
+  /* Light Green (similar to card hover effect) */
+  color: #388E3C;
+  /* Dark Green text stays the same */
+  border-color: #81C784;
+  /* Softer Green border */
+  box-shadow: 2px 2px 10px rgba(0, 123, 255, 0.3);
+  /* Subtle shadow effect on hover */
+}
+
+/* Active state (when clicked/selected) */
+.tab:active {
+  background-color: #388E3C;
+  /* Dark Green for active state */
+  color: #fff;
+  /* White text for clarity */
+  transform: translateY(2px);
+  /* Subtle click animation */
+  box-shadow: none;
+}
+
+/* Active tab (currently selected) */
 .tab.active {
-  background-color: #fff;
-  border-color: #000;
+  background-color: #C8E6C9;
+  /* Muted Light Green (similar to card active color) */
+  border-color: #388E3C;
+  /* Dark Green border */
   font-weight: bold;
+  /* Bold font to indicate active tab */
+  box-shadow: none;
+  /* Remove shadow for active state */
 }
 
 .search-bar {
@@ -51,6 +92,11 @@
   border-radius: 20px;
   font-size: 14px;
   outline: none;
+  transition: border-color 0.3s ease;
+}
+
+.search-bar:focus {
+  border-color: #007bff;
 }
 
 .card-list {

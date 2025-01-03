@@ -27,7 +27,7 @@ const CardSideBar = ({ cardsData, onCardSelect }) => {
       <div className="card-list">
         {cardsData.map((card, index) => (
           <div
-            key={card.cardId}
+            key={index}
             className={`card ${activeCardIndex === index ? "active-card" : ""}`}
             onClick={() => {
               setActiveCardIndex(index);
