@@ -1,4 +1,5 @@
 import React, { createContext, useState, useEffect, useContext } from "react";
+import axiosInstance from "../axiosInstance";
 
 const AuthContext = createContext();
 
@@ -7,10 +8,13 @@ export const AuthProvider = ({ children }) => {
   const storedToken = localStorage.getItem("authToken");
   const storedExpiry = localStorage.getItem("tokenExpiry");
   const storedUser = localStorage.getItem("user");
+  const storedCardData = localStorage.getItem("cards");
 
   const [token, setToken] = useState(storedToken || null);
   const [expiry, setExpiry] = useState(storedExpiry || null);
   const [user, setUser] = useState(storedUser ? JSON.parse(storedUser) : null);
+  const [cardData, setCardData] = useState(storedCardData || null);
+  const [loading, setLoading] = useState(false);
 
   const login = (authToken, expiresIn, user) => {
     localStorage.setItem("authToken", authToken);
@@ -19,6 +23,29 @@ export const AuthProvider = ({ children }) => {
     setToken(authToken);
     setExpiry(Date.now() + expiresIn);
     setUser(user);
+
+    fetchData(authToken);
+  };
+
+  const fetchData = async (authToken) => {
+    if (!authToken) return;
+
+    setLoading(true);
+    try {
+      const response = await axiosInstance.get('/api/dynamic/card', {
+        headers: { Authorization: `Bearer ${authToken}` }
+      });
+
+      console.log("===========");
+      console.log("CARDS DATA: ", response);
+      console.log("===========");
+      setCardData(response.data);
+      localStorage.setItem("cards", response.data);
+    } catch (error) {
+      console.error("Error fetching data", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const logout = () => {
