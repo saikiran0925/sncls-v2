@@ -176,3 +176,10 @@
 .card-list::-webkit-scrollbar-thumb:hover {
   background-color: #aaa;
 }
+
+.no-data {
+  text-align: center;
+  color: #888;
+  font-size: 16px;
+  margin-top: 20px;
+}

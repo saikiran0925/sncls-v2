@@ -67,3 +67,10 @@
 .editor-component::-webkit-scrollbar-thumb:hover {
   background-color: #aaa;
 }
+
+.no-content {
+  text-align: center;
+  color: #888;
+  font-size: 16px;
+  margin-top: 20px;
+}
