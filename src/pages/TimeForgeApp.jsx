@@ -10,7 +10,7 @@ const AppContainer = ({ children }) => (
 
 const Header = () => (
   <header className="tf-app-header">
-    <h1>TimeForge - Advanced Time Tool</h1>
+    <h1>TimeForge</h1>
   </header>
 );
 
@@ -88,12 +88,15 @@ const TimestampConverter = ({ addHistory }) => {
         <option value="America/Los_Angeles">Los Angeles (PST)</option>
         <option value="Europe/London">London (GMT)</option>
       </select>
-      <button className="tf-submit-button" onClick={handleConvert}>Convert</button>
-      {convertedTime && (
-        <div className="tf-converted-output">
-          <p>{convertedTime}</p>
-        </div>
-      )}
+      <div className="tf-inline-convert-output">
+        <button className="tf-submit-button" onClick={handleConvert}>Convert</button>
+        {convertedTime && (
+          <div className="tf-converted-output">
+            <p className="tf-converted-title">Converted Time:</p>
+            <p className="tf-converted-time">{convertedTime}</p>
+          </div>
+        )}
+      </div>
     </div>
   );
 };
@@ -174,13 +177,16 @@ const TimezoneConverter = ({ addHistory }) => {
         <option value="Europe/London">London (GMT)</option>
       </select>
 
-      <button className="tf-submit-button" onClick={handleConvert}>Convert Time</button>
+      <div className="tf-inline-convert-output">
+        <button className="tf-submit-button" onClick={handleConvert}>Convert</button>
 
-      {convertedTime && (
-        <div className="tf-converted-output">
-          <p>Converted Time: {convertedTime}</p>
-        </div>
-      )}
+        {convertedTime && (
+          <div className="tf-converted-output">
+            <p className="tf-converted-title">Converted Time:</p>
+            <p className="tf-converted-time">{convertedTime}</p>
+          </div>
+        )}
+      </div>
     </div>
   );
 };

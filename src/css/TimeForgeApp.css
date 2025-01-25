@@ -61,7 +61,6 @@
   font-size: 2.5rem;
   font-weight: bold;
   color: #2d3748;
-  /* Modern dark gray for text */
   margin: 0;
 }
 
@@ -214,19 +213,50 @@
   }
 }
 
-/* Converted Time Output Box */
-.tf-converted-output {
-  background-color: #f8fafc;
-  padding: 1.5rem 2rem;
-  border-radius: 16px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+/* Wrapper for the button and converted time */
+.tf-inline-convert-output {
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
+  align-items: center;
   gap: 1rem;
-  transition: transform 0.2s, box-shadow 0.3s ease;
+  /* Reduce gap for minimal spacing */
+  margin-top: 1rem;
   width: 100%;
-  max-width: 600px;
-  margin-top: 1.5rem;
+}
+
+/* Converted time inline display */
+.tf-converted-output {
+  flex-grow: 1;
+  background-color: #f4f7fa;
+  /* Subtle background to differentiate */
+  padding: 0.5rem 1rem;
+  /* Minimal padding for a clean look */
+  border-radius: 6px;
+  /* Smaller radius for a modern look */
+  font-size: 0.875rem;
+  /* Small font for minimal display */
+  color: #555;
+  /* Neutral text color */
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+  /* Slight inner shadow */
+  text-align: left;
+}
+
+/* Title for converted time */
+.tf-converted-title {
+  font-size: 0.75rem;
+  /* Subtle and small label */
+  font-weight: 600;
+  color: #4a90e2;
+  /* Accent color for emphasis */
+  margin-bottom: 0.25rem;
+}
+
+/* Converted time value */
+.tf-converted-time {
+  font-size: 0.875rem;
+  /* Slightly larger than label for readability */
+  font-weight: 400;
+  color: #333;
+  word-break: break-word;
+  /* Handle long text gracefully */
 }
