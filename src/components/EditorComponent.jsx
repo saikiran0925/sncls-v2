@@ -33,6 +33,7 @@ const EditorComponent = ({ selectedCardContent, onContentChange, onDeleteCard })
       buttons: [
         { name: "Copy", icon: <LuClipboardCopy /> },
         { name: "Save", icon: <AiOutlineSave /> },
+        { name: "Close Tab", icon: <MdDeleteOutline /> },
       ],
     },
     "diff-editor": {

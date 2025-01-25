@@ -7,6 +7,7 @@ import { MdOutlineCompare } from "react-icons/md";
 import { IoIosLogOut } from "react-icons/io";
 import { Tooltip } from "antd";
 import { NavLink, useNavigate } from "react-router-dom";
+import { FaRegClock } from "react-icons/fa";
 import { useAuth } from '../services/contexts/AuthContext';
 
 const SideNav = () => {
@@ -55,6 +56,16 @@ const SideNav = () => {
               <MdOutlineCompare className="icon" />
             </NavLink>
           </Tooltip>
+
+          <Tooltip placement="left" title="Time Forge">
+            <NavLink
+              to="/time-forge"
+              className={({ isActive }) => (isActive ? "nav-item active" : "nav-item")}
+            >
+              <FaRegClock className="icon" />
+            </NavLink>
+          </Tooltip>
+
         </div>
 
         <div className="divider"></div>
