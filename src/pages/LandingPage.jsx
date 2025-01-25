@@ -22,6 +22,12 @@ const features = [
     icon: "🔍",
     route: "/diff-editor",
   },
+  {
+    title: "Time Forge",
+    description: "A comprehensive tool to work with epoch time, timestamp conversions, and timezone adjustments.",
+    icon: "🕒",
+    route: "/time-forge",
+  },
 ];
 
 const title = (

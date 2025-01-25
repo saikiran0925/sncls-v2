@@ -142,7 +142,7 @@ const TimezoneConverter = ({ addHistory }) => {
 
   return (
     <div className="tf-card-box">
-      <h2 className="tf-card-title">Convert Time Between Timezones</h2>
+      <h2 className="tf-card-title">Timezone Converter</h2>
       <input
         type="datetime-local"
         className="tf-input-field"
