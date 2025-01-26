@@ -1,3 +1,35 @@
+.tf-top-section-container {
+  display: flex;
+  gap: 2rem;
+}
+
+/* Top row for "Copy Echo Time" and "Timestamp Converter" */
+.tf-top-row {
+  display: flex;
+  gap: 2rem;
+  width: 100%;
+}
+
+/* Adjust individual blocks in the top row */
+.tf-top-row>div {
+  flex: 1;
+  /* Ensure both blocks take equal space */
+}
+
+/* Bottom row for "Timezone Converter" and "Conversion History" */
+.tf-bottom-row {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  width: 100%;
+}
+
+/* Conversion History spans the entire width */
+.tf-bottom-row>.tf-epoch-history-container {
+  flex: 1;
+  width: 100%;
+}
+
 .tf-current-epoch-box {
   background-color: #ffffff;
   padding: 2rem;
@@ -10,6 +42,7 @@
   width: 100%;
   max-width: 600px;
   transition: transform 0.2s, box-shadow 0.3s ease;
+  margin-bottom: 10px;
 }
 
 .tf-current-epoch-box:hover {
@@ -54,7 +87,7 @@
 
 .tf-app-header {
   text-align: center;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
 }
 
 .tf-app-header h1 {
@@ -68,6 +101,7 @@
 .tf-main-content {
   display: flex;
   justify-content: center;
+  flex-direction: column;
   gap: 2rem;
   width: 100%;
   max-width: 1400px;
@@ -142,7 +176,7 @@
 
 /* Conversion history */
 .tf-history-scroll {
-  max-height: 300px;
+  max-height: 220px;
   overflow-y: auto;
   padding-right: 0.5rem;
 }

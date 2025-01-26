@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import '../css/TimeForgeApp.css';
-import { showNotification } from "../utilities/utils";
+import { showNotification } from '../utilities/utils';
 
 const getCurrentEpochTime = () => Math.floor(Date.now() / 1000);
 
@@ -235,12 +235,14 @@ const TimeForgeApp = () => {
     <AppContainer>
       <Header />
       <div className="tf-main-content">
-        <div className="tf-left-pane">
-          <CurrentEpochTime />
-          <TimestampConverter addHistory={addHistory} />
-        </div>
-        <div className="tf-right-pane">
+        <div className="tf-top-section-container">
+          <div className="tf-left-section">
+            <CurrentEpochTime />
+            <TimestampConverter addHistory={addHistory} />
+          </div>
           <TimezoneConverter addHistory={addHistory} />
+        </div>
+        <div className="tf-history-section">
           <EpochHistory history={history} handleDeleteHistory={handleDeleteHistory} />
         </div>
       </div>
