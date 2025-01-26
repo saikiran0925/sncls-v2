@@ -9,12 +9,13 @@ import SignUpPage from "./pages/SignUpPage";
 import { AuthProvider, useAuth } from "./services/contexts/AuthContext";
 import PrivateRoute from "./services/PrivateRoute";
 import TimeForgeApp from "./pages/TimeForgeApp";
+import EncodeDecodeZone from "./pages/EncodeDecodeZone";
 
 const App = () => {
   const location = useLocation();
 
   // Paths where the SideNav should appear
-  const pathsWithUIContainer = ["/jsonify", "/blank-space", "/diff-editor", "/time-forge"];
+  const pathsWithUIContainer = ["/jsonify", "/blank-space", "/diff-editor", "/time-forge", "/encode-decode-zone"];
   const showUIContainer = pathsWithUIContainer.includes(location.pathname);
 
   return (
@@ -31,6 +32,7 @@ const App = () => {
           <Route path="/blank-space" element={<EditorRouter />} />
           <Route path="/diff-editor" element={<EditorRouter />} />
           <Route path="/time-forge" element={<TimeForgeApp />} />
+          <Route path="/encode-decode-zone" element={<EncodeDecodeZone />} />
         </Route>
 
         <Route path="*" element={<Navigate to="/" />} />

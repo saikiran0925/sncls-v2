@@ -1,0 +1,139 @@
+/* Main Container */
+.encode-decode-zone {
+  width: 100%;
+  height: calc(100vh - 65px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f5f5f5;
+  box-sizing: border-box;
+  padding: 40px;
+}
+
+/* Card */
+.encode-decode-zone-card {
+  width: 100%;
+  /* Increased width to accommodate input, buttons, and output */
+  height: 100%;
+  /* Fixed height */
+  background: white;
+  display: flex;
+  flex-direction: row;
+  /* Arrange the sections horizontally */
+  overflow: hidden;
+  border-radius: 20px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s, box-shadow 0.3s ease;
+}
+
+/* Tabs (Feature Buttons) */
+.encode-decode-zone-tabs {
+  display: flex;
+  flex-direction: column;
+  background-color: #007bff;
+  width: 60px;
+  /* Reduced width */
+  align-items: center;
+  /* Center icons horizontally */
+  padding: 10px 0;
+  /* Adjust padding for smaller bar */
+}
+
+.encode-decode-zone-tab {
+  width: 40px;
+  /* Size of each button */
+  height: 40px;
+  margin: 10px 0;
+  /* Spacing between icons */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  background: #007bff;
+  border: none;
+  border-radius: 50%;
+  /* Circular icons */
+  font-size: 1.5rem;
+  /* Icon size */
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.encode-decode-zone-tab:hover {
+  background: #0056b3;
+  transform: scale(1.1);
+  /* Slight zoom on hover */
+}
+
+.encode-decode-zone-tab.active {
+  background: #0056b3;
+}
+
+/* Content Area */
+.encode-decode-zone-content {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  /* Arrange input, buttons, and output in columns */
+  gap: 20px;
+  /* Spacing between the columns */
+  padding: 20px;
+}
+
+/* Input Area */
+.encode-decode-zone-input {
+  flex: 3;
+  /* Larger portion for input */
+  font-size: 1rem;
+  padding: 15px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  resize: none;
+  height: 100%;
+  /* Stretch to fill the height */
+}
+
+/* Buttons Section */
+.encode-decode-zone-buttons {
+  flex: 1;
+  /* Smaller portion for buttons */
+  display: flex;
+  flex-direction: column;
+  /* Stack buttons vertically */
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  /* Add spacing between buttons */
+}
+
+.encode-decode-zone-button {
+  padding: 10px 20px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 6px;
+  background: #007bff;
+  color: white;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  width: 100%;
+  /* Buttons take full width of the column */
+  text-align: center;
+}
+
+.encode-decode-zone-button:hover {
+  background: #0056b3;
+}
+
+/* Output Area */
+.encode-decode-zone-output {
+  flex: 3;
+  /* Same size as input */
+  font-size: 1rem;
+  padding: 15px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  resize: none;
+  height: 100%;
+  /* Stretch to fill the height */
+  background: #f9f9f9;
+}

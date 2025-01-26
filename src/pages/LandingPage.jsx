@@ -28,6 +28,12 @@ const features = [
     icon: "🕒",
     route: "/time-forge",
   },
+  {
+    title: "Encode Decode Zone",
+    description: "A versatile tool to encode and decode data in various formats including Base64, URL, JWT, and string escaping.",
+    icon: "🔤",
+    route: "/encode-decode-zone",
+  },
 ];
 
 const title = (

@@ -9,6 +9,7 @@
   width: 100%;
   z-index: 1000;
   border-bottom: 1px solid #ddd;
+  height: 65px;
 }
 
 .tf-sncls {

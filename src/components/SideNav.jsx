@@ -3,7 +3,7 @@ import "../css/SideNav.css";
 import { BsFiletypeJson } from "react-icons/bs";
 import { GrNotes } from "react-icons/gr";
 import { SiTheboringcompany } from "react-icons/si";
-import { MdOutlineCompare } from "react-icons/md";
+import { MdOutlineCompare, MdLockReset } from "react-icons/md";
 import { IoIosLogOut } from "react-icons/io";
 import { Tooltip } from "antd";
 import { NavLink, useNavigate } from "react-router-dom";
@@ -63,6 +63,15 @@ const SideNav = () => {
               className={({ isActive }) => (isActive ? "nav-item active" : "nav-item")}
             >
               <FaRegClock className="icon" />
+            </NavLink>
+          </Tooltip>
+
+          <Tooltip placement="left" title="Encode Decode Zone">
+            <NavLink
+              to="/encode-decode-zone"
+              className={({ isActive }) => (isActive ? "nav-item active" : "nav-item")}
+            >
+              <MdLockReset className="icon" />
             </NavLink>
           </Tooltip>
 
