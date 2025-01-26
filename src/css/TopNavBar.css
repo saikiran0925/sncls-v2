@@ -1,40 +1,46 @@
-.top-navbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 10px 20px;
-  background-color: #fff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.navbar-logo .logo {
-  height: 40px;
-}
-
-.navbar-search {
-  flex: 1;
+.tf-app-header {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 0 20px;
-}
-
-.search-input {
+  background-color: #f9f9f9;
+  padding: 16px;
+  font-family: Poppins, 'Helvetica Neue', sans-serif;
+  top: 0;
   width: 100%;
-  max-width: 500px;
-  padding: 8px 12px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
+  z-index: 1000;
+  border-bottom: 1px solid #ddd;
 }
 
-.search-icon {
-  width: 100%;
-  padding-left: 10px;
+.tf-sncls {
+  position: absolute;
+  left: 75px;
+  color: #333;
+  text-transform: uppercase;
+  margin: 0;
+  font-size: 18px;
+  font-weight: bold;
 }
 
-.navbar-profile .profile-avatar {
-  height: 40px;
-  width: 40px;
-  border-radius: 50%;
-  object-fit: cover;
+.tf-title {
+  margin: 0;
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: #333;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-family: Poppins, 'Arial', sans-serif;
+}
+
+@media (max-width: 768px) {
+  .tf-app-header {
+    padding: 10px 20px;
+  }
+
+  .tf-sncls {
+    font-size: 1.4rem;
+  }
+
+  .tf-title {
+    font-size: 1.2rem;
+  }
 }

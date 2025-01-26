@@ -85,10 +85,7 @@
   background-color: #f9fafb;
 }
 
-.tf-app-header {
-  text-align: center;
-  margin-bottom: 1rem;
-}
+
 
 .tf-app-header h1 {
   font-size: 2.5rem;
@@ -195,7 +192,6 @@
   background-color: #f1f5f9;
   border-radius: 10px;
   margin-bottom: 1rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
 .tf-history-type {

@@ -1,17 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import '../css/TimeForgeApp.css';
 import { showNotification } from '../utilities/utils';
+import TopNavBar from '../components/TopNavBar';
 
 const getCurrentEpochTime = () => Math.floor(Date.now() / 1000);
 
 const AppContainer = ({ children }) => (
   <div className="tf-app-container">{children}</div>
-);
-
-const Header = () => (
-  <header className="tf-app-header">
-    <h1>TimeForge</h1>
-  </header>
 );
 
 const CurrentEpochTime = () => {
@@ -233,7 +228,7 @@ const TimeForgeApp = () => {
 
   return (
     <AppContainer>
-      <Header />
+      <TopNavBar title="TimeForge" />
       <div className="tf-main-content">
         <div className="tf-top-section-container">
           <div className="tf-left-section">
