@@ -3,6 +3,7 @@ import AppEditorComponent from "./AppEditorComponent";
 import AppDiffEditorComponent from "./AppDiffEditorComponent";
 import { useLocation } from "react-router-dom";
 import { MdFormatAlignLeft, MdCode, MdFormatAlignJustify, MdDeleteOutline } from "react-icons/md";
+import { TbBeach, TbBeachOff } from "react-icons/tb";
 import { LuClipboardCopy } from "react-icons/lu";
 import { AiOutlineSave } from "react-icons/ai";
 import "../css/EditorComponent.css";
@@ -11,7 +12,7 @@ import { showNotification, generateISO8601 } from "../utilities/utils";
 import axiosInstance from "../services/axiosInstance";
 import AuthContext from "../services/contexts/AuthContext";
 
-const EditorComponent = ({ selectedCardContent, onContentChange, onDeleteCard }) => {
+const EditorComponent = ({ selectedCardContent, onContentChange }) => {
   const [currentEditorValue, setCurrentEditorValue] = useState(null);
   const { updateCardContent, isLocalMode } = useContext(AuthContext);
 
@@ -22,6 +23,8 @@ const EditorComponent = ({ selectedCardContent, onContentChange, onDeleteCard })
       buttons: [
         { name: "Prettify", icon: <MdFormatAlignLeft /> },
         { name: "Stringify", icon: <MdFormatAlignJustify /> },
+        { name: "Escape", icon: <TbBeachOff /> },
+        { name: "Unescape", icon: <TbBeach /> },
         { name: "Copy", icon: <LuClipboardCopy /> },
         { name: "Save", icon: <AiOutlineSave /> },
         { name: "Close Tab", icon: <MdDeleteOutline /> },
@@ -222,6 +225,28 @@ const EditorComponent = ({ selectedCardContent, onContentChange, onDeleteCard })
     }
   };
 
+  const handleEscapeUnescape = (actionType) => {
+    try {
+      let editorValue = currentEditorValue || selectedCardContent?.content?.data;
+
+      if (editorValue) {
+        editorValue = (actionType === "Escape")
+          ? editorValue.replace(/[\\"']/g, "\\$&").replace(/\u0000/g, "\\0")
+          : editorValue.replace(/\\(.)/g, "$1");
+      }
+
+      if (selectedCardContent) {
+        onContentChange({
+          ...selectedCardContent,
+          content: { ...selectedCardContent.content, data: editorValue },
+        });
+      }
+    } catch (error) {
+      console.error("Error while escaping:", error);
+      showNotification("error", "Invalid JSON format");
+    }
+  };
+
   useEffect(() => {
     fetchUpdatedCardContent();
   }, [selectedCardContent?.id, selectedCardContent?.type]);
@@ -278,6 +303,10 @@ const EditorComponent = ({ selectedCardContent, onContentChange, onDeleteCard })
                       break;
                     case "Close Tab":
                       handleDelete();
+                      break;
+                    case ("Escape"):
+                    case ("Unescape"):
+                      handleEscapeUnescape(button.name);
                       break;
                     default:
                       break;
