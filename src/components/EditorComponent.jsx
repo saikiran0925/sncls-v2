@@ -3,7 +3,7 @@ import AppEditorComponent from "./AppEditorComponent";
 import AppDiffEditorComponent from "./AppDiffEditorComponent";
 import { useLocation } from "react-router-dom";
 import { MdFormatAlignLeft, MdCode, MdFormatAlignJustify, MdDeleteOutline } from "react-icons/md";
-import { TbBeach, TbBeachOff } from "react-icons/tb";
+import { TbBandage, TbBandageFilled } from "react-icons/tb";
 import { LuClipboardCopy } from "react-icons/lu";
 import { AiOutlineSave } from "react-icons/ai";
 import "../css/EditorComponent.css";
@@ -23,8 +23,8 @@ const EditorComponent = ({ selectedCardContent, onContentChange }) => {
       buttons: [
         { name: "Prettify", icon: <MdFormatAlignLeft /> },
         { name: "Stringify", icon: <MdFormatAlignJustify /> },
-        { name: "Escape", icon: <TbBeachOff /> },
-        { name: "Unescape", icon: <TbBeach /> },
+        { name: "Escape", icon: <TbBandageFilled /> },
+        { name: "Unescape", icon: <TbBandage /> },
         { name: "Copy", icon: <LuClipboardCopy /> },
         { name: "Save", icon: <AiOutlineSave /> },
         { name: "Close Tab", icon: <MdDeleteOutline /> },
