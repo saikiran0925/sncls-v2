@@ -50,6 +50,8 @@ const CardSideBar = ({ cardsData, onCardSelect, onCreateCard, selectedCardConten
       if (starredCard) {
         setActiveCardId(starredCard.cardId);
         onCardSelect(starredCard);
+      } else {
+        onCardSelect(null);
       }
     } else {
       setActiveCardId(localCards[0]?.cardId);

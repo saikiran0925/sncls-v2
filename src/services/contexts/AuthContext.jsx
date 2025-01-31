@@ -130,6 +130,7 @@ export const AuthProvider = ({ children }) => {
       contentData = "";
     }
 
+    const isStarred = (selectedTab == "All") ? false : true;
     const newCard = {
       cardId: `${Date.now()}`,
       type,
@@ -137,7 +138,7 @@ export const AuthProvider = ({ children }) => {
       content: {
         data: contentData,
       },
-      isStarred: false,
+      isStarred,
       metadata: {
         updatedAt: new Date().toISOString(),
       },
