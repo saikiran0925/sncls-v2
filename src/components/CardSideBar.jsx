@@ -4,17 +4,17 @@ import { useLocation } from "react-router-dom";
 import { Empty, Button } from "antd";
 import { timeAgo } from "../utilities/utils";
 
-const CardSideBar = ({ cardsData, onCardSelect, onCreateCard }) => {
+const CardSideBar = ({ cardsData, onCardSelect, onCreateCard, selectedCardContent }) => {
   const [activeCardIndex, setActiveCardIndex] = useState(null);
   const location = useLocation();
   const path = location.pathname.slice(1);
 
   useEffect(() => {
     if (cardsData.length > 0) {
-      setActiveCardIndex(0);
-      onCardSelect(cardsData[0]);
+      const index = cardsData.findIndex(card => card.cardId === selectedCardContent?.cardId);
+      setActiveCardIndex(index >= 0 ? index : 0);
     }
-  }, [location]);
+  }, [cardsData, selectedCardContent]);
 
   return (
     <div className="sidebar-container">

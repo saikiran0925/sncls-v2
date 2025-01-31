@@ -26,16 +26,19 @@ const EditorRouter = () => {
     setCardsForSelectedPath(cards);
 
     if (cards.length > 0) {
-      setSelectedCardContent(cards[0]); // Default to the first card
+      // Only set the first card as selected if no card is currently selected
+      if (!selectedCardContent || !cards.some(card => card.cardId === selectedCardContent.cardId)) {
+        setSelectedCardContent(cards[0]);
+      }
     } else {
-      setSelectedCardContent(null); // Clear selection if no cards exist
+      setSelectedCardContent(null);
     }
-  }, [cardData, path]);
+  }, [path]); // Only run when `path` changes
 
   const handleCreateCard = () => {
     const newCard = createNewCard(path, "New content for the new card.");
     setCardsForSelectedPath((prev) => [...prev, newCard]);
-    setSelectedCardContent(newCard);
+    setSelectedCardContent(newCard); // Set the newly created card as the selected card
   };
 
   const handleContentChange = (updatedCard) => {
@@ -55,14 +58,31 @@ const EditorRouter = () => {
   const handleDeleteCard = () => {
     if (!selectedCardContent) return;
 
+    // Find the index of the card to be deleted
+    const cardIndex = cardsForSelectedPath.findIndex(
+      (card) => card.cardId === selectedCardContent.cardId
+    );
+
+    // Filter out the deleted card
     const updatedCards = cardsForSelectedPath.filter(
-      (card) => card.id !== selectedCardContent.id
+      (card) => card.cardId !== selectedCardContent.cardId
     );
 
     setCardsForSelectedPath(updatedCards);
 
-    // Select the next card, or clear selection if none remain
-    setSelectedCardContent(updatedCards.length > 0 ? updatedCards[0] : null);
+    // Select the previous card (if available), otherwise select the next card
+    let newSelectedCard = null;
+    if (updatedCards.length > 0) {
+      if (cardIndex > 0) {
+        // Select the previous card
+        newSelectedCard = updatedCards[cardIndex - 1];
+      } else {
+        // If the deleted card was the first card, select the next card
+        newSelectedCard = updatedCards[0];
+      }
+    }
+
+    setSelectedCardContent(newSelectedCard);
 
     // Update central card data in context
     const jsonObject = JSON.parse(cardData || "{}");
@@ -77,12 +97,14 @@ const EditorRouter = () => {
         onCardSelect={(card) => setSelectedCardContent(card)}
         onCreateCard={handleCreateCard}
         isLocalMode={isLocalMode}
+        selectedCardContent={selectedCardContent} // Pass selectedCardContent here
       />
 
       <EditorComponent
         selectedCardContent={selectedCardContent}
         onContentChange={handleContentChange}
-        onDeleteCard={handleDeleteCard} // Pass delete handler to EditorComponent
+        onDeleteCard={handleDeleteCard}
+        setSelectedCardContent={setSelectedCardContent} // Pass setSelectedCardContent here
       />
     </div>
   );

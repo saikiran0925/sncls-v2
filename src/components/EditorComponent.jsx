@@ -12,7 +12,7 @@ import { showNotification, generateISO8601 } from "../utilities/utils";
 import axiosInstance from "../services/axiosInstance";
 import AuthContext from "../services/contexts/AuthContext";
 
-const EditorComponent = ({ selectedCardContent, onContentChange }) => {
+const EditorComponent = ({ selectedCardContent, onContentChange, onDeleteCard, setSelectedCardContent }) => {
   const [currentEditorValue, setCurrentEditorValue] = useState(null);
   const { updateCardContent, isLocalMode } = useContext(AuthContext);
 
@@ -78,18 +78,18 @@ const EditorComponent = ({ selectedCardContent, onContentChange }) => {
       return;
     }
 
-    const content = currentEditorValue || selectedCardContent?.content?.data; // Use editor value or fallback to existing content
+    const content = currentEditorValue || selectedCardContent?.content?.data;
     const updatedAt = generateISO8601();
 
     const updatedContent = {
       ...selectedCardContent,
       metadata: {
         ...selectedCardContent.metadata,
-        updatedAt, // Update timestamp
+        updatedAt,
       },
       content: {
         ...selectedCardContent.content,
-        data: content, // Update content
+        data: content,
       },
     };
 
@@ -118,9 +118,12 @@ const EditorComponent = ({ selectedCardContent, onContentChange }) => {
           cardData[selectedCardContent?.type] = [updatedContent]; // Create a new type category
         }
 
-        localStorage.setItem("cardData", JSON.stringify(cardData)); // Save back to localStorage
+        localStorage.setItem("cardData", JSON.stringify(cardData));
 
         showNotification("success", "Saved Locally", "Changes have been saved successfully.");
+
+        // Preserve the selected card after saving
+        setSelectedCardContent(updatedContent); // <-- Use the prop
       } catch (error) {
         showNotification("error", "Save Failed", "An error occurred while saving locally.");
         console.error("Local Save Error:", error);
@@ -148,7 +151,10 @@ const EditorComponent = ({ selectedCardContent, onContentChange }) => {
 
       if (response.status === 200) {
         showNotification("success", "Saved to Server", "Changes have been saved successfully.");
-        updateCardContent(selectedCardContent?.type, id, updatedContent); // Notify context
+        updateCardContent(selectedCardContent?.type, id, updatedContent);
+
+        // Preserve the selected card after saving
+        setSelectedCardContent(updatedContent); // <-- Use the prop
       }
     } catch (error) {
       showNotification("error", "Save Failed", "An error occurred while saving to the server.");
@@ -162,39 +168,8 @@ const EditorComponent = ({ selectedCardContent, onContentChange }) => {
       return;
     }
 
-    // Retrieve card data from localStorage
-    const cardDataString = localStorage.getItem("cardData");
-    let cardData = cardDataString ? JSON.parse(cardDataString) : {};
-
-    // Check if the card type exists in the stored data
-    if (cardData[selectedCardContent?.type]) {
-      const updatedCards = cardData[selectedCardContent?.type].filter(
-        (card) => card.cardId !== selectedCardContent?.cardId
-      );
-
-      // Update the localStorage with the filtered cards
-      cardData[selectedCardContent?.type] = updatedCards;
-
-      // If no cards remain for this type, remove the type key
-      if (updatedCards.length === 0) {
-        delete cardData[selectedCardContent?.type];
-      }
-
-      // Save the updated data back to localStorage
-      localStorage.setItem("cardData", JSON.stringify(cardData));
-
-      // Notify the user about successful deletion
-      showNotification("success", "Deleted", "Card deleted successfully.");
-
-      // Optionally, navigate to the next card or clear the editor
-      if (updatedCards.length > 0) {
-        onContentChange(updatedCards[0]); // Set the next card as the current card
-      } else {
-        onContentChange(null); // No cards left, clear the editor
-      }
-    } else {
-      showNotification("error", "Deletion Failed", "Card type not found in storage.");
-    }
+    // Call the onDeleteCard prop to handle deletion
+    onDeleteCard();
   };
 
   const handlePrettify = () => {
@@ -253,7 +228,18 @@ const EditorComponent = ({ selectedCardContent, onContentChange }) => {
 
   const renderEditor = () => {
     if (!selectedCardContent) {
-      return <Empty description="No content selected for editing" />;
+      return (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "100%",
+          }}
+        >
+          <Empty description="No content selected for editing" />
+        </div>
+      );
     }
 
     if (path === "diff-editor") {
