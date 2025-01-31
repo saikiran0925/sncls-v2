@@ -43,8 +43,8 @@ const EditorComponent = ({ selectedCardContent, onContentChange, onDeleteCard, s
       title: "Diff Editor",
       language: "",
       buttons: [
-        { name: "Compare", icon: <MdCode /> },
-        { name: "Merge", icon: <MdCode /> },
+        { name: "Save", icon: <AiOutlineSave /> },
+        { name: "Close Tab", icon: <MdDeleteOutline /> },
       ],
     },
   };
