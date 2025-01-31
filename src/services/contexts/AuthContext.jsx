@@ -123,6 +123,7 @@ export const AuthProvider = ({ children }) => {
       content: {
         data: newCardContent || "New content here",
       },
+      isStarred: false,
       metadata: {
         updatedAt: new Date().toISOString(),
       },

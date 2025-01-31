@@ -90,6 +90,21 @@ const EditorRouter = () => {
     localStorage.setItem("cardData", JSON.stringify(jsonObject));
   };
 
+
+  const handleStarToggle = (updatedCard) => {
+    setCardsForSelectedPath((prevCards) =>
+      prevCards.map((card) =>
+        card.cardId === updatedCard.cardId ? updatedCard : card
+      )
+    );
+
+    // Update the global storage
+    const jsonObject = JSON.parse(cardData || "{}");
+    jsonObject[path] = cardsForSelectedPath;
+    localStorage.setItem("cardData", JSON.stringify(jsonObject));
+  };
+
+
   return (
     <div style={{ display: "flex", flex: 1 }}>
       <CardSideBar
@@ -98,6 +113,7 @@ const EditorRouter = () => {
         onCreateCard={handleCreateCard}
         isLocalMode={isLocalMode}
         selectedCardContent={selectedCardContent} // Pass selectedCardContent here
+        onStarToggle={handleStarToggle}  // <-- Pass function here
       />
 
       <EditorComponent

@@ -2,12 +2,18 @@ import "../css/CardSideBar.css";
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { Empty, Button } from "antd";
+import { FaStar, FaRegStar } from "react-icons/fa";
 import { timeAgo } from "../utilities/utils";
 
-const CardSideBar = ({ cardsData, onCardSelect, onCreateCard, selectedCardContent }) => {
+const CardSideBar = ({ cardsData, onCardSelect, onCreateCard, selectedCardContent, onStarToggle }) => {
   const [activeCardIndex, setActiveCardIndex] = useState(null);
   const location = useLocation();
   const path = location.pathname.slice(1);
+  const [localCards, setLocalCards] = useState([]);
+
+  useEffect(() => {
+    setLocalCards(cardsData);
+  }, [cardsData]);
 
   useEffect(() => {
     if (cardsData.length > 0) {
@@ -15,6 +21,22 @@ const CardSideBar = ({ cardsData, onCardSelect, onCreateCard, selectedCardConten
       setActiveCardIndex(index >= 0 ? index : 0);
     }
   }, [cardsData, selectedCardContent]);
+
+  useEffect(() => {
+    updateLocalStorage(localCards);
+  }, [localCards]);
+
+  const toggleStar = (card) => {
+    const updatedCard = { ...card, isStarred: !card.isStarred };
+    onStarToggle(updatedCard);
+  };
+
+  const updateLocalStorage = (updatedCards) => {
+    const cardDataString = localStorage.getItem("cardData");
+    let cardData = cardDataString ? JSON.parse(cardDataString) : {};
+    cardData[selectedCardContent?.type] = updatedCards;
+    localStorage.setItem("cardData", JSON.stringify(cardData));
+  };
 
   return (
     <div className="sidebar-container">
@@ -47,6 +69,9 @@ const CardSideBar = ({ cardsData, onCardSelect, onCreateCard, selectedCardConten
                 <h3 className="card-title">{card.cardId}</h3>
                 <span className="card-timestamp">
                   {card?.metadata?.updatedAt ? timeAgo(card.metadata.updatedAt) : ""}
+                </span>
+                <span className="star-icon" onClick={() => toggleStar(card)}>
+                  {card.isStarred ? <FaStar color="gold" /> : <FaRegStar />}
                 </span>
               </div>
               <h4 className="card-subtitle">{card.title}</h4>
