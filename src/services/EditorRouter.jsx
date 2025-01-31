@@ -36,7 +36,7 @@ const EditorRouter = () => {
   }, [path]); // Only run when `path` changes
 
   const handleCreateCard = () => {
-    const newCard = createNewCard(path, "New content for the new card.");
+    const newCard = createNewCard(path);
     setCardsForSelectedPath((prev) => [...prev, newCard]);
     setSelectedCardContent(newCard); // Set the newly created card as the selected card
   };

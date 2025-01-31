@@ -8,7 +8,7 @@ import AuthContext from "../services/contexts/AuthContext";
 
 const CardSideBar = ({ cardsData, onCardSelect, onCreateCard, selectedCardContent, onStarToggle }) => {
   const { toggleTab } = useContext(AuthContext);
-  const [activeCardId, setActiveCardId] = useState(null);  // Track active card by cardId
+  const [activeCardId, setActiveCardId] = useState(null);
   const [selectedTab, setSelectedTab] = useState("All");
   const location = useLocation();
   const path = location.pathname.slice(1);
@@ -76,35 +76,28 @@ const CardSideBar = ({ cardsData, onCardSelect, onCreateCard, selectedCardConten
         {displayedCards.length > 0 ? (
           displayedCards.map((card) => (
             <div
-              key={card.cardId}  // Use cardId as the key
+              key={card.cardId}
               className={`card ${activeCardId === card.cardId ? "active-card" : ""}`}
               onClick={() => {
-                setActiveCardId(card.cardId);  // Set the active card by cardId
+                setActiveCardId(card.cardId);
                 onCardSelect(card);
               }}
             >
               <div className="card-header">
-                <h3 className="card-title">{card.cardId}</h3>
-                <span className="card-timestamp">
-                  {card?.metadata?.updatedAt ? timeAgo(card.metadata.updatedAt) : ""}
-                </span>
+                <h4 className="card-title">{card.title}</h4>
                 <span className="star-icon" onClick={(e) => { e.stopPropagation(); toggleStar(card); }}>
                   {card.isStarred ? <FaStar color="gold" /> : <FaRegStar />}
                 </span>
               </div>
-              <h4 className="card-subtitle">{card.title}</h4>
               {path !== "diff-editor" && <p className="card-content">{card.content.data}</p>}
+              <div className="card-footer">
+                <span className="card-timestamp">{card?.metadata?.updatedAt ? timeAgo(card.metadata.updatedAt) : ""}</span>
+                <span className="card-id">ID: {card.cardId}</span>
+              </div>
             </div>
           ))
         ) : (
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              height: "100%",
-            }}
-          >
+          <div className="no-data">
             <Empty description="No cards available" />
           </div>
         )}

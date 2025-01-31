@@ -114,11 +114,20 @@ export const AuthProvider = ({ children }) => {
   };
 
   // Create a new card
-  const createNewCard = (type, newCardContent) => {
+  const createNewCard = (type) => {
     let cardContent = JSON.parse(localStorage.getItem("cardData")) || {};
 
     if (!cardContent[type]) {
       cardContent[type] = [];
+    }
+
+    let contentData;
+    if (type === "jsonify") {
+      contentData = JSON.stringify({ message: "New JSON content" }, null, 2);
+    } else if (type === "blank-space") {
+      contentData = "New content here";
+    } else {
+      contentData = "";
     }
 
     const newCard = {
@@ -126,7 +135,7 @@ export const AuthProvider = ({ children }) => {
       type,
       title: "New Card",
       content: {
-        data: newCardContent || "New content here",
+        data: contentData,
       },
       isStarred: false,
       metadata: {
