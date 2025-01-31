@@ -33,7 +33,8 @@ const CardSideBar = ({ cardsData, onCardSelect, onCreateCard, selectedCardConten
 
   const updateLocalStorage = (updatedCards) => {
     const cardDataString = localStorage.getItem("cardData");
-    let cardData = cardDataString ? JSON.parse(cardDataString) : {};
+    if (!cardDataString) return;
+    let cardData = JSON.parse(cardDataString);
     cardData[selectedCardContent?.type] = updatedCards;
     localStorage.setItem("cardData", JSON.stringify(cardData));
   };
