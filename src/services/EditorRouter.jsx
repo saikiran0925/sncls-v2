@@ -6,7 +6,7 @@ import EditorComponent from "../components/EditorComponent";
 import "../App.css";
 
 const EditorRouter = () => {
-  const { cardData, createNewCard, updateCardContent, isLocalMode } = useContext(AuthContext);
+  const { cardData, createNewCard, updateCardContent, isLocalMode, selectedTab } = useContext(AuthContext);
   const [selectedCardContent, setSelectedCardContent] = useState(null);
   const [cardsForSelectedPath, setCardsForSelectedPath] = useState([]);
 
@@ -72,13 +72,23 @@ const EditorRouter = () => {
 
     // Select the previous card (if available), otherwise select the next card
     let newSelectedCard = null;
+
     if (updatedCards.length > 0) {
-      if (cardIndex > 0) {
-        // Select the previous card
-        newSelectedCard = updatedCards[cardIndex - 1];
+      if (selectedTab === "Starred") {
+        // Find the previous starred card before the deleted one
+        const previousStarredCards = updatedCards.slice(0, cardIndex).reverse();
+        newSelectedCard = previousStarredCards.find(card => card.isStarred) || null;
+
+        // If no previous starred card is found, fall back to the first available starred card
+        if (!newSelectedCard) {
+          newSelectedCard = updatedCards.find(card => card.isStarred) || null;
+        }
       } else {
-        // If the deleted card was the first card, select the next card
-        newSelectedCard = updatedCards[0];
+        if (cardIndex > 0) {
+          newSelectedCard = updatedCards[cardIndex - 1];
+        } else {
+          newSelectedCard = updatedCards[0];
+        }
       }
     }
 
@@ -120,7 +130,7 @@ const EditorRouter = () => {
         selectedCardContent={selectedCardContent}
         onContentChange={handleContentChange}
         onDeleteCard={handleDeleteCard}
-        setSelectedCardContent={setSelectedCardContent} // Pass setSelectedCardContent here
+        setSelectedCardContent={setSelectedCardContent}
       />
     </div>
   );

@@ -1,11 +1,13 @@
 import "../css/CardSideBar.css";
-import React, { useState, useEffect } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { Empty, Button } from "antd";
 import { FaStar, FaRegStar } from "react-icons/fa";
 import { timeAgo } from "../utilities/utils";
+import AuthContext from "../services/contexts/AuthContext";
 
 const CardSideBar = ({ cardsData, onCardSelect, onCreateCard, selectedCardContent, onStarToggle }) => {
+  const { toggleTab } = useContext(AuthContext);
   const [activeCardId, setActiveCardId] = useState(null);  // Track active card by cardId
   const [selectedTab, setSelectedTab] = useState("All");
   const location = useLocation();
@@ -41,6 +43,8 @@ const CardSideBar = ({ cardsData, onCardSelect, onCreateCard, selectedCardConten
 
   const handleTabChange = (tab) => {
     setSelectedTab(tab);
+    toggleTab(tab);
+
     if (tab === "Starred") {
       const starredCard = localCards.find(card => card.isStarred);
       if (starredCard) {

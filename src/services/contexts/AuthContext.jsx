@@ -16,6 +16,11 @@ export const AuthProvider = ({ children }) => {
   const [cardData, setCardData] = useState(storedCardData || null);
   const [loading, setLoading] = useState(false);
   const [isLocalMode, setIsLocalMode] = useState(!storedToken); // Local mode if no token is found
+  const [selectedTab, setSelectedTab] = useState("All");  // Add selectedTab state
+
+  const toggleTab = (tab) => {
+    setSelectedTab(tab);
+  };
 
   const login = (authToken, expiresIn, user) => {
     localStorage.setItem("authToken", authToken);
@@ -117,7 +122,7 @@ export const AuthProvider = ({ children }) => {
     }
 
     const newCard = {
-      cardId: `Card-${Date.now()}`,
+      cardId: `${Date.now()}`,
       type,
       title: "New Card",
       content: {
@@ -158,7 +163,9 @@ export const AuthProvider = ({ children }) => {
         cardData,
         updateCardContent,
         createNewCard,
-        isLocalMode, // Expose local mode status
+        isLocalMode,
+        selectedTab,
+        toggleTab,
       }}
     >
       {children}
