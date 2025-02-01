@@ -100,8 +100,8 @@ const EditorRouter = () => {
     localStorage.setItem("cardData", JSON.stringify(jsonObject));
   };
 
-
   const handleStarToggle = (updatedCard) => {
+    // Update the specific card in the local state
     setCardsForSelectedPath((prevCards) =>
       prevCards.map((card) =>
         card.cardId === updatedCard.cardId ? updatedCard : card
@@ -112,8 +112,21 @@ const EditorRouter = () => {
     const jsonObject = JSON.parse(cardData || "{}");
     jsonObject[path] = cardsForSelectedPath;
     localStorage.setItem("cardData", JSON.stringify(jsonObject));
-  };
 
+    // If the card is being unstarred and the selected tab is "Starred", update the selected card
+    if (!updatedCard.isStarred && selectedTab === "Starred") {
+      const cardIndex = cardsForSelectedPath.findIndex(
+        (card) => card.cardId === updatedCard.cardId
+      );
+      const previousStarredCards = cardsForSelectedPath.slice(0, cardIndex).reverse();
+      if (previousStarredCards.length > 0) {
+        const newSelectedCard = previousStarredCards.find(card => card.isStarred) || null;
+        setSelectedCardContent(newSelectedCard);
+      } else {
+        setSelectedCardContent(null);
+      }
+    }
+  };
 
   return (
     <div style={{ display: "flex", flex: 1 }}>
