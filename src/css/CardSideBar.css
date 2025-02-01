@@ -140,3 +140,44 @@
   font-size: 16px;
   margin-top: 20px;
 }
+
+
+.card-title-container {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  justify-content: space-between;
+  position: relative;
+}
+
+.card-title-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.edit-icon {
+  display: none;
+  margin-left: 8px;
+}
+
+.card:hover .edit-icon {
+  display: inline-flex;
+}
+
+.title-edit-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+}
+
+.title-input {
+  flex: 1;
+}
+
+.edit-actions {
+  display: flex;
+  gap: 4px;
+}

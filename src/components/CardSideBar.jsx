@@ -1,8 +1,9 @@
 import "../css/CardSideBar.css";
 import React, { useContext, useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import { Empty, Button } from "antd";
+import { Empty, Button, Input } from "antd";
 import { FaStar, FaRegStar } from "react-icons/fa";
+import { CheckOutlined, CloseOutlined, EditOutlined } from "@ant-design/icons";
 import { timeAgo } from "../utilities/utils";
 import AuthContext from "../services/contexts/AuthContext";
 
@@ -13,6 +14,8 @@ const CardSideBar = ({ cardsData, onCardSelect, onCreateCard, selectedCardConten
   const location = useLocation();
   const path = location.pathname.slice(1);
   const [localCards, setLocalCards] = useState([]);
+  const [editingCardId, setEditingCardId] = useState(null);
+  const [editedTitle, setEditedTitle] = useState("");
 
   useEffect(() => {
     setLocalCards(cardsData);
@@ -59,6 +62,27 @@ const CardSideBar = ({ cardsData, onCardSelect, onCreateCard, selectedCardConten
     }
   };
 
+  const handleTitleEdit = (card) => {
+    setEditingCardId(card.cardId);
+    setEditedTitle(card.title);
+  };
+
+  const handleTitleChange = (e) => {
+    setEditedTitle(e.target.value);
+  };
+
+  const handleTitleSave = (card) => {
+    const updatedCard = { ...card, title: editedTitle };
+    setLocalCards((prevCards) =>
+      prevCards.map((c) => (c.cardId === card.cardId ? updatedCard : c))
+    );
+    updateLocalStorage([...localCards]);
+    setEditingCardId(null);
+  };
+
+  const handleTitleCancel = () => {
+    setEditingCardId(null);
+  };
   const displayedCards = selectedTab === "Starred" ? localCards.filter(card => card.isStarred) : localCards;
 
   return (
@@ -86,7 +110,32 @@ const CardSideBar = ({ cardsData, onCardSelect, onCreateCard, selectedCardConten
               }}
             >
               <div className="card-header">
-                <h4 className="card-title">{card.title}</h4>
+                <div className="card-title-container">
+                  {editingCardId === card.cardId ? (
+                    <div className="title-edit-container">
+                      <Input
+                        value={editedTitle}
+                        onChange={handleTitleChange}
+                        autoFocus
+                        className="title-input"
+                      />
+                      <div className="edit-actions">
+                        <Button icon={<CheckOutlined />} type="text" onClick={() => handleTitleSave(card)} />
+                        <Button icon={<CloseOutlined />} type="text" onClick={handleTitleCancel} />
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="card-title-wrapper">
+                      <h4 className="card-title">{card.title}</h4>
+                      <Button
+                        type="text"
+                        icon={<EditOutlined />}
+                        className="edit-icon"
+                        onClick={() => handleTitleEdit(card)}
+                      />
+                    </div>
+                  )}
+                </div>
                 <span className="star-icon" onClick={(e) => { e.stopPropagation(); toggleStar(card); }}>
                   {card.isStarred ? <FaStar color="gold" /> : <FaRegStar />}
                 </span>
