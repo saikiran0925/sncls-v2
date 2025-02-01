@@ -118,6 +118,7 @@ const CardSideBar = ({ cardsData, onCardSelect, onCreateCard, selectedCardConten
                         onChange={handleTitleChange}
                         autoFocus
                         className="title-input"
+                        maxLength={20}
                       />
                       <div className="edit-actions">
                         <Button icon={<CheckOutlined />} type="text" onClick={() => handleTitleSave(card)} />
