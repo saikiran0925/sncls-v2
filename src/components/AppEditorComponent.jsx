@@ -5,7 +5,6 @@ function AppEditorComponent({ selectedCardContent, language, onEditorStateChange
   const editorRef = useRef(null);
   const cardContentRef = useRef("");
 
-  console.log("selectedCardContent: ", selectedCardContent);
   const height = `${window.innerHeight - 120}px`;
   const width = `${window.innerWidth - 432}px`;
 

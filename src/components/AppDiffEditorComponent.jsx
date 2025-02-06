@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { DiffEditor } from "@monaco-editor/react";
 
-function AppDiffEditorComponent({ editorState, onEditorStateChange }) {
+function AppDiffEditorComponent({ editorState, onEditorStateChange, selectedCardContent }) {
   const editorRef = useRef(null);
   const cardLeftContentRef = useRef("");
   const cardRightContentRef = useRef("");
@@ -37,6 +37,14 @@ function AppDiffEditorComponent({ editorState, onEditorStateChange }) {
         modifiedEditorContent: modifiedEditor.getValue(),
       };
       onEditorStateChange(updatedState);
+
+      // Update the selectedCardContent with the new content
+      if (selectedCardContent) {
+        selectedCardContent.content.data = {
+          left: originalEditor.getValue(),
+          right: modifiedEditor.getValue(),
+        };
+      }
     };
 
     originalEditor.onDidChangeModelContent(updateState);
@@ -58,4 +66,3 @@ function AppDiffEditorComponent({ editorState, onEditorStateChange }) {
 }
 
 export default AppDiffEditorComponent;
-

@@ -126,11 +126,13 @@ export const AuthProvider = ({ children }) => {
       contentData = JSON.stringify({ message: "New JSON content" }, null, 2);
     } else if (type === "blank-space") {
       contentData = "New content here";
+    } else if (type === "diff-editor") {
+      contentData = { left: "left side content", right: "right side content" };
     } else {
       contentData = "";
     }
 
-    const isStarred = (selectedTab == "All") ? false : true;
+    const isStarred = selectedTab === "Starred"; // Set isStarred based on selectedTab
     const newCard = {
       cardId: `${Date.now()}`,
       type,

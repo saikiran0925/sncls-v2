@@ -78,7 +78,10 @@ const EditorComponent = ({ selectedCardContent, onContentChange, onDeleteCard, s
       return;
     }
 
-    const content = currentEditorValue || selectedCardContent?.content?.data;
+    const content = path === "diff-editor"
+      ? { left: selectedCardContent.content.data.left, right: selectedCardContent.content.data.right }
+      : currentEditorValue || selectedCardContent?.content?.data;
+
     const updatedAt = generateISO8601();
 
     const updatedContent = {
@@ -98,7 +101,7 @@ const EditorComponent = ({ selectedCardContent, onContentChange, onDeleteCard, s
       onContentChange(updatedContent);
     }
 
-    // Local mode: save to localStorage
+    // Save to localStorage or server
     if (isLocalMode) {
       try {
         const cardDataString = localStorage.getItem("cardData");
@@ -123,42 +126,40 @@ const EditorComponent = ({ selectedCardContent, onContentChange, onDeleteCard, s
         showNotification("success", "Saved Locally", "Changes have been saved successfully.");
 
         // Preserve the selected card after saving
-        setSelectedCardContent(updatedContent); // <-- Use the prop
+        setSelectedCardContent(updatedContent);
       } catch (error) {
         showNotification("error", "Save Failed", "An error occurred while saving locally.");
         console.error("Local Save Error:", error);
       }
-
-      return;
-    }
-
-    // Server mode: save to API
-    const authToken = localStorage.getItem("authToken");
-    if (!authToken) {
-      showNotification("error", "Authorization Error", "Auth token not found. Please log in again.");
-      return;
-    }
-
-    try {
-      const id = updatedContent.id;
-      const response = await axiosInstance.put(
-        `/api/dynamic/card/${id}`,
-        updatedContent,
-        {
-          headers: { Authorization: `Bearer ${authToken}` },
-        }
-      );
-
-      if (response.status === 200) {
-        showNotification("success", "Saved to Server", "Changes have been saved successfully.");
-        updateCardContent(selectedCardContent?.type, id, updatedContent);
-
-        // Preserve the selected card after saving
-        setSelectedCardContent(updatedContent); // <-- Use the prop
+    } else {
+      // Server mode: save to API
+      const authToken = localStorage.getItem("authToken");
+      if (!authToken) {
+        showNotification("error", "Authorization Error", "Auth token not found. Please log in again.");
+        return;
       }
-    } catch (error) {
-      showNotification("error", "Save Failed", "An error occurred while saving to the server.");
-      console.error("Server Save Error:", error);
+
+      try {
+        const id = updatedContent.cardId;
+        const response = await axiosInstance.put(
+          `/api/dynamic/card/${id}`,
+          updatedContent,
+          {
+            headers: { Authorization: `Bearer ${authToken}` },
+          }
+        );
+
+        if (response.status === 200) {
+          showNotification("success", "Saved to Server", "Changes have been saved successfully.");
+          updateCardContent(selectedCardContent?.type, id, updatedContent);
+
+          // Preserve the selected card after saving
+          setSelectedCardContent(updatedContent);
+        }
+      } catch (error) {
+        showNotification("error", "Save Failed", "An error occurred while saving to the server.");
+        console.error("Server Save Error:", error);
+      }
     }
   };
 
@@ -229,14 +230,7 @@ const EditorComponent = ({ selectedCardContent, onContentChange, onDeleteCard, s
   const renderEditor = () => {
     if (!selectedCardContent) {
       return (
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            height: "100%",
-          }}
-        >
+        <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100%" }}>
           <Empty description="No content selected for editing" />
         </div>
       );
@@ -247,7 +241,13 @@ const EditorComponent = ({ selectedCardContent, onContentChange, onDeleteCard, s
       return (
         <AppDiffEditorComponent
           editorState={{ originalEditorContent: left, modifiedEditorContent: right }}
-          onEditorStateChange={(state) => console.log("Diff Editor State Updated: ", state)}
+          selectedCardContent={selectedCardContent}
+          onEditorStateChange={(state) => {
+            selectedCardContent.content.data = {
+              left: state.originalEditorContent,
+              right: state.modifiedEditorContent,
+            };
+          }}
         />
       );
     }
@@ -256,9 +256,7 @@ const EditorComponent = ({ selectedCardContent, onContentChange, onDeleteCard, s
       <AppEditorComponent
         selectedCardContent={selectedCardContent}
         language={language}
-        onEditorStateChange={(state) =>
-          setCurrentEditorValue(state.editorContent)
-        }
+        onEditorStateChange={(state) => setCurrentEditorValue(state.editorContent)}
       />
     );
   };

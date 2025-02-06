@@ -44,9 +44,10 @@ const EditorRouter = () => {
   const handleContentChange = (updatedCard) => {
     if (!updatedCard) return;
 
-    // Update the specific card in the local state
     setCardsForSelectedPath((prevCards) =>
-      prevCards.map((card) => (card.cardId === updatedCard.cardId ? updatedCard : card))
+      prevCards.map((card) =>
+        card.cardId === updatedCard.cardId ? updatedCard : card
+      )
     );
 
     setSelectedCardContent(updatedCard);
