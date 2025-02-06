@@ -10,6 +10,7 @@ import { AuthProvider, useAuth } from "./services/contexts/AuthContext";
 import PrivateRoute from "./services/PrivateRoute";
 import TimeForgeApp from "./pages/TimeForgeApp";
 import EncodeDecodeZone from "./pages/EncodeDecodeZone";
+import { HelmetProvider } from "react-helmet-async";
 
 const App = () => {
   const location = useLocation();
@@ -53,11 +54,13 @@ const RedirectIfLoggedIn = ({ component }) => {
 };
 
 const AppWrapper = () => (
-  <AuthProvider>
-    <Router>
-      <App />
-    </Router>
-  </AuthProvider>
+  <HelmetProvider>
+    <AuthProvider>
+      <Router>
+        <App />
+      </Router>
+    </AuthProvider>
+  </HelmetProvider>
 );
 
 export default AppWrapper;

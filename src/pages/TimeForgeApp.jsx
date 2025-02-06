@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import '../css/TimeForgeApp.css';
 import { showNotification } from '../utilities/utils';
 import TopNavBar from '../components/TopNavBar';
+import { Helmet } from "react-helmet-async";
 
 const getCurrentEpochTime = () => Math.floor(Date.now() / 1000);
 
@@ -228,6 +229,25 @@ const TimeForgeApp = () => {
 
   return (
     <AppContainer>
+
+      <Helmet>
+        <title>Time Forge - Epoch & Time Converter | SNCLS</title>
+        <meta name="description" content="Convert epoch timestamps, adjust timezones, and perform precise date-time conversions. A powerful tool for developers." />
+        <meta name="keywords" content="epoch time, timestamp converter, timezone conversion, UTC, time tools, developer utilities" />
+        <meta name="author" content="SNCLS" />
+
+        <meta property="og:title" content="Time Forge - Epoch & Time Converter | SNCLS" />
+        <meta property="og:description" content="Easily convert epoch timestamps and timezones with Time Forge." />
+        <meta property="og:url" content="https://sncls.com/time-forge" />
+        <meta property="og:type" content="website" />
+        {/* <meta property="og:image" content="https://sncls.com/images/time-forge-preview.png" /> */}
+
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Time Forge - Epoch & Time Converter | SNCLS" />
+        <meta name="twitter:description" content="Easily convert timestamps and adjust timezones with Time Forge." />
+        {/* <meta name="twitter:image" content="https://sncls.com/images/time-forge-preview.png" /> */}
+      </Helmet>
+
       <TopNavBar title="TimeForge" />
       <div className="tf-main-content">
         <div className="tf-top-section-container">

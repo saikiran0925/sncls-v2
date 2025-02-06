@@ -4,6 +4,7 @@ import AuthContext from "../services/contexts/AuthContext";
 import CardSideBar from "../components/CardSideBar";
 import EditorComponent from "../components/EditorComponent";
 import "../App.css";
+import { Helmet } from "react-helmet-async";
 
 const EditorRouter = () => {
   const { cardData, createNewCard, updateCardContent, isLocalMode, selectedTab } = useContext(AuthContext);
@@ -12,6 +13,27 @@ const EditorRouter = () => {
 
   const location = useLocation();
   const path = location.pathname.slice(1);
+
+  const pageMetadata = {
+    jsonify: {
+      title: "JSON Editor, Viewer, Formatter, Validator| SNCLS",
+      description: "Format, validate, and beautify your JSON data easily.",
+    },
+    "blank-space": {
+      title: "Blank Space - Freeform Editor | SNCLS",
+      description: "A minimalistic space for quick notes, drafts, and ideas.",
+    },
+    "diff-editor": {
+      title: "Diff Editor - Compare Text & Code | SNCLS",
+      description: "Compare and analyze differences between two pieces of text or code.",
+    },
+  };
+
+  const currentMetadata = pageMetadata[path] || {
+    title: "Editor | SNCLS",
+    description: "A powerful editing tool for various formats.",
+  };
+
 
   useEffect(() => {
     let jsonObject = {};
@@ -129,23 +151,40 @@ const EditorRouter = () => {
   };
 
   return (
-    <div style={{ display: "flex", flex: 1 }}>
-      <CardSideBar
-        cardsData={cardsForSelectedPath}
-        onCardSelect={(card) => setSelectedCardContent(card)}
-        onCreateCard={handleCreateCard}
-        isLocalMode={isLocalMode}
-        selectedCardContent={selectedCardContent} // Pass selectedCardContent here
-        onStarToggle={handleStarToggle}  // <-- Pass function here
-      />
 
-      <EditorComponent
-        selectedCardContent={selectedCardContent}
-        onContentChange={handleContentChange}
-        onDeleteCard={handleDeleteCard}
-        setSelectedCardContent={setSelectedCardContent}
-      />
-    </div>
+    <>
+
+      <Helmet>
+        <title>{currentMetadata.title}</title>
+        <meta name="description" content={currentMetadata.description} />
+        <meta property="og:title" content={currentMetadata.title} />
+        <meta property="og:description" content={currentMetadata.description} />
+        <meta property="og:url" content={`https://sncls.com/${path}`} />
+        <meta property="og:type" content="website" />
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:title" content={currentMetadata.title} />
+        <meta name="twitter:description" content={currentMetadata.description} />
+      </Helmet>
+
+      <div style={{ display: "flex", flex: 1 }}>
+        <CardSideBar
+          cardsData={cardsForSelectedPath}
+          onCardSelect={(card) => setSelectedCardContent(card)}
+          onCreateCard={handleCreateCard}
+          isLocalMode={isLocalMode}
+          selectedCardContent={selectedCardContent}
+          onStarToggle={handleStarToggle}
+        />
+
+        <EditorComponent
+          selectedCardContent={selectedCardContent}
+          onContentChange={handleContentChange}
+          onDeleteCard={handleDeleteCard}
+          setSelectedCardContent={setSelectedCardContent}
+        />
+      </div>
+
+    </>
   );
 };
 

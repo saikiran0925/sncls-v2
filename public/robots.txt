@@ -1,0 +1,6 @@
+User-agent: *
+Disallow: /login
+Disallow: /signup
+Disallow: /admin/
+Allow: /
+Sitemap: https://sncls.com/sitemap.xml

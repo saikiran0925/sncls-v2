@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://sncls.com/</loc>
+    <lastmod>2025-02-06</lastmod>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://sncls.com/jsonify</loc>
+    <lastmod>2025-02-06</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://sncls.com/blank-space</loc>
+    <lastmod>2025-02-06</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://sncls.com/diff-editor</loc>
+    <lastmod>2025-02-06</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://sncls.com/time-forge</loc>
+    <lastmod>2025-02-06</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://sncls.com/encode-decode-zone</loc>
+    <lastmod>2025-02-06</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://sncls.com/login</loc>
+    <lastmod>2025-02-06</lastmod>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://sncls.com/signup</loc>
+    <lastmod>2025-02-06</lastmod>
+    <priority>0.5</priority>
+  </url>
+</urlset>
+
