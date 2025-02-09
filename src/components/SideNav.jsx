@@ -5,6 +5,7 @@ import { GrNotes } from "react-icons/gr";
 import { SiTheboringcompany } from "react-icons/si";
 import { MdOutlineCompare, MdLockReset } from "react-icons/md";
 import { IoIosLogOut } from "react-icons/io";
+import logo from '/public/logo.svg';
 import { Tooltip } from "antd";
 import { NavLink, useNavigate } from "react-router-dom";
 import { FaRegClock } from "react-icons/fa";
@@ -77,15 +78,15 @@ const SideNav = () => {
 
         </div>
 
-        <div className="divider"></div>
+        {/* <div className="divider"></div> */}
 
-        <div className="utility-menu">
-          <Tooltip placement="left" title="Log Out">
-            <NavLink className="utility-logo" onClick={handleLogout}>
-              <IoIosLogOut className="icon" />
-            </NavLink>
-          </Tooltip>
-        </div>
+        {/* <div className="utility-menu"> */}
+        {/*   <Tooltip placement="left" title="Log Out"> */}
+        {/*     <NavLink className="utility-logo" onClick={handleLogout}> */}
+        {/*       <IoIosLogOut className="icon" /> */}
+        {/*     </NavLink> */}
+        {/*   </Tooltip> */}
+        {/* </div> */}
       </div>
     </div>
   );

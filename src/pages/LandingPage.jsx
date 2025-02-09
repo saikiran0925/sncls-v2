@@ -74,22 +74,22 @@ const LandingPage = () => {
           <h1>{title}</h1>
           <p>{desc}</p>
         </div>
-        <div className="hero-buttons">
-          {token ? (
-            <div className="user-greeting">
-              <p>Welcome, <span className="user-name">{fullName || "User"}</span>!</p>
-            </div>
-          ) : (
-            <>
-              <Link to="/login">
-                <button className="btn btn-login">Login</button>
-              </Link>
-              <Link to="/signup">
-                <button className="btn btn-signup">Sign Up</button>
-              </Link>
-            </>
-          )}
-        </div>
+        {/* <div className="hero-buttons"> */}
+        {/*   {token ? ( */}
+        {/*     <div className="user-greeting"> */}
+        {/*       <p>Welcome, <span className="user-name">{fullName || "User"}</span>!</p> */}
+        {/*     </div> */}
+        {/*   ) : ( */}
+        {/*     <> */}
+        {/*       <Link to="/login"> */}
+        {/*         <button className="btn btn-login">Login</button> */}
+        {/*       </Link> */}
+        {/*       <Link to="/signup"> */}
+        {/*         <button className="btn btn-signup">Sign Up</button> */}
+        {/*       </Link> */}
+        {/*     </> */}
+        {/*   )} */}
+        {/* </div> */}
         <div className="background-shapes-right"></div>
       </header>
 

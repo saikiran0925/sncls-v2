@@ -4,7 +4,7 @@ import { useLocation } from "react-router-dom";
 import { Empty, Button, Input } from "antd";
 import { FaStar, FaRegStar } from "react-icons/fa";
 import { CheckOutlined, CloseOutlined, EditOutlined } from "@ant-design/icons";
-import { timeAgo } from "../utilities/utils";
+import { timeAgo, generateISO8601 } from "../utilities/utils";
 import AuthContext from "../services/contexts/AuthContext";
 
 const CardSideBar = ({ cardsData, onCardSelect, onCreateCard, selectedCardContent, onStarToggle }) => {
@@ -72,7 +72,13 @@ const CardSideBar = ({ cardsData, onCardSelect, onCreateCard, selectedCardConten
   };
 
   const handleTitleSave = (card) => {
-    const updatedCard = { ...card, title: editedTitle };
+    const updatedAt = generateISO8601();
+    const updatedCard = {
+      ...card, title: editedTitle, metadata: {
+        ...card.metadata,
+        updatedAt,
+      },
+    };
     setLocalCards((prevCards) =>
       prevCards.map((c) => (c.cardId === card.cardId ? updatedCard : c))
     );

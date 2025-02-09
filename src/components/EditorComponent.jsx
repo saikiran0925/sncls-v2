@@ -59,20 +59,22 @@ const EditorComponent = ({ selectedCardContent, onContentChange, onDeleteCard, s
   };
 
   const fetchUpdatedCardContent = () => {
-    const cardDataString = localStorage.getItem("cards");
+    const cardDataString = localStorage.getItem("cardData");
     const cardData = cardDataString ? JSON.parse(cardDataString) : {};
 
-    if (selectedCardContent?.id && cardData[selectedCardContent?.type]) {
+    if (selectedCardContent?.cardId && cardData[selectedCardContent?.type]) {
       const updatedCard = cardData[selectedCardContent.type].find(
-        (card) => card.id === selectedCardContent.id
+        (card) => card.cardId === selectedCardContent.cardId
       );
       if (updatedCard) {
-        onContentChange(updatedCard);
+        setSelectedCardContent(updatedCard);
       }
     }
   };
 
   const handleSave = async () => {
+    fetchUpdatedCardContent();
+
     if (!selectedCardContent) {
       showNotification("error", "No card selected", "Cannot save an unselected card.");
       return;
