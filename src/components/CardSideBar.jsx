@@ -100,9 +100,11 @@ const CardSideBar = ({ cardsData, onCardSelect, onCreateCard, selectedCardConten
           <button className={`tab ${selectedTab === "Starred" ? "active" : ""}`} onClick={() => handleTabChange("Starred")}>Starred</button>
         </div>
       </div>
-      <input className="search-bar" type="text" placeholder="Search" />
-      <div style={{ padding: "10px", textAlign: "center" }}>
-        <Button type="primary" onClick={onCreateCard}>Create Card</Button>
+      {/* <input className="search-bar" type="text" placeholder="Search" /> */}
+      <div style={{ width: "100%", padding: "10px", textAlign: "center" }}>
+        <Button type="primary" onClick={onCreateCard} style={{ width: "100%" }}>
+          Create Card
+        </Button>
       </div>
       <div className="card-list">
         {displayedCards.length > 0 ? (
