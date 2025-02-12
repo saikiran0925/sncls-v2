@@ -11,7 +11,6 @@ const EncodeDecodeZone = () => {
   const [input, setInput] = useState("");
   const [output, setOutput] = useState("");
 
-
   const metadata = {
     base64: {
       title: "Base64 Encoder & Decoder | SNCLS",
@@ -31,26 +30,42 @@ const EncodeDecodeZone = () => {
     },
   };
 
-
   const handleAction = (actionType) => {
+    if (!input.trim()) {
+      setOutput("Error: Input is empty");
+      return;
+    }
+
     try {
       switch (activeFeature) {
         case "base64":
-          if (actionType === "encode") setOutput(btoa(input));
-          else setOutput(atob(input));
+          try {
+            if (actionType === "encode") setOutput(btoa(input));
+            else setOutput(atob(input));
+          } catch (err) {
+            setOutput("Error: Invalid Base64 input");
+          }
           break;
 
         case "url":
-          if (actionType === "encode") setOutput(encodeURIComponent(input));
-          else setOutput(decodeURIComponent(input));
+          try {
+            if (actionType === "encode") setOutput(encodeURIComponent(input));
+            else setOutput(decodeURIComponent(input));
+          } catch (err) {
+            setOutput("Error: Invalid URL input");
+          }
           break;
 
         case "jwt":
-          const parts = input.split(".");
-          if (parts.length !== 3) throw new Error("Invalid JWT format");
-          const header = JSON.parse(atob(parts[0]));
-          const payload = JSON.parse(atob(parts[1]));
-          setOutput(JSON.stringify({ header, payload }, null, 2));
+          try {
+            const parts = input.split(".");
+            if (parts.length !== 3) throw new Error("Invalid JWT format");
+            const header = JSON.parse(atob(parts[0]));
+            const payload = JSON.parse(atob(parts[1]));
+            setOutput(JSON.stringify({ header, payload }, null, 2));
+          } catch (err) {
+            setOutput("Error: Invalid JWT");
+          }
           break;
 
         case "escape":
@@ -87,19 +102,33 @@ const EncodeDecodeZone = () => {
     },
   };
 
-  return (
+  const currentMetadata = metadata[activeFeature] || {
+    title: "Encode Decode Zone | SNCLS",
+    description: "Encode and decode various formats effortlessly.",
+  };
 
+  const ActionButton = ({ actionType, label, onClick }) => (
+    <button
+      className="encode-decode-zone-button"
+      onClick={() => onClick(actionType)}
+      aria-label={`${label} ${activeFeature}`}
+    >
+      {label}
+    </button>
+  );
+
+  return (
     <>
       <Helmet>
-        <title>{metadata[activeFeature].title}</title>
-        <meta name="description" content={metadata[activeFeature].description} />
-        <meta property="og:title" content={metadata[activeFeature].title} />
-        <meta property="og:description" content={metadata[activeFeature].description} />
+        <title>{currentMetadata.title}</title>
+        <meta name="description" content={currentMetadata.description} />
+        <meta property="og:title" content={currentMetadata.title} />
+        <meta property="og:description" content={currentMetadata.description} />
         <meta property="og:url" content={`https://sncls.com/encode-decode-zone`} />
         <meta property="og:type" content="website" />
         <meta name="twitter:card" content="summary" />
-        <meta name="twitter:title" content={metadata[activeFeature].title} />
-        <meta name="twitter:description" content={metadata[activeFeature].description} />
+        <meta name="twitter:title" content={currentMetadata.title} />
+        <meta name="twitter:description" content={currentMetadata.description} />
       </Helmet>
 
       <div style={{ display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
@@ -109,7 +138,7 @@ const EncodeDecodeZone = () => {
             {/* Feature Tabs */}
             <div className="encode-decode-zone-tabs">
               {Object.keys(featureIcons).map((feature) => (
-                <Tooltip key={feature} title={featureIcons[feature].tooltip} placement="right" >
+                <Tooltip key={feature} title={featureIcons[feature].tooltip} placement="right">
                   <button
                     className={`encode-decode-zone-tab ${activeFeature === feature ? "active" : ""}`}
                     onClick={() => {
@@ -117,6 +146,7 @@ const EncodeDecodeZone = () => {
                       setInput("");
                       setOutput("");
                     }}
+                    aria-label={`Switch to ${feature}`}
                   >
                     {featureIcons[feature].icon}
                   </button>
@@ -132,48 +162,24 @@ const EncodeDecodeZone = () => {
                 placeholder={`Enter ${activeFeature} input...`}
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
+                aria-label={`${activeFeature} input`}
               ></textarea>
 
               {/* Buttons */}
               <div className="encode-decode-zone-buttons">
                 {(activeFeature === "base64" || activeFeature === "url") && (
                   <>
-                    <button
-                      className="encode-decode-zone-button"
-                      onClick={() => handleAction("encode")}
-                    >
-                      Encode
-                    </button>
-                    <button
-                      className="encode-decode-zone-button"
-                      onClick={() => handleAction("decode")}
-                    >
-                      Decode
-                    </button>
+                    <ActionButton actionType="encode" label="Encode" onClick={handleAction} />
+                    <ActionButton actionType="decode" label="Decode" onClick={handleAction} />
                   </>
                 )}
                 {activeFeature === "jwt" && (
-                  <button
-                    className="encode-decode-zone-button"
-                    onClick={() => handleAction("decode")}
-                  >
-                    Decode
-                  </button>
+                  <ActionButton actionType="decode" label="Decode" onClick={handleAction} />
                 )}
                 {activeFeature === "escape" && (
                   <>
-                    <button
-                      className="encode-decode-zone-button"
-                      onClick={() => handleAction("escape")}
-                    >
-                      Escape
-                    </button>
-                    <button
-                      className="encode-decode-zone-button"
-                      onClick={() => handleAction("unescape")}
-                    >
-                      Unescape
-                    </button>
+                    <ActionButton actionType="escape" label="Escape" onClick={handleAction} />
+                    <ActionButton actionType="unescape" label="Unescape" onClick={handleAction} />
                   </>
                 )}
               </div>
@@ -184,6 +190,7 @@ const EncodeDecodeZone = () => {
                 placeholder="Output will appear here..."
                 value={output}
                 readOnly
+                aria-label="Output"
               ></textarea>
             </div>
           </div>
