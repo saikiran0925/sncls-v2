@@ -290,3 +290,21 @@
   word-break: break-word;
   /* Handle long text gracefully */
 }
+
+/* Clear Button Styles */
+.tf-clear-button {
+  background-color: #ef4444; /* Red background */
+  color: #fff; /* White text */
+  padding: 0.9rem 1.5rem; /* Same padding as Submit Button */
+  border: none; /* No border */
+  border-radius: 12px; /* Rounded corners */
+  font-size: 1rem; /* Same font size */
+  font-weight: bold; /* Bold text */
+  cursor: pointer; /* Pointer cursor */
+  transition: background-color 0.3s, transform 0.2s; /* Smooth transitions */
+}
+
+.tf-clear-button:hover {
+  background-color: #dc2626; /* Darker red on hover */
+  transform: scale(1.05); /* Slight scale effect */
+}
