@@ -7,7 +7,7 @@ import { CheckOutlined, CloseOutlined, EditOutlined } from "@ant-design/icons";
 import { timeAgo, generateISO8601 } from "../utilities/utils";
 import AuthContext from "../services/contexts/AuthContext";
 
-const CardSideBar = ({ cardsData, onCardSelect, onCreateCard, selectedCardContent, onStarToggle }) => {
+const CardSideBar = ({ cardsData, onCardSelect, onCreateCard, selectedCardContent, onStarToggle, setSelectedCardContent }) => {
   const { toggleTab } = useContext(AuthContext);
   const [activeCardId, setActiveCardId] = useState(null);
   const [selectedTab, setSelectedTab] = useState("All");

@@ -61,19 +61,22 @@ const EditorComponent = ({ selectedCardContent, onContentChange, onDeleteCard, s
   const fetchUpdatedCardContent = () => {
     const cardDataString = localStorage.getItem("cardData");
     const cardData = cardDataString ? JSON.parse(cardDataString) : {};
+    let updatedCard;
 
     if (selectedCardContent?.cardId && cardData[selectedCardContent?.type]) {
-      const updatedCard = cardData[selectedCardContent.type].find(
+      updatedCard = cardData[selectedCardContent.type].find(
         (card) => card.cardId === selectedCardContent.cardId
       );
       if (updatedCard) {
         setSelectedCardContent(updatedCard);
       }
     }
+
+    return updatedCard;
   };
 
   const handleSave = async () => {
-    fetchUpdatedCardContent();
+    let updatedCard = fetchUpdatedCardContent();
 
     if (!selectedCardContent) {
       showNotification("error", "No card selected", "Cannot save an unselected card.");
@@ -84,13 +87,13 @@ const EditorComponent = ({ selectedCardContent, onContentChange, onDeleteCard, s
     const updatedAt = generateISO8601();
 
     const updatedContent = {
-      ...selectedCardContent,
+      ...updatedCard,
       metadata: {
-        ...selectedCardContent.metadata,
+        ...updatedCard.metadata,
         updatedAt,
       },
       content: {
-        ...selectedCardContent.content,
+        ...updatedCard.content,
         data: content,
       },
     };
@@ -106,18 +109,18 @@ const EditorComponent = ({ selectedCardContent, onContentChange, onDeleteCard, s
         const cardDataString = localStorage.getItem("cardData");
         let cardData = cardDataString ? JSON.parse(cardDataString) : {};
 
-        if (cardData[selectedCardContent?.type]) {
-          const cardIndex = cardData[selectedCardContent?.type].findIndex(
-            (card) => card.cardId === selectedCardContent?.cardId
+        if (cardData[updatedCard?.type]) {
+          const cardIndex = cardData[updatedCard?.type].findIndex(
+            (card) => card.cardId === updatedCard?.cardId
           );
 
           if (cardIndex !== -1) {
-            cardData[selectedCardContent?.type][cardIndex] = updatedContent; // Update existing card
+            cardData[updatedCard?.type][cardIndex] = updatedContent; // Update existing card
           } else {
-            cardData[selectedCardContent?.type].push(updatedContent); // Add new card
+            cardData[updatedCard?.type].push(updatedContent); // Add new card
           }
         } else {
-          cardData[selectedCardContent?.type] = [updatedContent]; // Create a new type category
+          cardData[updatedCard?.type] = [updatedContent]; // Create a new type category
         }
 
         localStorage.setItem("cardData", JSON.stringify(cardData));
