@@ -9,15 +9,23 @@ import SignUpPage from "./pages/SignUpPage";
 import { AuthProvider, useAuth } from "./services/contexts/AuthContext";
 import PrivateRoute from "./services/PrivateRoute";
 import TimeForgeApp from "./pages/TimeForgeApp";
+import SharedEditor from "./pages/SharedEditor";
 import EncodeDecodeZone from "./pages/EncodeDecodeZone";
 import { HelmetProvider } from "react-helmet-async";
 
 const App = () => {
   const location = useLocation();
 
-  // Paths where the SideNav should appear
-  const pathsWithUIContainer = ["/jsonify", "/blank-space", "/diff-editor", "/time-forge", "/encode-decode-zone"];
-  const showUIContainer = pathsWithUIContainer.includes(location.pathname);
+  const pathsWithUIContainer = [
+    "/jsonify",
+    "/blank-space",
+    "/diff-editor",
+    "/time-forge",
+    "/encode-decode-zone"
+  ];
+
+  const showUIContainer = pathsWithUIContainer.some(path => location.pathname.startsWith(path))
+    || location.pathname.startsWith("/shared");
 
   return (
     <div className={showUIContainer ? "ui-container" : ""}>
@@ -27,6 +35,7 @@ const App = () => {
         <Route path="/" element={<LandingPage />} />
         <Route path="/login" element={<RedirectIfLoggedIn component={<LoginPage />} />} />
         <Route path="/signup" element={<RedirectIfLoggedIn component={<SignUpPage />} />} />
+        <Route path="/shared/:shareId" element={<SharedEditor />} />
 
         <Route element={<PrivateRoute />}>
           <Route path="/jsonify" element={<EditorRouter />} />
