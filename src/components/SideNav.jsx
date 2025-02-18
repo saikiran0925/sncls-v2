@@ -6,6 +6,7 @@ import { SiTheboringcompany } from "react-icons/si";
 import { MdOutlineCompare, MdLockReset } from "react-icons/md";
 import { IoIosLogOut } from "react-icons/io";
 import logo from '/public/logo.svg';
+import { IoMdShare } from "react-icons/io";
 import { Tooltip } from "antd";
 import { NavLink, useNavigate } from "react-router-dom";
 import { FaRegClock } from "react-icons/fa";
@@ -73,6 +74,15 @@ const SideNav = () => {
               className={({ isActive }) => (isActive ? "nav-item active" : "nav-item")}
             >
               <MdLockReset className="icon" />
+            </NavLink>
+          </Tooltip>
+
+          <Tooltip placement="left" title="Shared List">
+            <NavLink
+              to="/shared-list"
+              className={({ isActive }) => (isActive ? "nav-item active" : "nav-item")}
+            >
+              <IoMdShare className="icon" />
             </NavLink>
           </Tooltip>
 

@@ -12,6 +12,7 @@ import TimeForgeApp from "./pages/TimeForgeApp";
 import SharedEditor from "./pages/SharedEditor";
 import EncodeDecodeZone from "./pages/EncodeDecodeZone";
 import { HelmetProvider } from "react-helmet-async";
+import SharedLinksList from "./pages/SharedLinksList";
 
 const App = () => {
   const location = useLocation();
@@ -21,7 +22,8 @@ const App = () => {
     "/blank-space",
     "/diff-editor",
     "/time-forge",
-    "/encode-decode-zone"
+    "/encode-decode-zone",
+    "/shared-list",
   ];
 
   const showUIContainer = pathsWithUIContainer.some(path => location.pathname.startsWith(path))
@@ -35,6 +37,7 @@ const App = () => {
         <Route path="/" element={<LandingPage />} />
         <Route path="/login" element={<RedirectIfLoggedIn component={<LoginPage />} />} />
         <Route path="/signup" element={<RedirectIfLoggedIn component={<SignUpPage />} />} />
+        <Route path="/shared-list/" element={<SharedLinksList />} />
         <Route path="/shared/:shareId" element={<SharedEditor />} />
 
         <Route element={<PrivateRoute />}>

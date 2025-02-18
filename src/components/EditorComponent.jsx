@@ -86,10 +86,18 @@ const EditorComponent = ({ selectedCardContent, onContentChange, onDeleteCard, s
     try {
       const response = await axiosInstance.post("/share", {
         data: selectedCardContent.content.data,
+        path,
       });
 
       if (response.data?.shareId) {
-        const shareUrl = `https://sncls.com/shared/${response.data.shareId}`;
+        const shareId = response.data.shareId;
+        const shareUrl = `https://sncls.com/shared/${shareId}`;
+
+        const storedLinks = JSON.parse(localStorage.getItem("sharedLinks")) || [];
+        if (!storedLinks.includes(shareId)) {
+          storedLinks.push(shareId);
+          localStorage.setItem("sharedLinks", JSON.stringify(storedLinks));
+        }
 
         await navigator.clipboard.writeText(shareUrl);
         showNotification("success", "Share Link Copied", "You can now share this link.");
@@ -101,7 +109,6 @@ const EditorComponent = ({ selectedCardContent, onContentChange, onDeleteCard, s
       showNotification("error", "Share Failed", "Could not share content.");
     }
   };
-
   const handleSave = async () => {
     let updatedCard = fetchUpdatedCardContent();
 
