@@ -40,7 +40,7 @@ const SharedEditor = () => {
 
   return (
     <div className="shared-editor-container">
-      <TopNavBar title="Shared Editor" />
+      <TopNavBar title="Shared Viewer" />
       <div className="editor-wrapper">
         <Editor
           height={height}
