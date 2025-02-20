@@ -2,14 +2,13 @@ import React from "react";
 import "../css/SideNav.css";
 import { BsFiletypeJson } from "react-icons/bs";
 import { GrNotes } from "react-icons/gr";
-import { SiTheboringcompany } from "react-icons/si";
 import { MdOutlineCompare, MdLockReset } from "react-icons/md";
-import { IoIosLogOut } from "react-icons/io";
-import logo from '/public/logo.svg';
+
 import { Tooltip } from "antd";
 import { NavLink, useNavigate } from "react-router-dom";
 import { FaRegClock } from "react-icons/fa";
 import { useAuth } from '../services/contexts/AuthContext';
+import Logo from "../../public/logo.svg"
 
 const SideNav = () => {
   const navigate = useNavigate();
@@ -23,8 +22,8 @@ const SideNav = () => {
     <div className="side-nav-container">
       <div className="nav-box">
         <div className="company-logo">
-          <NavLink to="/">
-            <SiTheboringcompany className="icon" />
+          <NavLink to="/" style={{height: "36px"}}>
+            <img src={Logo} alt="Page Logo" width={36} height={36} />
           </NavLink>
         </div>
 

@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState, useEffect, useRef } from "react";
 import AppEditorComponent from "./AppEditorComponent";
 import AppDiffEditorComponent from "./AppDiffEditorComponent";
 import { useLocation } from "react-router-dom";
@@ -14,6 +14,7 @@ import AuthContext from "../services/contexts/AuthContext";
 
 const EditorComponent = ({ selectedCardContent, onContentChange, onDeleteCard, setSelectedCardContent }) => {
   const [currentEditorValue, setCurrentEditorValue] = useState(null);
+  const currentEditorRef = useRef(null);
   const { updateCardContent, isLocalMode } = useContext(AuthContext);
 
   const routeToConfig = {
@@ -67,7 +68,7 @@ const EditorComponent = ({ selectedCardContent, onContentChange, onDeleteCard, s
       updatedCard = cardData[selectedCardContent.type].find(
         (card) => card.cardId === selectedCardContent.cardId
       );
-      if (updatedCard) {
+      if (updatedCard && updatedCard?.content && updatedCard?.content?.data) {
         setSelectedCardContent(updatedCard);
       }
     }
@@ -82,8 +83,8 @@ const EditorComponent = ({ selectedCardContent, onContentChange, onDeleteCard, s
       showNotification("error", "No card selected", "Cannot save an unselected card.");
       return;
     }
-
-    const content = currentEditorValue || selectedCardContent?.content?.data;
+    
+    const content = path === "diff-editor" ? currentEditorRef.current : currentEditorValue || selectedCardContent?.content?.data;
     const updatedAt = generateISO8601();
 
     const updatedContent = {
@@ -248,11 +249,15 @@ const EditorComponent = ({ selectedCardContent, onContentChange, onDeleteCard, s
     }
 
     if (path === "diff-editor") {
-      const { left = "", right = "" } = selectedCardContent?.content?.data || {};
+      const { originalEditorContent = "", modifiedEditorContent = "" } = selectedCardContent?.content?.data || {};
       return (
         <AppDiffEditorComponent
-          editorState={{ originalEditorContent: left, modifiedEditorContent: right }}
-          onEditorStateChange={(state) => console.log("Diff Editor State Updated: ", state)}
+          editorState={{ originalEditorContent, modifiedEditorContent }}
+          onEditorStateChange={(state) => {
+            console.log("Diff Editor State Updated: ", state);
+            // setCurrentEditorValue(state.editorContent);
+            currentEditorRef.current = state;
+          }}
         />
       );
     }
