@@ -149,7 +149,7 @@ const CardSideBar = ({ cardsData, onCardSelect, onCreateCard, selectedCardConten
                   {card.isStarred ? <FaStar color="gold" /> : <FaRegStar />}
                 </span>
               </div>
-              {path !== "diff-editor" && <p className="card-content">{card.content.data}</p>}
+              {path !== "diff-editor" && typeof card?.content?.data === 'string' && <p className="card-content">{card.content.data}</p>}
               <div className="card-footer">
                 <span className="card-timestamp">{card?.metadata?.updatedAt ? timeAgo(card.metadata.updatedAt) : ""}</span>
                 <span className="card-id">ID: {card.cardId}</span>
