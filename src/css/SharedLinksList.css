@@ -1,0 +1,172 @@
+/* ✅ Main App Container */
+.sll-app-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #f9fafb;
+  flex-grow: 1;
+  padding: 20px;
+}
+
+/* ✅ Add Link Button */
+.sll-add-link {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 900px;
+  margin-top: 16px;
+  margin-bottom: 20px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  padding: 12px 18px;
+  background: linear-gradient(to right, #4A90E2, #357ABD);
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease-in-out, transform 0.2s ease;
+  border: none;
+  box-shadow: 0 4px 12px rgba(74, 144, 226, 0.3);
+}
+
+.sll-add-link:hover {
+  background: linear-gradient(to right, #357ABD, #2563eb);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(53, 122, 189, 0.4);
+}
+
+/* ✅ Modal Enhancements */
+.ant-modal {
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.ant-modal-title {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #333;
+}
+
+/* ✅ Input Styling */
+.ant-input {
+  font-size: 1rem;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #d1d5db;
+  transition: border 0.3s ease-in-out;
+}
+
+.ant-input:focus {
+  border-color: #4A90E2;
+  box-shadow: 0 0 6px rgba(74, 144, 226, 0.3);
+}
+
+/* ✅ Card Container */
+.sll-card-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  width: 100%;
+  max-width: 900px;
+  margin-top: 24px;
+}
+
+/* ✅ Card Box */
+.sll-card-box {
+  background: white;
+  padding: 1.8rem;
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 1px solid #e5e7eb;
+}
+
+.sll-card-box:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+}
+
+/* ✅ Card Title */
+.sll-card-title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #2563eb;
+  margin-bottom: 12px;
+}
+
+/* ✅ Card Actions */
+.sll-card-actions {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+}
+
+/* ✅ Open Button */
+.sll-button {
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-transform: uppercase;
+  background-color: #5BC0DE;
+  color: white;
+}
+
+.sll-button:hover {
+  background-color: #31A2C7;
+  transform: translateY(-3px);
+  box-shadow: 0 6px 16px rgba(91, 192, 222, 0.4);
+}
+
+/* ✅ Remove Button */
+.sll-clear-button {
+  background-color: #D9534F;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 20px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.sll-clear-button:hover {
+  background-color: #C9302C;
+  transform: translateY(-3px);
+  box-shadow: 0 6px 16px rgba(217, 83, 79, 0.4);
+}
+
+/* ✅ No History Message */
+.sll-no-history {
+  font-size: 1.2rem;
+  color: #6b7280;
+  text-align: center;
+  margin-top: 24px;
+  font-style: italic;
+  opacity: 0.8;
+}
+
+/* ✅ Responsive Design */
+@media (max-width: 1024px) {
+  .sll-card-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .sll-card-container {
+    grid-template-columns: 1fr;
+  }
+}

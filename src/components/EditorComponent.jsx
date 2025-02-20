@@ -3,6 +3,7 @@ import AppEditorComponent from "./AppEditorComponent";
 import AppDiffEditorComponent from "./AppDiffEditorComponent";
 import { useLocation } from "react-router-dom";
 import { MdFormatAlignLeft, MdCode, MdFormatAlignJustify, MdDeleteOutline } from "react-icons/md";
+import { IoMdShare } from "react-icons/io";
 import { TbBandage, TbBandageFilled } from "react-icons/tb";
 import { LuClipboardCopy } from "react-icons/lu";
 import { AiOutlineSave } from "react-icons/ai";
@@ -28,6 +29,7 @@ const EditorComponent = ({ selectedCardContent, onContentChange, onDeleteCard, s
         { name: "Unescape", icon: <TbBandage /> },
         { name: "Copy", icon: <LuClipboardCopy /> },
         { name: "Save", icon: <AiOutlineSave /> },
+        { name: "Share", icon: <IoMdShare /> },
         { name: "Close Tab", icon: <MdDeleteOutline /> },
       ],
     },
@@ -76,6 +78,38 @@ const EditorComponent = ({ selectedCardContent, onContentChange, onDeleteCard, s
     return updatedCard;
   };
 
+  const handleShare = async () => {
+    if (!selectedCardContent || !selectedCardContent.content?.data) {
+      showNotification("error", "No content to share", "Please select content before sharing.");
+      return;
+    }
+
+    try {
+      const response = await axiosInstance.post("/share", {
+        data: selectedCardContent.content.data,
+        path,
+      });
+
+      if (response.data?.shareId) {
+        const shareId = response.data.shareId;
+        const shareUrl = `https://sncls.com/shared/${shareId}`;
+
+        const storedLinks = JSON.parse(localStorage.getItem("sharedLinks")) || [];
+        if (!storedLinks.includes(shareId)) {
+          storedLinks.push(shareId);
+          localStorage.setItem("sharedLinks", JSON.stringify(storedLinks));
+        }
+
+        await navigator.clipboard.writeText(shareUrl);
+        showNotification("success", "Share Link Copied", "You can now share this link.");
+      } else {
+        showNotification("error", "Share Failed", "An error occurred while sharing.");
+      }
+    } catch (error) {
+      console.error("Share Error:", error);
+      showNotification("error", "Share Failed", "Could not share content.");
+    }
+  };
   const handleSave = async () => {
     let updatedCard = fetchUpdatedCardContent();
 
@@ -303,6 +337,9 @@ const EditorComponent = ({ selectedCardContent, onContentChange, onDeleteCard, s
                     case ("Escape"):
                     case ("Unescape"):
                       handleEscapeUnescape(button.name);
+                      break;
+                    case "Share":
+                      handleShare();
                       break;
                     default:
                       break;
