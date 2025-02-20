@@ -2,17 +2,22 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
 import uuid
+import pymysql
+from datetime import datetime, timedelta
+from flask_apscheduler import APScheduler
 
 app = Flask(__name__)
 CORS(app)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///shared_data.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:inrev%40123@localhost/shared_data'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
 db = SQLAlchemy(app)
 
 class SharedJSON(db.Model):
     id = db.Column(db.String(36), primary_key=True, unique=True)
     json_data = db.Column(db.Text, nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
 with app.app_context():
     db.create_all()
@@ -37,6 +42,16 @@ def get_shared_json(share_id):
         return jsonify({"data": entry.json_data})
     return jsonify({"error": "Not found"}), 404
 
-if __name__ == '__main__':
-    app.run(debug=True)
+def delete_old_entries():
+    with app.app_context():
+        time_threshold = datetime.utcnow() - timedelta(hours=24)
+        deleted_rows = SharedJSON.query.filter(SharedJSON.created_at < time_threshold).delete()
+        db.session.commit()
+        print(f"Deleted {deleted_rows} old entries.")  # Log cleanup
 
+scheduler = APScheduler()
+scheduler.add_job(id="delete_old_entries", func=delete_old_entries, trigger="interval", hours=1)
+scheduler.start()
+
+if __name__ == '__main__':
+    app.run(debug=True, host='0.0.0.0', port=5000)
