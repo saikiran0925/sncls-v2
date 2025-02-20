@@ -51,7 +51,11 @@ function AppDiffEditorComponent({ editorState, onEditorStateChange }) {
       options={{
         readOnly: false,
         originalEditable: true,
-        wordWrap: "on"
+        wordWrap: "on",
+        diffWordWrap: "on",
+        diffAlgorithm: "advanced",
+        renderMarginRevertIcon: true,
+        diffCodeLens: true,
       }}
     />
   );
