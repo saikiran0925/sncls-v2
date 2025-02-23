@@ -113,6 +113,23 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  // Delete card
+  const deleteCardContent = (type, id) => {
+
+    let cardContent = JSON.parse(localStorage.getItem("cardData")) || {};
+
+    if (cardContent[type]) {
+      cardContent[type] = cardContent[type].filter(card => card.cardId !== id);
+      localStorage.setItem("cardData", JSON.stringify(cardContent));
+      setCardData(JSON.stringify(cardContent));
+    } else {
+      console.log(`Type ${type} not found in card content`);
+      return;
+    }
+  };
+
+
+
   // Create a new card
   const createNewCard = (type) => {
     let cardContent = JSON.parse(localStorage.getItem("cardData")) || {};
@@ -172,6 +189,7 @@ export const AuthProvider = ({ children }) => {
         logout,
         cardData,
         updateCardContent,
+        deleteCardContent,
         createNewCard,
         isLocalMode,
         selectedTab,
