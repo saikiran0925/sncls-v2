@@ -7,7 +7,7 @@ import "../App.css";
 import { Helmet } from "react-helmet-async";
 
 const EditorRouter = () => {
-  const { cardData, createNewCard, updateCardContent, isLocalMode, selectedTab } = useContext(AuthContext);
+  const { cardData, createNewCard, updateCardContent, deleteCardContent, isLocalMode, selectedTab } = useContext(AuthContext);
   const [selectedCardContent, setSelectedCardContent] = useState(null);
   const [cardsForSelectedPath, setCardsForSelectedPath] = useState([]);
 
@@ -90,6 +90,8 @@ const EditorRouter = () => {
       (card) => card.cardId !== selectedCardContent.cardId
     );
 
+    deleteCardContent(selectedCardContent?.type, selectedCardContent.cardId);
+
     setCardsForSelectedPath(updatedCards);
 
     // Select the previous card (if available), otherwise select the next card
@@ -117,9 +119,9 @@ const EditorRouter = () => {
     setSelectedCardContent(newSelectedCard);
 
     // Update central card data in context
-    const jsonObject = JSON.parse(cardData || "{}");
-    jsonObject[path] = updatedCards;
-    localStorage.setItem("cardData", JSON.stringify(jsonObject));
+    // const jsonObject = JSON.parse(cardData || "{}");
+    // jsonObject[path] = updatedCards;
+    // localStorage.setItem("cardData", JSON.stringify(jsonObject));
   };
 
   const handleStarToggle = (updatedCard) => {
