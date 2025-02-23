@@ -1,4 +1,4 @@
-import { message } from "antd";
+import { message, notification } from "antd";
 
 export const showNotification = (type, messageContent) => {
   switch (type) {
@@ -19,6 +19,14 @@ export const showNotification = (type, messageContent) => {
   }
 };
 
+export const showNotificationWithDescription = (type, messageContent, description = "", position = "top") => {
+  notification[type]({
+    message: messageContent,
+    description: description,
+    duration: 3,
+    placement: position,
+  });
+};
 
 export const timeAgo = (dateString) => {
   const now = new Date();

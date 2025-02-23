@@ -9,7 +9,7 @@ import { LuClipboardCopy } from "react-icons/lu";
 import { AiOutlineSave } from "react-icons/ai";
 import "../css/EditorComponent.css";
 import { Tooltip, Empty } from "antd";
-import { showNotification, generateISO8601 } from "../utilities/utils";
+import { showNotification, showNotificationWithDescription, generateISO8601 } from "../utilities/utils";
 import axiosInstance from "../services/axiosInstance";
 import AuthContext from "../services/contexts/AuthContext";
 
@@ -39,6 +39,7 @@ const EditorComponent = ({ selectedCardContent, onContentChange, onDeleteCard, s
       buttons: [
         { name: "Copy", icon: <LuClipboardCopy /> },
         { name: "Save", icon: <AiOutlineSave /> },
+        { name: "Share", icon: <IoMdShare /> },
         { name: "Close Tab", icon: <MdDeleteOutline /> },
       ],
     },
@@ -101,9 +102,9 @@ const EditorComponent = ({ selectedCardContent, onContentChange, onDeleteCard, s
         }
 
         await navigator.clipboard.writeText(shareUrl);
-        showNotification("success", "Share Link Copied", "You can now share this link.");
+        showNotificationWithDescription("success", "Share Link Copied", "This link will expire in 24 hours from now.");
       } else {
-        showNotification("error", "Share Failed", "An error occurred while sharing.");
+        showNotificationWithDescription("error", "Share Failed", "An error occurred while sharing.");
       }
     } catch (error) {
       console.error("Share Error:", error);
@@ -117,7 +118,7 @@ const EditorComponent = ({ selectedCardContent, onContentChange, onDeleteCard, s
       showNotification("error", "No card selected", "Cannot save an unselected card.");
       return;
     }
-    
+
     const content = path === "diff-editor" ? currentEditorRef.current : currentEditorValue || selectedCardContent?.content?.data;
     const updatedAt = generateISO8601();
 

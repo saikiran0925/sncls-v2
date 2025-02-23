@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import Editor from "@monaco-editor/react";
 import axiosInstance from "../services/axiosInstance";
-import { Spin, Alert } from "antd";
+import { Spin, Empty } from "antd";
 import TopNavBar from '../components/TopNavBar';
 import '../css/SharedEditor.css';
 
@@ -25,7 +25,17 @@ const SharedEditor = () => {
           setError("Content not found or has expired.");
         }
       } catch (err) {
-        setError("Failed to fetch shared content.");
+        if (err.response) {
+          if (err.response.status === 404) {
+            setError("Content not found or has expired.");
+          } else {
+            setError(`Error: ${err.response.status} - ${err.response.statusText}`);
+          }
+        } else if (err.request) {
+          setError("No response from server. Please try again.");
+        } else {
+          setError("Failed to fetch shared content.");
+        }
         console.error(err);
       } finally {
         setLoading(false);
@@ -36,7 +46,14 @@ const SharedEditor = () => {
   }, [shareId]);
 
   if (loading) return <Spin tip="Loading shared content..." />;
-  if (error) return <Alert message="Error" description={error} type="error" showIcon />;
+  if (error) return (
+    <div className="shared-editor-container">
+      <TopNavBar title="Shared Viewer" />
+      <div className="error-container">
+        <Empty description={error} />
+      </div>
+    </div>
+  );
 
   return (
     <div className="shared-editor-container">
@@ -55,4 +72,3 @@ const SharedEditor = () => {
 };
 
 export default SharedEditor;
-
