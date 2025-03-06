@@ -1,29 +1,43 @@
-/* HelpPage.css */
 .hp-container {
-  max-width: 1000px;
-  margin: 0 auto;
-  padding: 40px 20px;
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 65px);
+  width: 100%;
+  padding: 20px;
   font-family: "Inter", sans-serif;
   background-color: #f9fafb;
+}
+
+.hp-breadcrumb {
+  margin-bottom: 15px;
+  font-size: 14px;
+}
+
+.hp-back-button {
+  border: none;
+  background: #1890ff;
+  color: white;
+  padding: 8px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-bottom: 15px;
+}
+
+.hp-back-button:hover {
+  background: #40a9ff;
+}
+
+/* Scrollable Main Content */
+.hp-main-content {
+  flex: 1;
+  overflow-y: auto;
+  /* Enable scrolling */
+  padding-right: 10px;
+  /* Prevents scrollbar overlap */
+  background: white;
   border-radius: 12px;
+  padding: 20px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.hp-header {
-  text-align: center;
-  margin-bottom: 40px;
-}
-
-.hp-title {
-  font-size: 2.75rem;
-  font-weight: 700;
-  color: #1a1a1a;
-  margin-bottom: 10px;
-}
-
-.hp-subtitle {
-  font-size: 1.125rem;
-  color: #4a5568;
 }
 
 .hp-section {
@@ -70,70 +84,20 @@
   color: #4f46e5;
 }
 
-.hp-feature-description,
-.hp-faq-answer {
-  font-size: 1rem;
-  color: #4a5568;
-  line-height: 1.6;
-}
-
-.hp-code-block {
-  background: #f4f4f4;
-  padding: 12px;
-  border-radius: 6px;
-  font-family: "Courier New", Courier, monospace;
-  font-size: 0.875rem;
-  color: #1a1a1a;
-  overflow-x: auto;
-  margin-top: 10px;
-}
-
-.hp-example {
-  font-size: 0.875rem;
-  color: #4a5568;
-  margin-top: 10px;
-}
-
-.hp-contact-text {
-  font-size: 1rem;
-  color: #4a5568;
-  text-align: center;
-}
-
-.hp-contact-link {
-  color: #4f46e5;
-  text-decoration: none;
-  font-weight: 500;
-}
-
-.hp-contact-link:hover {
-  text-decoration: underline;
-}
-
-
-/* Input/Output Block Styles */
 .hp-io-block {
   background: #ffffff;
   padding: 16px;
   border-radius: 8px;
   margin-top: 12px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.hp-io-block:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .hp-input {
   border-left: 4px solid #4f46e5;
-  /* Blue for input */
 }
 
 .hp-output {
   border-left: 4px solid #16a34a;
-  /* Green for output */
 }
 
 .hp-io-title {
@@ -153,24 +117,4 @@
   overflow-x: auto;
   white-space: pre-wrap;
   word-break: break-word;
-}
-
-
-.hp-breadcrumb {
-  margin-bottom: 15px;
-  font-size: 14px;
-}
-
-.hp-back-button {
-  border: none;
-  background: #1890ff;
-  color: white;
-  padding: 8px 15px;
-  border-radius: 5px;
-  cursor: pointer;
-  margin-bottom: 15px;
-}
-
-.hp-back-button:hover {
-  background: #40a9ff;
 }

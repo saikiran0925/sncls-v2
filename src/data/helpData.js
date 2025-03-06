@@ -1,5 +1,5 @@
 export const jsonifyHelpData = {
-  title: "JSONify Help",
+  title: "JSONify",
   subtitle: "Learn how to use JSONify to format, escape, and manipulate JSON data.",
   sections: [
     {
@@ -42,7 +42,7 @@ export const jsonifyHelpData = {
 };
 
 export const blankSpaceHelpData = {
-  title: "Blank Space Help",
+  title: "Blank Space",
   subtitle: "Learn how to use Blank Space for creative formatting.",
   sections: [
     {
@@ -62,7 +62,7 @@ export const blankSpaceHelpData = {
 };
 
 export const diffEditorHelpData = {
-  title: "Diff Editor Help",
+  title: "Diff Editor",
   subtitle: "Compare and edit differences between two text files.",
   sections: [
     {

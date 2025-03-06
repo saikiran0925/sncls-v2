@@ -12,7 +12,7 @@ const HelpPageWrapper = () => {
 
   return (
     <div className="hpw-container">
-      <TopNavBar title="Help Page" />
+      <TopNavBar title="Help Center" />
       <HelpPage data={data} />
     </div>
   );
