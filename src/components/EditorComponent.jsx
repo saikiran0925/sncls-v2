@@ -27,7 +27,7 @@ const EditorComponent = ({ selectedCardContent, onContentChange, onDeleteCard, s
         { name: "Stringify", icon: <MdFormatAlignJustify /> },
         { name: "Escape", icon: <TbBandageFilled /> },
         { name: "Unescape", icon: <TbBandage /> },
-        { name: "Map to JSON", icon: <MdCode /> },
+        // { name: "Map to JSON", icon: <MdCode /> },
         { name: "Copy", icon: <LuClipboardCopy /> },
         { name: "Save", icon: <AiOutlineSave /> },
         { name: "Share", icon: <IoMdShare /> },
