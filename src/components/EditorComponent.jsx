@@ -27,6 +27,7 @@ const EditorComponent = ({ selectedCardContent, onContentChange, onDeleteCard, s
         { name: "Stringify", icon: <MdFormatAlignJustify /> },
         { name: "Escape", icon: <TbBandageFilled /> },
         { name: "Unescape", icon: <TbBandage /> },
+        { name: "Map to JSON", icon: <MdCode /> },
         { name: "Copy", icon: <LuClipboardCopy /> },
         { name: "Save", icon: <AiOutlineSave /> },
         { name: "Share", icon: <IoMdShare /> },
@@ -263,6 +264,28 @@ const EditorComponent = ({ selectedCardContent, onContentChange, onDeleteCard, s
     }
   };
 
+  const convertMapToJson = () => {
+    try {
+      const editorValue = currentEditorValue || selectedCardContent?.content?.data;
+
+      let jsonString = editorValue.replace(/([\w\.:-]+)=([^,{}]+)(,|})/g, '"$1":"$2"$3');
+
+      jsonString = jsonString.replace(/'/g, '"');
+
+      const jsonObject = JSON.parse(jsonString);
+
+      const prettyJson = JSON.stringify(jsonObject, null, 2);
+
+      onContentChange({
+        ...selectedCardContent,
+        content: { ...selectedCardContent.content, data: prettyJson },
+      });
+    } catch (error) {
+      console.error("Error converting Map to JSON:", error);
+      showNotification("error", "Invalid Java Map format");
+    }
+  };
+
   useEffect(() => {
     fetchUpdatedCardContent();
   }, [selectedCardContent?.id, selectedCardContent?.type]);
@@ -341,6 +364,9 @@ const EditorComponent = ({ selectedCardContent, onContentChange, onDeleteCard, s
                       break;
                     case "Share":
                       handleShare();
+                      break;
+                    case "Map to JSON":
+                      convertMapToJson();
                       break;
                     default:
                       break;
