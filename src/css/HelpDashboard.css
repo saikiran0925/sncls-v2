@@ -1,0 +1,28 @@
+.help-dashboard {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.help-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  max-width: 500px;
+  margin: 20px auto;
+}
+
+.help-item {
+  display: block;
+  padding: 15px;
+  background: #f4f4f4;
+  border-radius: 8px;
+  text-decoration: none;
+  color: black;
+  transition: 0.3s;
+}
+
+.help-item:hover {
+  background: #ddd;
+}

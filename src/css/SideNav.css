@@ -125,3 +125,20 @@
 .utility-logo:hover .icon {
   color: white;
 }
+
+.help-menu {
+  margin-top: auto;
+  /* Pushes the help icon to the bottom */
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.help-menu .nav-item {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

@@ -1,4 +1,6 @@
 import React from "react";
+import { Breadcrumb, Button } from "antd";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   MdFormatAlignLeft,
   MdFormatAlignJustify,
@@ -25,9 +27,30 @@ const iconComponents = {
 
 const HelpPage = ({ data }) => {
   const { title, subtitle, sections } = data;
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const pathMap = {
+    "/help/jsonify": "JSONify Help",
+    "/help/encode-decode": "Encode/Decode Help",
+    "/help/diff-editor": "Diff Editor Help",
+  };
 
   return (
     <div className="hp-container">
+      {/* Breadcrumb Navigation */}
+      <Breadcrumb className="hp-breadcrumb">
+        <Breadcrumb.Item>
+          <Link to="/help">Help Center</Link>
+        </Breadcrumb.Item>
+        <Breadcrumb.Item>{pathMap[location.pathname] || "Help Page"}</Breadcrumb.Item>
+      </Breadcrumb>
+
+      {/* Back Button */}
+      <Button onClick={() => navigate(-1)} className="hp-back-button">
+        ← Back
+      </Button>
+
       <header className="hp-header">
         <h1 className="hp-title">{title}</h1>
         <p className="hp-subtitle">{subtitle}</p>
@@ -37,6 +60,7 @@ const HelpPage = ({ data }) => {
         <section key={index} className="hp-section">
           <h2 className="hp-section-title">{section.title}</h2>
 
+          {/* Features Section */}
           {section.type === "features" && (
             <div className="hp-features">
               {section.items.map((item, idx) => {
@@ -52,12 +76,29 @@ const HelpPage = ({ data }) => {
                         __html: item.description.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>"),
                       }}
                     />
+
+                    {/* Input Block */}
+                    {item.input && (
+                      <div className="hp-io-block hp-input">
+                        <h4 className="hp-io-title">Input</h4>
+                        <pre className="hp-io-content">{item.input}</pre>
+                      </div>
+                    )}
+
+                    {/* Output Block */}
+                    {item.output && (
+                      <div className="hp-io-block hp-output">
+                        <h4 className="hp-io-title">Output</h4>
+                        <pre className="hp-io-content">{item.output}</pre>
+                      </div>
+                    )}
                   </div>
                 );
               })}
             </div>
           )}
 
+          {/* FAQ Section */}
           {section.type === "faq" && (
             <div className="hp-faqs">
               {section.items.map((item, idx) => (
@@ -74,6 +115,7 @@ const HelpPage = ({ data }) => {
             </div>
           )}
 
+          {/* Contact Section */}
           {section.type === "contact" && (
             <p
               className="hp-contact-text"

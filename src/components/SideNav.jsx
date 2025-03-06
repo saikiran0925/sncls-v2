@@ -2,7 +2,7 @@ import React from "react";
 import "../css/SideNav.css";
 import { BsFiletypeJson } from "react-icons/bs";
 import { GrNotes } from "react-icons/gr";
-import { MdOutlineCompare, MdLockReset } from "react-icons/md";
+import { MdOutlineCompare, MdLockReset, MdHelpOutline } from "react-icons/md";
 import { IoIosLogOut } from "react-icons/io";
 import logo from '/public/logo.svg';
 import { IoMdShare } from "react-icons/io";
@@ -88,8 +88,15 @@ const SideNav = () => {
 
         </div>
 
-        {/* <div className="divider"></div> */}
+        <div className="divider"></div>
 
+        <div className="help-menu">
+          <Tooltip placement="left" title="Help">
+            <NavLink to="/help" className={({ isActive }) => (isActive ? "nav-item active" : "nav-item")}>
+              <MdHelpOutline className="icon" />
+            </NavLink>
+          </Tooltip>
+        </div>
         {/* <div className="utility-menu"> */}
         {/*   <Tooltip placement="left" title="Log Out"> */}
         {/*     <NavLink className="utility-logo" onClick={handleLogout}> */}

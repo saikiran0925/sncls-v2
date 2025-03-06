@@ -109,3 +109,68 @@
 .hp-contact-link:hover {
   text-decoration: underline;
 }
+
+
+/* Input/Output Block Styles */
+.hp-io-block {
+  background: #ffffff;
+  padding: 16px;
+  border-radius: 8px;
+  margin-top: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.hp-io-block:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.hp-input {
+  border-left: 4px solid #4f46e5;
+  /* Blue for input */
+}
+
+.hp-output {
+  border-left: 4px solid #16a34a;
+  /* Green for output */
+}
+
+.hp-io-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin-bottom: 6px;
+}
+
+.hp-io-content {
+  background: #f9fafb;
+  padding: 12px;
+  border-radius: 6px;
+  font-family: "Courier New", Courier, monospace;
+  font-size: 0.875rem;
+  color: #1a1a1a;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+
+.hp-breadcrumb {
+  margin-bottom: 15px;
+  font-size: 14px;
+}
+
+.hp-back-button {
+  border: none;
+  background: #1890ff;
+  color: white;
+  padding: 8px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-bottom: 15px;
+}
+
+.hp-back-button:hover {
+  background: #40a9ff;
+}
