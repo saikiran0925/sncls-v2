@@ -6,8 +6,9 @@ import TopNavBar from "../components/TopNavBar";
 
 const helpTopics = [
   { path: "/help/jsonify", title: "JSONify Help", description: "Format and manipulate JSON data efficiently.", icon: <FaCode /> },
-  { path: "/help/encode-decode", title: "Encode/Decode Help", description: "Master encoding and decoding techniques.", icon: <FaSyncAlt /> },
+  { path: "/help/blank-space", title: "Blank Space Help", description: "Learn something about taking notes in our Blank Space.", icon: <FaSyncAlt /> },
   { path: "/help/diff-editor", title: "Diff Editor Help", description: "Compare and merge text seamlessly.", icon: <FaColumns /> },
+  { path: "/help/encode-decode", title: "Encode/Decode Help", description: "Master encoding and decoding techniques.", icon: <FaSyncAlt /> },
 ];
 
 const HelpDashboard = () => {

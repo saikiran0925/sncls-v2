@@ -115,14 +115,61 @@ export const blankSpaceHelpData = {
       type: "features",
       items: [
         {
-          icon: "MdSpaceBar",
-          title: "Add Spaces",
-          description: "Allows you to add custom blank spaces between text elements.",
-          input: `"Hello___World"`,
-          output: `"Hello   World"`,
+          icon: "LuClipboardCopy",
+          title: "Copy",
+          description: "Copies the formatted JSON to your clipboard for easy sharing.",
         },
+        {
+          icon: "AiOutlineSave",
+          title: "Save",
+          description: "Saves your JSON content locally or to a server if authenticated.",
+        },
+        {
+          icon: "IoMdShare",
+          title: "Share",
+          description: "Generates a shareable link to your JSON content.",
+        },
+        {
+          icon: "MdDeleteOutline",
+          title: "Delete",
+          description: "Removes the current JSON content from the editor.",
+        }
       ],
     },
+    {
+      title: "FAQ",
+      type: "faq",
+      items: [
+        {
+          question: "What is this 'Blank Space' feature?",
+          answer: "A simple, blank page where you can write anything, just like taking notes.",
+        },
+        {
+          question: "How do I save my work?",
+          answer: "Click the **Save** button to store your space locally.",
+        },
+        {
+          question: "Do I lose my work if I don't save?",
+          answer: "Yes, you will lose your work.",
+        },
+        {
+          question: "How do I share my space?",
+          answer: "Use the **Share** button to generate a shareable link.",
+        },
+        {
+          question: "Is there an expiry for shared cards?",
+          answer: "Yes, shared cards expire in 24 hours.",
+        },
+        {
+          question: "Where do you store the data?",
+          answer: "We store shared card data on our server without encryption, so please don't share any confidential information. The rest of the data is stored in your local storage.",
+        },
+        {
+          question: "Can I delete my card?",
+          answer: "Yes, clicking the **Delete** button will delete the card from the editor.",
+        }
+      ],
+    }
   ],
 };
 
@@ -135,14 +182,44 @@ export const diffEditorHelpData = {
       type: "features",
       items: [
         {
-          icon: "MdCompare",
-          title: "Compare Files",
-          description: "Highlights differences between two text files.",
-          input: `"oldText": "Hello" vs "newText": "Hello World"`,
-          output: `"Changes detected: 'World' added."`,
+          icon: "AiOutlineSave",
+          title: "Save",
+          description: "Saves your JSON content locally or to a server if authenticated.",
         },
+        {
+          icon: "IoMdShare",
+          title: "Share",
+          description: "Generates a shareable link to your JSON content.",
+        },
+        {
+          icon: "MdDeleteOutline",
+          title: "Delete",
+          description: "Removes the current JSON content from the editor.",
+        }
       ],
     },
+    {
+      title: "FAQ",
+      type: "faq",
+      items: [
+        {
+          question: "How do I save my work?",
+          answer: "Click the **Save** button to store your notes locally.",
+        },
+        {
+          question: "Do I lose my work if I don't save?",
+          answer: "Yes, you will lose your work.",
+        },
+        {
+          question: "Where do you store the data?",
+          answer: "We store shared card data on our server without encryption, so please don't share any confidential information. The rest of the data is stored in your local storage.",
+        },
+        {
+          question: "Can I delete my card?",
+          answer: "Yes, clicking the **Delete** button will delete the card from the editor.",
+        }
+      ],
+    }
   ],
 };
 

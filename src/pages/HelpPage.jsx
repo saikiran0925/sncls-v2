@@ -31,8 +31,9 @@ const HelpPage = ({ data }) => {
 
   const pathMap = {
     "/help/jsonify": "JSONify",
-    "/help/encode-decode": "Encode/Decode",
+    "/help/blank-space": "Blank Space",
     "/help/diff-editor": "Diff Editor",
+    "/help/encode-decode": "Encode/Decode",
   };
 
   return (
@@ -64,7 +65,7 @@ const HelpPage = ({ data }) => {
                       <p
                         className="hp-feature-description"
                         dangerouslySetInnerHTML={{
-                          __html: item.description.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>"),
+                          __html: item.description?.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>") || "",
                         }}
                       />
 
