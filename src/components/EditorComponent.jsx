@@ -27,7 +27,6 @@ const EditorComponent = ({ selectedCardContent, onContentChange, onDeleteCard, s
         { name: "Stringify", icon: <MdFormatAlignJustify /> },
         { name: "Escape", icon: <TbBandageFilled /> },
         { name: "Unescape", icon: <TbBandage /> },
-        // { name: "Map to JSON", icon: <MdCode /> },
         { name: "Copy", icon: <LuClipboardCopy /> },
         { name: "Save", icon: <AiOutlineSave /> },
         { name: "Share", icon: <IoMdShare /> },
@@ -113,25 +112,24 @@ const EditorComponent = ({ selectedCardContent, onContentChange, onDeleteCard, s
       showNotification("error", "Share Failed", "Could not share content.");
     }
   };
-  const handleSave = async () => {
-    let updatedCard = fetchUpdatedCardContent();
 
-    if (!selectedCardContent) {
+  const handleSave = async (cardToSave = selectedCardContent) => {
+    if (!cardToSave) {
       showNotification("error", "No card selected", "Cannot save an unselected card.");
       return;
     }
 
-    const content = path === "diff-editor" ? currentEditorRef.current : currentEditorValue || selectedCardContent?.content?.data;
+    const content = path === "diff-editor" ? currentEditorRef.current : currentEditorValue || cardToSave?.content?.data;
     const updatedAt = generateISO8601();
 
     const updatedContent = {
-      ...updatedCard,
+      ...cardToSave,
       metadata: {
-        ...updatedCard.metadata,
+        ...cardToSave.metadata,
         updatedAt,
       },
       content: {
-        ...updatedCard.content,
+        ...cardToSave.content,
         data: content,
       },
     };
@@ -147,18 +145,18 @@ const EditorComponent = ({ selectedCardContent, onContentChange, onDeleteCard, s
         const cardDataString = localStorage.getItem("cardData");
         let cardData = cardDataString ? JSON.parse(cardDataString) : {};
 
-        if (cardData[updatedCard?.type]) {
-          const cardIndex = cardData[updatedCard?.type].findIndex(
-            (card) => card.cardId === updatedCard?.cardId
+        if (cardData[cardToSave?.type]) {
+          const cardIndex = cardData[cardToSave?.type].findIndex(
+            (card) => card.cardId === cardToSave?.cardId
           );
 
           if (cardIndex !== -1) {
-            cardData[updatedCard?.type][cardIndex] = updatedContent; // Update existing card
+            cardData[cardToSave?.type][cardIndex] = updatedContent; // Update existing card
           } else {
-            cardData[updatedCard?.type].push(updatedContent); // Add new card
+            cardData[cardToSave?.type].push(updatedContent); // Add new card
           }
         } else {
-          cardData[updatedCard?.type] = [updatedContent]; // Create a new type category
+          cardData[cardToSave?.type] = [updatedContent]; // Create a new type category
         }
 
         localStorage.setItem("cardData", JSON.stringify(cardData));
@@ -166,7 +164,9 @@ const EditorComponent = ({ selectedCardContent, onContentChange, onDeleteCard, s
         showNotification("success", "Saved Locally", "Changes have been saved successfully.");
 
         // Preserve the selected card after saving
-        setSelectedCardContent(updatedContent); // <-- Use the prop
+        if (cardToSave.cardId === selectedCardContent.cardId) {
+          setSelectedCardContent(updatedContent);
+        }
       } catch (error) {
         showNotification("error", "Save Failed", "An error occurred while saving locally.");
         console.error("Local Save Error:", error);
@@ -183,7 +183,7 @@ const EditorComponent = ({ selectedCardContent, onContentChange, onDeleteCard, s
     }
 
     try {
-      const id = updatedContent.id;
+      const id = cardToSave.id;
       const response = await axiosInstance.put(
         `/api/dynamic/card/${id}`,
         updatedContent,
@@ -194,10 +194,12 @@ const EditorComponent = ({ selectedCardContent, onContentChange, onDeleteCard, s
 
       if (response.status === 200) {
         showNotification("success", "Saved to Server", "Changes have been saved successfully.");
-        updateCardContent(selectedCardContent?.type, id, updatedContent);
+        updateCardContent(cardToSave?.type, id, updatedContent);
 
         // Preserve the selected card after saving
-        setSelectedCardContent(updatedContent); // <-- Use the prop
+        if (cardToSave.cardId === selectedCardContent.cardId) {
+          setSelectedCardContent(updatedContent);
+        }
       }
     } catch (error) {
       showNotification("error", "Save Failed", "An error occurred while saving to the server.");
@@ -287,18 +289,29 @@ const EditorComponent = ({ selectedCardContent, onContentChange, onDeleteCard, s
     }
   };
 
-  useEffect(() => {
-    fetchUpdatedCardContent();
-  }, [selectedCardContent?.id, selectedCardContent?.type]);
-
   const previousCardId = useRef(null);
+  const previousCardContent = useRef(null);
 
   useEffect(() => {
     if (selectedCardContent && previousCardId.current !== selectedCardContent.cardId) {
-      handleSave();
+      // Check if the previous card's content has changed
+      const hasContentChanged =
+        previousCardContent.current &&
+        previousCardContent.current.content?.data !== currentEditorValue;
+
+      // Save the previous card's content only if it has changed
+      if (hasContentChanged) {
+        handleSave(previousCardContent.current);
+      }
+
+      // Reset currentEditorValue to the new card's content
+      setCurrentEditorValue(selectedCardContent?.content?.data || null);
+
+      // Update refs to track the new card
       previousCardId.current = selectedCardContent.cardId;
+      previousCardContent.current = selectedCardContent;
     }
-  }, [selectedCardContent]);
+  }, [selectedCardContent?.cardId, currentEditorValue]); // Trigger when cardId or editor content changes
 
   const renderEditor = () => {
     if (!selectedCardContent) {
@@ -322,8 +335,6 @@ const EditorComponent = ({ selectedCardContent, onContentChange, onDeleteCard, s
         <AppDiffEditorComponent
           editorState={{ originalEditorContent, modifiedEditorContent }}
           onEditorStateChange={(state) => {
-            console.log("Diff Editor State Updated: ", state);
-            // setCurrentEditorValue(state.editorContent);
             currentEditorRef.current = state;
           }}
         />
