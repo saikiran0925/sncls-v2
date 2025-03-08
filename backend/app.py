@@ -5,11 +5,12 @@ import uuid
 import pymysql
 from datetime import datetime, timedelta
 from flask_apscheduler import APScheduler
+import json
 
 app = Flask(__name__)
 CORS(app)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:inrev%40123@localhost/shared_data'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:inrev%40123@127.0.0.1/shared_data'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
@@ -17,6 +18,7 @@ db = SQLAlchemy(app)
 class SharedJSON(db.Model):
     id = db.Column(db.String(36), primary_key=True, unique=True)
     json_data = db.Column(db.Text, nullable=False)
+    type = db.Column(db.Text, nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
 with app.app_context():
@@ -24,12 +26,21 @@ with app.app_context():
 
 @app.route('/share', methods=['POST'])
 def share_json():
+    if not request.is_json:
+        return jsonify({"error": "Invalid JSON format"}), 400
+
     data = request.json.get("data")
+    type = request.json.get("path")
+
     if not data:
         return jsonify({"error": "No JSON data provided"}), 400
 
+    # Convert dict to string if necessary
+    if isinstance(data, dict):
+        data = json.dumps(data)  # Ensure it's stored as a string
+
     share_id = str(uuid.uuid4())
-    new_entry = SharedJSON(id=share_id, json_data=data)
+    new_entry = SharedJSON(id=share_id, json_data=data, type=type)
     db.session.add(new_entry)
     db.session.commit()
 
@@ -39,7 +50,7 @@ def share_json():
 def get_shared_json(share_id):
     entry = SharedJSON.query.get(share_id)
     if entry:
-        return jsonify({"data": entry.json_data})
+        return jsonify({"data": entry.json_data, "type": entry.type})
     return jsonify({"error": "Not found"}), 404
 
 def delete_old_entries():

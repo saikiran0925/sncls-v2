@@ -48,6 +48,7 @@ const EditorComponent = ({ selectedCardContent, onContentChange, onDeleteCard, s
       title: "Diff Editor",
       language: "",
       buttons: [
+        { name: "Share", icon: <IoMdShare /> },
         { name: "Save", icon: <AiOutlineSave /> },
         { name: "Close Tab", icon: <MdDeleteOutline /> },
       ],
