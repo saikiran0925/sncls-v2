@@ -291,6 +291,15 @@ const EditorComponent = ({ selectedCardContent, onContentChange, onDeleteCard, s
     fetchUpdatedCardContent();
   }, [selectedCardContent?.id, selectedCardContent?.type]);
 
+  const previousCardId = useRef(null);
+
+  useEffect(() => {
+    if (selectedCardContent && previousCardId.current !== selectedCardContent.cardId) {
+      handleSave();
+      previousCardId.current = selectedCardContent.cardId;
+    }
+  }, [selectedCardContent]);
+
   const renderEditor = () => {
     if (!selectedCardContent) {
       return (
