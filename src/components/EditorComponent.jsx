@@ -284,6 +284,7 @@ const EditorComponent = ({ selectedCardContent, onContentChange, onDeleteCard, s
   const previousCardId = useRef(null);
   const previousCardContent = useRef(null);
 
+
   useEffect(() => {
     if (selectedCardContent && previousCardId.current !== selectedCardContent.cardId) {
       const hasContentChanged =
@@ -301,6 +302,21 @@ const EditorComponent = ({ selectedCardContent, onContentChange, onDeleteCard, s
       previousCardContent.current = selectedCardContent;
     }
   }, [selectedCardContent]);
+
+  useEffect(() => {
+    const handleTabClose = (event) => {
+      handleSave();
+      event.preventDefault();
+      event.returnValue = ""; // This is required for some browsers to show a warning.
+    };
+
+    window.addEventListener("beforeunload", handleTabClose);
+
+    return () => {
+      window.removeEventListener("beforeunload", handleTabClose);
+    };
+  }, [selectedCardContent, currentEditorValue]);
+
 
   const renderEditor = () => {
     if (!selectedCardContent) {

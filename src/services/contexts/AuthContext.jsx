@@ -88,7 +88,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   // Update a specific card content
-  const updateCardContent = (type, id, newContent) => {
+  const updateCardContent = (path, id, newContent) => {
     if (!newContent?.content?.data) {
       console.log("No content data provided, exiting...");
       return;
@@ -96,20 +96,22 @@ export const AuthProvider = ({ children }) => {
 
     let cardContent = JSON.parse(localStorage.getItem("cardData")) || {};
 
-    if (cardContent[type]) {
-      const cardIndex = cardContent[type].findIndex(card => card.cardId === id);
+    let updated = false;
+
+    Object.keys(cardContent).forEach((key) => {
+      const cardIndex = cardContent[key].findIndex((card) => card.cardId === id);
 
       if (cardIndex !== -1) {
-        cardContent[type][cardIndex] = newContent;
-        localStorage.setItem("cardData", JSON.stringify(cardContent));
-        setCardData(JSON.stringify(cardContent));
-      } else {
-        console.log(`Card with id ${id} not found in type ${type}`);
-        return;
+        cardContent[key][cardIndex] = newContent;
+        updated = true;
       }
+    });
+
+    if (updated) {
+      localStorage.setItem("cardData", JSON.stringify(cardContent));
+      setCardData(JSON.stringify(cardContent));
     } else {
-      console.log(`Type ${type} not found in card content`);
-      return;
+      console.log(`Card with id ${id} not found in any category`);
     }
   };
 
