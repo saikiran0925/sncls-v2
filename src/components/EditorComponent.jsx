@@ -162,11 +162,6 @@ const EditorComponent = ({ selectedCardContent, onContentChange, onDeleteCard, s
         localStorage.setItem("cardData", JSON.stringify(cardData));
 
         showNotification("success", "Saved Locally", "Changes have been saved successfully.");
-
-        // Preserve the selected card after saving
-        if (cardToSave.cardId === selectedCardContent.cardId) {
-          setSelectedCardContent(updatedContent);
-        }
       } catch (error) {
         showNotification("error", "Save Failed", "An error occurred while saving locally.");
         console.error("Local Save Error:", error);
@@ -195,11 +190,6 @@ const EditorComponent = ({ selectedCardContent, onContentChange, onDeleteCard, s
       if (response.status === 200) {
         showNotification("success", "Saved to Server", "Changes have been saved successfully.");
         updateCardContent(cardToSave?.type, id, updatedContent);
-
-        // Preserve the selected card after saving
-        if (cardToSave.cardId === selectedCardContent.cardId) {
-          setSelectedCardContent(updatedContent);
-        }
       }
     } catch (error) {
       showNotification("error", "Save Failed", "An error occurred while saving to the server.");
@@ -311,7 +301,7 @@ const EditorComponent = ({ selectedCardContent, onContentChange, onDeleteCard, s
       previousCardId.current = selectedCardContent.cardId;
       previousCardContent.current = selectedCardContent;
     }
-  }, [selectedCardContent?.cardId, currentEditorValue]); // Trigger when cardId or editor content changes
+  }, [selectedCardContent]); // Trigger when selectedCardContent changes
 
   const renderEditor = () => {
     if (!selectedCardContent) {
