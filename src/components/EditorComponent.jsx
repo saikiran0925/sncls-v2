@@ -113,7 +113,7 @@ const EditorComponent = ({ selectedCardContent, onContentChange, onDeleteCard, s
     }
   };
 
-  const handleSave = async (cardToSave = selectedCardContent) => {
+  const handleSave = async (cardToSave = selectedCardContent, nextCard = null) => {
     if (!cardToSave) {
       showNotification("error", "No card selected", "Cannot save an unselected card.");
       return;
@@ -139,7 +139,11 @@ const EditorComponent = ({ selectedCardContent, onContentChange, onDeleteCard, s
       onContentChange(updatedContent);
     }
 
-    // Local mode: save to localStorage
+    // Check if a new card is selected and set it after save
+    if (nextCard) {
+      setSelectedCardContent(nextCard);
+    }
+
     if (isLocalMode) {
       try {
         const cardDataString = localStorage.getItem("cardData");
@@ -151,12 +155,12 @@ const EditorComponent = ({ selectedCardContent, onContentChange, onDeleteCard, s
           );
 
           if (cardIndex !== -1) {
-            cardData[cardToSave?.type][cardIndex] = updatedContent; // Update existing card
+            cardData[cardToSave?.type][cardIndex] = updatedContent;
           } else {
-            cardData[cardToSave?.type].push(updatedContent); // Add new card
+            cardData[cardToSave?.type].push(updatedContent);
           }
         } else {
-          cardData[cardToSave?.type] = [updatedContent]; // Create a new type category
+          cardData[cardToSave?.type] = [updatedContent];
         }
 
         localStorage.setItem("cardData", JSON.stringify(cardData));
@@ -166,11 +170,9 @@ const EditorComponent = ({ selectedCardContent, onContentChange, onDeleteCard, s
         showNotification("error", "Save Failed", "An error occurred while saving locally.");
         console.error("Local Save Error:", error);
       }
-
       return;
     }
 
-    // Server mode: save to API
     const authToken = localStorage.getItem("authToken");
     if (!authToken) {
       showNotification("error", "Authorization Error", "Auth token not found. Please log in again.");
@@ -284,24 +286,21 @@ const EditorComponent = ({ selectedCardContent, onContentChange, onDeleteCard, s
 
   useEffect(() => {
     if (selectedCardContent && previousCardId.current !== selectedCardContent.cardId) {
-      // Check if the previous card's content has changed
       const hasContentChanged =
         previousCardContent.current &&
         previousCardContent.current.content?.data !== currentEditorValue;
 
-      // Save the previous card's content only if it has changed
       if (hasContentChanged) {
-        handleSave(previousCardContent.current);
+        handleSave(previousCardContent.current, selectedCardContent);
+      } else {
+        setSelectedCardContent(selectedCardContent); // Ensure the new card is set
       }
 
-      // Reset currentEditorValue to the new card's content
       setCurrentEditorValue(selectedCardContent?.content?.data || null);
-
-      // Update refs to track the new card
       previousCardId.current = selectedCardContent.cardId;
       previousCardContent.current = selectedCardContent;
     }
-  }, [selectedCardContent]); // Trigger when selectedCardContent changes
+  }, [selectedCardContent]);
 
   const renderEditor = () => {
     if (!selectedCardContent) {
