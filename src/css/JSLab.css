@@ -1,0 +1,50 @@
+.jslab-container {
+  min-height: 100vh;
+  background: #f5f5f5;
+}
+
+.jslab-header {
+  background: #001529;
+  padding: 16px;
+  text-align: center;
+}
+
+.jslab-title {
+  color: #fff;
+  margin: 0;
+}
+
+.jslab-content {
+  padding: 20px;
+}
+
+.jslab-editors {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.jslab-card {
+  background: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.jslab-run-button {
+  display: block;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.jslab-preview-card {
+  background: #fff;
+  padding: 0;
+}
+
+.jslab-iframe {
+  width: 100%;
+  height: 400px;
+  border: none;
+  background: #fff;
+}

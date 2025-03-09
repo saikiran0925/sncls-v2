@@ -15,6 +15,7 @@ import { HelmetProvider } from "react-helmet-async";
 import SharedLinksList from "./pages/SharedLinksList";
 import HelpPageWrapper from "./pages/HelpPageWrapper";
 import HelpDashboard from "./pages/HelpDashboard";
+import JSLab from "./pages/JSLab";
 
 
 const App = () => {
@@ -52,6 +53,7 @@ const App = () => {
           <Route path="/encode-decode-zone" element={<EncodeDecodeZone />} />
           <Route path="/help/:topic" element={<HelpPageWrapper />} />
           <Route path="/help" element={<HelpDashboard />} />
+          <Route path="/js-lab" element={<JSLab />} />
         </Route>
 
         <Route path="*" element={<Navigate to="/" />} />

@@ -10,9 +10,14 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@codemirror/lang-css": "^6.3.1",
+    "@codemirror/lang-html": "^6.4.9",
+    "@codemirror/lang-javascript": "^6.2.3",
     "@monaco-editor/react": "^4.6.0",
-    "antd": "^5.22.5",
+    "@uiw/react-codemirror": "^4.23.10",
+    "antd": "^5.24.3",
     "axios": "^1.7.9",
+    "codemirror": "^6.0.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-helmet-async": "^2.0.5",
