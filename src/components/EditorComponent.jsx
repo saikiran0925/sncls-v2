@@ -281,6 +281,10 @@ const EditorComponent = ({ selectedCardContent, onContentChange, onDeleteCard, s
     }
   };
 
+  useEffect(() => {
+    console.log("Path changed:", location.pathname);
+  }, [location.pathname]);
+
   const previousCardId = useRef(null);
   const previousCardContent = useRef(null);
 
@@ -301,7 +305,7 @@ const EditorComponent = ({ selectedCardContent, onContentChange, onDeleteCard, s
       previousCardId.current = selectedCardContent.cardId;
       previousCardContent.current = selectedCardContent;
     }
-  }, [selectedCardContent]);
+  }, [selectedCardContent, location.pathname]);
 
   useEffect(() => {
     const handleTabClose = (event) => {

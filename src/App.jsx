@@ -15,6 +15,7 @@ import { HelmetProvider } from "react-helmet-async";
 import SharedLinksList from "./pages/SharedLinksList";
 import HelpPageWrapper from "./pages/HelpPageWrapper";
 import HelpDashboard from "./pages/HelpDashboard";
+import { useEffect } from "react";
 
 
 const App = () => {
@@ -33,6 +34,10 @@ const App = () => {
   const showUIContainer = pathsWithUIContainer.some(path => location.pathname.startsWith(path))
     || location.pathname.startsWith("/shared") || location.pathname.startsWith("/help");
 
+  useEffect(() => {
+    console.log("Path changed:", location.pathname);
+  }, [location.pathname]);
+
   return (
     <div className={showUIContainer ? "ui-container" : ""}>
       {showUIContainer && <SideNav />}
@@ -48,10 +53,10 @@ const App = () => {
           <Route path="/jsonify" element={<EditorRouter />} />
           <Route path="/blank-space" element={<EditorRouter />} />
           <Route path="/diff-editor" element={<EditorRouter />} />
-          <Route path="/time-forge" element={<TimeForgeApp />} />
-          <Route path="/encode-decode-zone" element={<EncodeDecodeZone />} />
+          <Route key={location.pathname} path="/time-forge" element={<TimeForgeApp />} />
+          <Route key={location.pathname} path="/encode-decode-zone" element={<EncodeDecodeZone />} />
           <Route path="/help/:topic" element={<HelpPageWrapper />} />
-          <Route path="/help" element={<HelpDashboard />} />
+          <Route key={location.pathname} path="/help" element={<HelpDashboard />} />
         </Route>
 
         <Route path="*" element={<Navigate to="/" />} />
