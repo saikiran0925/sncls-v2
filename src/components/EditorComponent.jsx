@@ -309,6 +309,7 @@ const EditorComponent = ({ selectedCardContent, onContentChange, onDeleteCard, s
     }
   }, [selectedCardContent, location.pathname]);
 
+  const excludedPaths = ['/jsonify', '/blank-space', '/diff-editor'];
   useEffect(() => {
     const handleTabClose = (event) => {
       handleSave();
@@ -319,6 +320,13 @@ const EditorComponent = ({ selectedCardContent, onContentChange, onDeleteCard, s
     window.addEventListener("beforeunload", handleTabClose);
 
     return () => {
+      if (!excludedPaths.includes(window.location.pathname)) {
+        const content = selectedCardContent;
+        if(content?.content){
+          content.content.data = currentEditorValue;
+          handleSave(content);
+        }
+      }
       window.removeEventListener("beforeunload", handleTabClose);
     };
   }, [selectedCardContent, currentEditorValue]);
