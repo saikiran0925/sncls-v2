@@ -291,9 +291,10 @@ const EditorComponent = ({ selectedCardContent, onContentChange, onDeleteCard, s
 
   useEffect(() => {
     if (selectedCardContent && previousCardId.current !== selectedCardContent.cardId) {
+      const presentEditorValue = path === "diff-editor" ? currentEditorRef.current : currentEditorValue;
       const hasContentChanged =
         previousCardContent.current &&
-        previousCardContent.current.content?.data !== currentEditorValue;
+        previousCardContent.current?.content?.data !== presentEditorValue;
 
       if (hasContentChanged) {
         handleSave(previousCardContent.current, selectedCardContent);
@@ -344,7 +345,9 @@ const EditorComponent = ({ selectedCardContent, onContentChange, onDeleteCard, s
         <AppDiffEditorComponent
           editorState={{ originalEditorContent, modifiedEditorContent }}
           onEditorStateChange={(state) => {
-            currentEditorRef.current = state;
+            setTimeout(()=>{
+              currentEditorRef.current = state;
+            }, 250);
           }}
         />
       );
