@@ -291,10 +291,11 @@ const EditorComponent = ({ selectedCardContent, onContentChange, onDeleteCard, s
 
   useEffect(() => {
     if (selectedCardContent && previousCardId.current !== selectedCardContent.cardId) {
-      const presentEditorValue = path === "diff-editor" ? currentEditorRef.current : currentEditorValue;
-      const hasContentChanged =
-        previousCardContent.current &&
-        previousCardContent.current?.content?.data !== presentEditorValue;
+      const isDiffEdtior = path === "diff-editor";
+      const presentEditorValue = isDiffEdtior ? JSON.stringify(currentEditorRef.current) : currentEditorValue;
+      let content = previousCardContent.current && previousCardContent.current?.content?.data;
+      if(isDiffEdtior) content = JSON.stringify(content)
+      const hasContentChanged = content !== presentEditorValue;
 
       if (hasContentChanged) {
         handleSave(previousCardContent.current, selectedCardContent);
