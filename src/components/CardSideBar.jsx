@@ -8,7 +8,7 @@ import { timeAgo, generateISO8601 } from "../utilities/utils";
 import AuthContext from "../services/contexts/AuthContext";
 
 const CardSideBar = ({ cardsData, onCardSelect, onCreateCard, selectedCardContent, onStarToggle, setSelectedCardContent }) => {
-  const { toggleTab } = useContext(AuthContext);
+  const { toggleTab, updateCardContent } = useContext(AuthContext);
   const [activeCardId, setActiveCardId] = useState(null);
   const [selectedTab, setSelectedTab] = useState("All");
   const location = useLocation();
@@ -84,6 +84,7 @@ const CardSideBar = ({ cardsData, onCardSelect, onCreateCard, selectedCardConten
     );
     updateLocalStorage([...localCards]);
     setEditingCardId(null);
+    updateCardContent(card.type, card.cardId, updatedCard);
   };
 
   const handleTitleCancel = () => {
