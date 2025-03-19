@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import "../css/FeedbackAndBugForm.css";
 import TopNavBar from "../components/TopNavBar";
+import { showNotification } from '../utilities/utils';
 
 
 const FeedbackAndBugForm = () => {
@@ -34,14 +35,14 @@ const FeedbackAndBugForm = () => {
       });
 
       if (response.data.message) {
-        setSuccess(`Thank you for your ${type === "feedback" ? "feedback" : "bug report"}!`);
+        showNotification("info", `Thank you for your ${type === "feedback" ? "feedback" : "bug report"}!`);
         setName("");
         setEmail("");
         setMessage("");
         setType("feedback"); // Reset to default
       }
     } catch (err) {
-      setError("An error occurred while submitting. Please try again.");
+      showNotification("error", "Error saving feedback/bug");
       console.error(err);
     }
   };
