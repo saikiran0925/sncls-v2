@@ -2,7 +2,7 @@ import React from "react";
 import "../css/SideNav.css";
 import { BsFiletypeJson } from "react-icons/bs";
 import { GrNotes } from "react-icons/gr";
-import { MdOutlineCompare, MdLockReset, MdHelpOutline } from "react-icons/md";
+import { MdOutlineCompare, MdLockReset, MdHelpOutline, MdOutlineFeedback } from "react-icons/md";
 import { IoIosLogOut } from "react-icons/io";
 import logo from '/public/logo.svg';
 import { IoMdShare } from "react-icons/io";
@@ -97,6 +97,16 @@ const SideNav = () => {
             </NavLink>
           </Tooltip>
         </div>
+
+        <Tooltip placement="left" title="Feedback/Bug Report">
+          <NavLink
+            to="/feedback"
+            className={({ isActive }) => (isActive ? "nav-item active" : "nav-item")}
+          >
+            <MdOutlineFeedback className="icon" />
+          </NavLink>
+        </Tooltip>
+
         {/* <div className="utility-menu"> */}
         {/*   <Tooltip placement="left" title="Log Out"> */}
         {/*     <NavLink className="utility-logo" onClick={handleLogout}> */}

@@ -15,6 +15,7 @@ import { HelmetProvider } from "react-helmet-async";
 import SharedLinksList from "./pages/SharedLinksList";
 import HelpPageWrapper from "./pages/HelpPageWrapper";
 import HelpDashboard from "./pages/HelpDashboard";
+import FeedbackAndBugForm from "./pages/FeedbackAndBugForm";
 
 
 const App = () => {
@@ -28,6 +29,7 @@ const App = () => {
     "/time-forge",
     "/encode-decode-zone",
     "/shared-list",
+    "/feedback",
   ];
 
   const showUIContainer = pathsWithUIContainer.some(path => location.pathname.startsWith(path))
@@ -52,6 +54,7 @@ const App = () => {
           <Route path="/encode-decode-zone" element={<EncodeDecodeZone />} />
           <Route path="/help/:topic" element={<HelpPageWrapper />} />
           <Route path="/help" element={<HelpDashboard />} />
+          <Route path="/feedback" element={<FeedbackAndBugForm />} />
         </Route>
 
         <Route path="*" element={<Navigate to="/" />} />
