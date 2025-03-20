@@ -1,0 +1,110 @@
+.fbb-container {
+  max-width: 500px;
+  margin: 2rem auto;
+  padding: 2rem;
+  border-radius: 12px;
+  background-color: #ffffff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e0e0e0;
+}
+
+.fbb-heading {
+  text-align: center;
+  color: #2c3e50;
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  font-weight: 600;
+}
+
+.fbb-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.fbb-formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.fbb-label {
+  font-weight: 500;
+  color: #34495e;
+  font-size: 0.95rem;
+}
+
+.fbb-input,
+.fbb-textarea {
+  width: 100%;
+  padding: 0.8rem;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  font-size: 0.95rem;
+  color: #374151;
+  background-color: #f9fafb;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.fbb-input:focus,
+.fbb-textarea:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+  outline: none;
+}
+
+.fbb-textarea {
+  height: 120px;
+  resize: vertical;
+}
+
+.fbb-error {
+  color: #dc3545;
+  font-size: 0.9rem;
+  text-align: center;
+  margin: 0.5rem 0;
+}
+
+.fbb-success {
+  color: #28a745;
+  font-size: 0.9rem;
+  text-align: center;
+  margin: 0.5rem 0;
+}
+
+.fbb-button {
+  padding: 0.8rem 1.2rem;
+  background-color: #007bff;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.fbb-button:hover {
+  background-color: #0056b3;
+  transform: translateY(-1px);
+}
+
+.fbb-button:active {
+  transform: translateY(0);
+}
+
+/* Optional: Add a subtle animation for form container */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fbb-container {
+  animation: fadeIn 0.6s ease-out;
+}

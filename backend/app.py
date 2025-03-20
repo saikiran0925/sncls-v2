@@ -21,6 +21,14 @@ class SharedJSON(db.Model):
     type = db.Column(db.Text, nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
+class Feedback(db.Model):
+    id = db.Column(db.String(36), primary_key=True, unique=True)
+    name = db.Column(db.String(100), nullable=True)
+    email = db.Column(db.String(100), nullable=True)
+    feedback = db.Column(db.Text, nullable=False)
+    type = db.Column(db.String(20), nullable=False)  # 'feedback' or 'bug'
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
 with app.app_context():
     db.create_all()
 
@@ -52,6 +60,27 @@ def get_shared_json(share_id):
     if entry:
         return jsonify({"data": entry.json_data, "type": entry.type})
     return jsonify({"error": "Not found"}), 404
+
+@app.route('/feedback', methods=['POST'])
+def submit_feedback():
+    if not request.is_json:
+        return jsonify({"error": "Invalid JSON format"}), 400
+
+    data = request.json
+    name = data.get("name")
+    email = data.get("email")
+    feedback_text = data.get("feedback")
+    type = data.get("type", "feedback") 
+
+    if not feedback_text:
+        return jsonify({"error": "Feedback is mandatory"}), 400
+
+    feedback_id = str(uuid.uuid4())
+    new_feedback = Feedback(id=feedback_id, name=name, email=email, feedback=feedback_text, type=type)
+    db.session.add(new_feedback)
+    db.session.commit()
+
+    return jsonify({"message": "Feedback submitted successfully", "feedbackId": feedback_id})
 
 def delete_old_entries():
     with app.app_context():
