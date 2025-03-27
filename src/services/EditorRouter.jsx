@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState, useEffect, useCallback } from "react";
 import { useLocation } from "react-router-dom";
 import AuthContext from "../services/contexts/AuthContext";
 import CardSideBar from "../components/CardSideBar";
@@ -58,12 +58,18 @@ const EditorRouter = () => {
   }, [path]); // Only run when `path` changes
 
   const handleCreateCard = () => {
+    let prevData = null;
+    if(path === 'diff-editor'){
+      const cardDataString = localStorage.getItem("cardData");
+      let cardDataObject = cardDataString ? JSON.parse(cardDataString) : {};
+      prevData = cardDataObject[path]
+    }
     const newCard = createNewCard(path);
-    setCardsForSelectedPath((prev) => [...prev, newCard]);
+    setCardsForSelectedPath((prev) => [...(prevData ? prevData : prev), newCard]);
     setSelectedCardContent(newCard); // Set the newly created card as the selected card
   };
 
-  const handleContentChange = (updatedCard) => {
+  const handleContentChange = useCallback((updatedCard) => {
     if (!updatedCard) return;
 
     // Update the specific card in the local state
@@ -75,7 +81,7 @@ const EditorRouter = () => {
 
     // Update the content in the central card data (context)
     updateCardContent(path, updatedCard.cardId, updatedCard);
-  };
+  }, []);
 
   const handleDeleteCard = () => {
     if (!selectedCardContent) return;
@@ -126,15 +132,24 @@ const EditorRouter = () => {
 
   const handleStarToggle = (updatedCard) => {
     // Update the specific card in the local state
-    setCardsForSelectedPath((prevCards) =>
-      prevCards.map((card) =>
+    let updatedCards = [];
+    setCardsForSelectedPath((prevCards) =>{
+      updatedCards = prevCards.map((card) =>
         card.cardId === updatedCard.cardId ? updatedCard : card
       )
-    );
+      return updatedCards;
+    });
+
+    setSelectedCardContent((prev) => {
+      if(prev.cardId === updatedCard.cardId){
+        prev.isStarred = updatedCard.isStarred;
+      }
+      return prev;  
+    });
 
     // Update the global storage
     const jsonObject = JSON.parse(cardData || "{}");
-    jsonObject[path] = cardsForSelectedPath;
+    jsonObject[path] = updatedCards;
     localStorage.setItem("cardData", JSON.stringify(jsonObject));
 
     // If the card is being unstarred and the selected tab is "Starred", update the selected card

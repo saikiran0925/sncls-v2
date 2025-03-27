@@ -13,7 +13,7 @@ import { showNotification, showNotificationWithDescription, generateISO8601 } fr
 import axiosInstance from "../services/axiosInstance";
 import AuthContext from "../services/contexts/AuthContext";
 
-const EditorComponent = ({ selectedCardContent, onContentChange, onDeleteCard, setSelectedCardContent }) => {
+const EditorComponent = React.memo(({ selectedCardContent, onContentChange, onDeleteCard, setSelectedCardContent }) => {
   const [currentEditorValue, setCurrentEditorValue] = useState(null);
   const currentEditorRef = useRef(null);
   const { updateCardContent, isLocalMode } = useContext(AuthContext);
@@ -114,6 +114,7 @@ const EditorComponent = ({ selectedCardContent, onContentChange, onDeleteCard, s
   };
 
   const handleSave = async (cardToSave = selectedCardContent, nextCard = null) => {
+    console.log('from handle save method');
     if (!cardToSave) {
       showNotification("error", "No card selected", "Cannot save an unselected card.");
       return;
@@ -135,15 +136,16 @@ const EditorComponent = ({ selectedCardContent, onContentChange, onDeleteCard, s
     };
 
     // Notify the parent component of the content change
-    if (onContentChange) {
-      onContentChange(updatedContent);
+    if (path !== "diff-editor") {
+      // onContentChange(updatedContent);
+      updateCardContent(path, updatedContent.cardId, updatedContent);
+      return;
     }
 
     // Check if a new card is selected and set it after save
-    if (nextCard) {
-      setSelectedCardContent(nextCard);
-    }
-
+    // if (nextCard) {
+    //   setSelectedCardContent(nextCard);
+    // }
     if (isLocalMode) {
       try {
         const cardDataString = localStorage.getItem("cardData");
@@ -165,7 +167,7 @@ const EditorComponent = ({ selectedCardContent, onContentChange, onDeleteCard, s
 
         localStorage.setItem("cardData", JSON.stringify(cardData));
 
-        showNotification("success", "Saved Locally", "Changes have been saved successfully.");
+        // showNotification("success", "Saved Locally", "Changes have been saved successfully.");
       } catch (error) {
         showNotification("error", "Save Failed", "An error occurred while saving locally.");
         console.error("Local Save Error:", error);
@@ -289,49 +291,51 @@ const EditorComponent = ({ selectedCardContent, onContentChange, onDeleteCard, s
   const previousCardContent = useRef(null);
 
 
-  useEffect(() => {
-    if (selectedCardContent && previousCardId.current !== selectedCardContent.cardId) {
-      const isDiffEdtior = path === "diff-editor";
-      const presentEditorValue = isDiffEdtior ? JSON.stringify(currentEditorRef.current) : currentEditorValue;
-      let content = previousCardContent.current && previousCardContent.current?.content?.data;
-      if(isDiffEdtior) content = JSON.stringify(content)
-      const hasContentChanged = content !== presentEditorValue;
+  // useEffect(() => {
+  //   if (selectedCardContent && previousCardId.current !== selectedCardContent.cardId) {
+  //     const isDiffEdtior = path === "diff-editor";
+  //     const presentEditorValue = isDiffEdtior ? JSON.stringify(currentEditorRef.current) : currentEditorValue;
+  //     let content = previousCardContent.current && previousCardContent.current?.content?.data;
+  //     if(isDiffEdtior) content = JSON.stringify(content)
+  //     const hasContentChanged = content !== presentEditorValue;
 
-      if (hasContentChanged) {
-        handleSave(previousCardContent.current, selectedCardContent);
-      } else {
-        setSelectedCardContent(selectedCardContent); // Ensure the new card is set
-      }
+  //     if (hasContentChanged) {
+  //       handleSave(previousCardContent.current, selectedCardContent);
+  //     } else {
+  //       setSelectedCardContent(selectedCardContent); // Ensure the new card is set
+  //     }
 
-      setCurrentEditorValue(selectedCardContent?.content?.data || null);
-      previousCardId.current = selectedCardContent.cardId;
-      previousCardContent.current = selectedCardContent;
-    }
-  }, [selectedCardContent, location.pathname]);
+  //     setCurrentEditorValue(selectedCardContent?.content?.data || null);
+  //     previousCardId.current = selectedCardContent.cardId;
+  //     previousCardContent.current = selectedCardContent;
+  //   }
+  // }, [selectedCardContent, location.pathname]);
 
-  const excludedPaths = ['/jsonify', '/blank-space', '/diff-editor'];
-  useEffect(() => {
-    const handleTabClose = (event) => {
-      handleSave();
-      event.preventDefault();
-      event.returnValue = ""; // This is required for some browsers to show a warning.
-    };
+  // const excludedPaths = ['/jsonify', '/blank-space', '/diff-editor'];
+  // useEffect(() => {
+  //   const handleTabClose = (event) => {
+  //     handleSave();
+  //     event.preventDefault();
+  //     event.returnValue = ""; // This is required for some browsers to show a warning.
+  //   };
 
-    window.addEventListener("beforeunload", handleTabClose);
+  //   window.addEventListener("beforeunload", handleTabClose);
 
-    return () => {
-      if (!excludedPaths.includes(window.location.pathname)) {
-        const content = selectedCardContent;
-        if(content?.content){
-          content.content.data = currentEditorValue;
-          handleSave(content);
-        }
-      }
-      window.removeEventListener("beforeunload", handleTabClose);
-    };
-  }, [selectedCardContent, currentEditorValue]);
+  //   return () => {
+  //     if (!excludedPaths.includes(window.location.pathname)) {
+  //       const content = selectedCardContent;
+  //       if(content?.content){
+  //         content.content.data = currentEditorValue;
+  //         handleSave(content);
+  //       }
+  //     }
+  //     window.removeEventListener("beforeunload", handleTabClose);
+  //   };
+  // }, [selectedCardContent, currentEditorValue]);
 
-
+  const debounceTimeout = useRef(null);
+  const selectedCardContentRef = useRef(selectedCardContent); // Store the latest selectedCardContent
+  selectedCardContentRef.current = selectedCardContent;
   const renderEditor = () => {
     if (!selectedCardContent) {
       return (
@@ -354,9 +358,11 @@ const EditorComponent = ({ selectedCardContent, onContentChange, onDeleteCard, s
         <AppDiffEditorComponent
           editorState={{ originalEditorContent, modifiedEditorContent }}
           onEditorStateChange={(state) => {
-            setTimeout(()=>{
-              currentEditorRef.current = state;
-            }, 250);
+            currentEditorRef.current = state;
+            clearTimeout(debounceTimeout.current);
+            debounceTimeout.current = setTimeout(() => {
+              handleSave(selectedCardContentRef.current);
+            }, 500);
           }}
         />
       );
@@ -366,9 +372,14 @@ const EditorComponent = ({ selectedCardContent, onContentChange, onDeleteCard, s
       <AppEditorComponent
         selectedCardContent={selectedCardContent}
         language={language}
-        onEditorStateChange={(state) =>
-          setCurrentEditorValue(state.editorContent)
-        }
+        onEditorStateChange={(state) => {
+          // setCurrentEditorValue(state.editorContent);
+          clearTimeout(debounceTimeout.current);
+          debounceTimeout.current = setTimeout(() => {
+            selectedCardContentRef.current.content.data = state.editorContent;
+            handleSave(selectedCardContentRef.current);
+          }, 500);
+        }}
       />
     );
   };
@@ -424,6 +435,6 @@ const EditorComponent = ({ selectedCardContent, onContentChange, onDeleteCard, s
       <div className="editor-component">{renderEditor()}</div>
     </div>
   );
-};
+});
 
 export default EditorComponent;

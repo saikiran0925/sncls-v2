@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect, useContext } from "react";
+import React, { createContext, useState, useEffect, useContext, useCallback } from "react";
 import axiosInstance from "../axiosInstance";
 
 const AuthContext = createContext();
@@ -88,7 +88,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   // Update a specific card content
-  const updateCardContent = (path, id, newContent) => {
+  const updateCardContent = useCallback((path, id, newContent) => {
     if (!newContent?.content?.data) {
       console.log("No content data provided, exiting...");
       return;
@@ -113,7 +113,7 @@ export const AuthProvider = ({ children }) => {
     } else {
       console.log(`Card with id ${id} not found in any category`);
     }
-  };
+  }, []);
 
   // Delete card
   const deleteCardContent = (type, id) => {
@@ -129,6 +129,16 @@ export const AuthProvider = ({ children }) => {
       return;
     }
   };
+
+  const getCard = useCallback((type, id) => {
+    let cardContent = JSON.parse(localStorage.getItem("cardData")) || {};
+    if (cardContent[type]) {
+      return cardContent[type].find(card => card.cardId === id);
+    } else {
+      console.log(`Type ${type} not found in card content`);
+      return;
+    }
+  }, []);
 
 
 
@@ -192,6 +202,7 @@ export const AuthProvider = ({ children }) => {
         cardData,
         updateCardContent,
         deleteCardContent,
+        getCard,
         createNewCard,
         isLocalMode,
         selectedTab,

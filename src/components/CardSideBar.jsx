@@ -8,7 +8,7 @@ import { timeAgo, generateISO8601 } from "../utilities/utils";
 import AuthContext from "../services/contexts/AuthContext";
 
 const CardSideBar = ({ cardsData, onCardSelect, onCreateCard, selectedCardContent, onStarToggle, setSelectedCardContent }) => {
-  const { toggleTab, updateCardContent } = useContext(AuthContext);
+  const { toggleTab, updateCardContent, getCard } = useContext(AuthContext);
   const [activeCardId, setActiveCardId] = useState(null);
   const [selectedTab, setSelectedTab] = useState("All");
   const location = useLocation();
@@ -18,7 +18,13 @@ const CardSideBar = ({ cardsData, onCardSelect, onCreateCard, selectedCardConten
   const [editedTitle, setEditedTitle] = useState("");
 
   useEffect(() => {
-    setLocalCards(cardsData);
+    if(path === 'diff-editor'){
+      const cardDataString = localStorage.getItem("cardData");
+      let cardDataObject = cardDataString ? JSON.parse(cardDataString) : {};
+      setLocalCards(cardDataObject[path]);
+    }else{
+      setLocalCards(cardsData);
+    }
   }, [cardsData]);
 
   useEffect(() => {
@@ -115,7 +121,12 @@ const CardSideBar = ({ cardsData, onCardSelect, onCreateCard, selectedCardConten
               className={`card ${activeCardId === card.cardId ? "active-card" : ""}`}
               onClick={() => {
                 setActiveCardId(card.cardId);
-                onCardSelect(card);
+                if(path === 'diff-editor'){
+                  const cardData = getCard(card.type ,card.cardId);
+                  onCardSelect(cardData);
+                }else{
+                  onCardSelect(card);
+                }
               }}
             >
               <div className="card-header">
