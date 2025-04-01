@@ -28,7 +28,6 @@ const EditorComponent = React.memo(({ selectedCardContent, onContentChange, onDe
         { name: "Escape", icon: <TbBandageFilled /> },
         { name: "Unescape", icon: <TbBandage /> },
         { name: "Copy", icon: <LuClipboardCopy /> },
-        { name: "Save", icon: <AiOutlineSave /> },
         { name: "Share", icon: <IoMdShare /> },
         { name: "Close Tab", icon: <MdDeleteOutline /> },
       ],
@@ -38,7 +37,6 @@ const EditorComponent = React.memo(({ selectedCardContent, onContentChange, onDe
       language: "",
       buttons: [
         { name: "Copy", icon: <LuClipboardCopy /> },
-        { name: "Save", icon: <AiOutlineSave /> },
         { name: "Share", icon: <IoMdShare /> },
         { name: "Close Tab", icon: <MdDeleteOutline /> },
       ],
@@ -48,7 +46,6 @@ const EditorComponent = React.memo(({ selectedCardContent, onContentChange, onDe
       language: "",
       buttons: [
         { name: "Share", icon: <IoMdShare /> },
-        { name: "Save", icon: <AiOutlineSave /> },
         { name: "Close Tab", icon: <MdDeleteOutline /> },
       ],
     },
