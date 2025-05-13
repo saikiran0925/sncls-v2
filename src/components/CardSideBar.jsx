@@ -18,11 +18,11 @@ const CardSideBar = ({ cardsData, onCardSelect, onCreateCard, selectedCardConten
   const [editedTitle, setEditedTitle] = useState("");
 
   useEffect(() => {
-    if(path === 'diff-editor'){
+    if (path === 'diff-editor') {
       const cardDataString = localStorage.getItem("cardData");
       let cardDataObject = cardDataString ? JSON.parse(cardDataString) : {};
       setLocalCards(cardDataObject[path]);
-    }else{
+    } else {
       setLocalCards(cardsData);
     }
   }, [cardsData]);
@@ -96,7 +96,10 @@ const CardSideBar = ({ cardsData, onCardSelect, onCreateCard, selectedCardConten
   const handleTitleCancel = () => {
     setEditingCardId(null);
   };
-  const displayedCards = selectedTab === "Starred" ? localCards.filter(card => card.isStarred) : localCards;
+
+  const displayedCards = Array.isArray(localCards)
+    ? (selectedTab === "Starred" ? localCards.filter(card => card.isStarred) : localCards)
+    : [];
 
   return (
     <div className="sidebar-container">
@@ -121,10 +124,10 @@ const CardSideBar = ({ cardsData, onCardSelect, onCreateCard, selectedCardConten
               className={`card ${activeCardId === card.cardId ? "active-card" : ""}`}
               onClick={() => {
                 setActiveCardId(card.cardId);
-                if(path === 'diff-editor'){
-                  const cardData = getCard(card.type ,card.cardId);
+                if (path === 'diff-editor') {
+                  const cardData = getCard(card.type, card.cardId);
                   onCardSelect(cardData);
-                }else{
+                } else {
                   onCardSelect(card);
                 }
               }}
