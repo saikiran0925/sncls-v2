@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect, useContext } from "react";
+import React, { createContext, useState, useEffect, useContext, useCallback } from "react";
 import axiosInstance from "../axiosInstance";
 
 const AuthContext = createContext();
@@ -88,7 +88,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   // Update a specific card content
-  const updateCardContent = (type, id, newContent) => {
+  const updateCardContent = useCallback((path, id, newContent) => {
     if (!newContent?.content?.data) {
       console.log("No content data provided, exiting...");
       return;
@@ -96,22 +96,24 @@ export const AuthProvider = ({ children }) => {
 
     let cardContent = JSON.parse(localStorage.getItem("cardData")) || {};
 
-    if (cardContent[type]) {
-      const cardIndex = cardContent[type].findIndex(card => card.cardId === id);
+    let updated = false;
+
+    Object.keys(cardContent).forEach((key) => {
+      const cardIndex = cardContent[key].findIndex((card) => card.cardId === id);
 
       if (cardIndex !== -1) {
-        cardContent[type][cardIndex] = newContent;
-        localStorage.setItem("cardData", JSON.stringify(cardContent));
-        setCardData(JSON.stringify(cardContent));
-      } else {
-        console.log(`Card with id ${id} not found in type ${type}`);
-        return;
+        cardContent[key][cardIndex] = newContent;
+        updated = true;
       }
+    });
+
+    if (updated) {
+      localStorage.setItem("cardData", JSON.stringify(cardContent));
+      setCardData(JSON.stringify(cardContent));
     } else {
-      console.log(`Type ${type} not found in card content`);
-      return;
+      console.log(`Card with id ${id} not found in any category`);
     }
-  };
+  }, []);
 
   // Delete card
   const deleteCardContent = (type, id) => {
@@ -127,6 +129,16 @@ export const AuthProvider = ({ children }) => {
       return;
     }
   };
+
+  const getCard = useCallback((type, id) => {
+    let cardContent = JSON.parse(localStorage.getItem("cardData")) || {};
+    if (cardContent[type]) {
+      return cardContent[type].find(card => card.cardId === id);
+    } else {
+      console.log(`Type ${type} not found in card content`);
+      return;
+    }
+  }, []);
 
 
 
@@ -190,6 +202,7 @@ export const AuthProvider = ({ children }) => {
         cardData,
         updateCardContent,
         deleteCardContent,
+        getCard,
         createNewCard,
         isLocalMode,
         selectedTab,

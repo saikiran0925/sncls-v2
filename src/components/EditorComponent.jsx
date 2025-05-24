@@ -13,7 +13,7 @@ import { showNotification, showNotificationWithDescription, generateISO8601 } fr
 import axiosInstance from "../services/axiosInstance";
 import AuthContext from "../services/contexts/AuthContext";
 
-const EditorComponent = ({ selectedCardContent, onContentChange, onDeleteCard, setSelectedCardContent }) => {
+const EditorComponent = React.memo(({ selectedCardContent, onContentChange, onDeleteCard, setSelectedCardContent }) => {
   const [currentEditorValue, setCurrentEditorValue] = useState(null);
   const currentEditorRef = useRef(null);
   const { updateCardContent, isLocalMode } = useContext(AuthContext);
@@ -27,9 +27,7 @@ const EditorComponent = ({ selectedCardContent, onContentChange, onDeleteCard, s
         { name: "Stringify", icon: <MdFormatAlignJustify /> },
         { name: "Escape", icon: <TbBandageFilled /> },
         { name: "Unescape", icon: <TbBandage /> },
-        // { name: "Map to JSON", icon: <MdCode /> },
         { name: "Copy", icon: <LuClipboardCopy /> },
-        { name: "Save", icon: <AiOutlineSave /> },
         { name: "Share", icon: <IoMdShare /> },
         { name: "Close Tab", icon: <MdDeleteOutline /> },
       ],
@@ -39,7 +37,6 @@ const EditorComponent = ({ selectedCardContent, onContentChange, onDeleteCard, s
       language: "",
       buttons: [
         { name: "Copy", icon: <LuClipboardCopy /> },
-        { name: "Save", icon: <AiOutlineSave /> },
         { name: "Share", icon: <IoMdShare /> },
         { name: "Close Tab", icon: <MdDeleteOutline /> },
       ],
@@ -49,7 +46,6 @@ const EditorComponent = ({ selectedCardContent, onContentChange, onDeleteCard, s
       language: "",
       buttons: [
         { name: "Share", icon: <IoMdShare /> },
-        { name: "Save", icon: <AiOutlineSave /> },
         { name: "Close Tab", icon: <MdDeleteOutline /> },
       ],
     },
@@ -113,69 +109,69 @@ const EditorComponent = ({ selectedCardContent, onContentChange, onDeleteCard, s
       showNotification("error", "Share Failed", "Could not share content.");
     }
   };
-  const handleSave = async () => {
-    let updatedCard = fetchUpdatedCardContent();
 
-    if (!selectedCardContent) {
+  const handleSave = async (cardToSave = selectedCardContent, nextCard = null) => {
+    console.log('from handle save method');
+    if (!cardToSave) {
       showNotification("error", "No card selected", "Cannot save an unselected card.");
       return;
     }
 
-    const content = path === "diff-editor" ? currentEditorRef.current : currentEditorValue || selectedCardContent?.content?.data;
+    const content = path === "diff-editor" ? currentEditorRef.current : currentEditorValue || cardToSave?.content?.data;
     const updatedAt = generateISO8601();
 
     const updatedContent = {
-      ...updatedCard,
+      ...cardToSave,
       metadata: {
-        ...updatedCard.metadata,
+        ...cardToSave.metadata,
         updatedAt,
       },
       content: {
-        ...updatedCard.content,
+        ...cardToSave.content,
         data: content,
       },
     };
 
     // Notify the parent component of the content change
-    if (onContentChange) {
-      onContentChange(updatedContent);
+    if (path !== "diff-editor") {
+      // onContentChange(updatedContent);
+      updateCardContent(path, updatedContent.cardId, updatedContent);
+      return;
     }
 
-    // Local mode: save to localStorage
+    // Check if a new card is selected and set it after save
+    // if (nextCard) {
+    //   setSelectedCardContent(nextCard);
+    // }
     if (isLocalMode) {
       try {
         const cardDataString = localStorage.getItem("cardData");
         let cardData = cardDataString ? JSON.parse(cardDataString) : {};
 
-        if (cardData[updatedCard?.type]) {
-          const cardIndex = cardData[updatedCard?.type].findIndex(
-            (card) => card.cardId === updatedCard?.cardId
+        if (cardData[cardToSave?.type]) {
+          const cardIndex = cardData[cardToSave?.type].findIndex(
+            (card) => card.cardId === cardToSave?.cardId
           );
 
           if (cardIndex !== -1) {
-            cardData[updatedCard?.type][cardIndex] = updatedContent; // Update existing card
+            cardData[cardToSave?.type][cardIndex] = updatedContent;
           } else {
-            cardData[updatedCard?.type].push(updatedContent); // Add new card
+            cardData[cardToSave?.type].push(updatedContent);
           }
         } else {
-          cardData[updatedCard?.type] = [updatedContent]; // Create a new type category
+          cardData[cardToSave?.type] = [updatedContent];
         }
 
         localStorage.setItem("cardData", JSON.stringify(cardData));
 
-        showNotification("success", "Saved Locally", "Changes have been saved successfully.");
-
-        // Preserve the selected card after saving
-        setSelectedCardContent(updatedContent); // <-- Use the prop
+        // showNotification("success", "Saved Locally", "Changes have been saved successfully.");
       } catch (error) {
         showNotification("error", "Save Failed", "An error occurred while saving locally.");
         console.error("Local Save Error:", error);
       }
-
       return;
     }
 
-    // Server mode: save to API
     const authToken = localStorage.getItem("authToken");
     if (!authToken) {
       showNotification("error", "Authorization Error", "Auth token not found. Please log in again.");
@@ -183,7 +179,7 @@ const EditorComponent = ({ selectedCardContent, onContentChange, onDeleteCard, s
     }
 
     try {
-      const id = updatedContent.id;
+      const id = cardToSave.id;
       const response = await axiosInstance.put(
         `/api/dynamic/card/${id}`,
         updatedContent,
@@ -194,10 +190,7 @@ const EditorComponent = ({ selectedCardContent, onContentChange, onDeleteCard, s
 
       if (response.status === 200) {
         showNotification("success", "Saved to Server", "Changes have been saved successfully.");
-        updateCardContent(selectedCardContent?.type, id, updatedContent);
-
-        // Preserve the selected card after saving
-        setSelectedCardContent(updatedContent); // <-- Use the prop
+        updateCardContent(cardToSave?.type, id, updatedContent);
       }
     } catch (error) {
       showNotification("error", "Save Failed", "An error occurred while saving to the server.");
@@ -288,9 +281,58 @@ const EditorComponent = ({ selectedCardContent, onContentChange, onDeleteCard, s
   };
 
   useEffect(() => {
-    fetchUpdatedCardContent();
-  }, [selectedCardContent?.id, selectedCardContent?.type]);
+    console.log("Path changed:", location.pathname);
+  }, [location.pathname]);
 
+  const previousCardId = useRef(null);
+  const previousCardContent = useRef(null);
+
+
+  // useEffect(() => {
+  //   if (selectedCardContent && previousCardId.current !== selectedCardContent.cardId) {
+  //     const isDiffEdtior = path === "diff-editor";
+  //     const presentEditorValue = isDiffEdtior ? JSON.stringify(currentEditorRef.current) : currentEditorValue;
+  //     let content = previousCardContent.current && previousCardContent.current?.content?.data;
+  //     if(isDiffEdtior) content = JSON.stringify(content)
+  //     const hasContentChanged = content !== presentEditorValue;
+
+  //     if (hasContentChanged) {
+  //       handleSave(previousCardContent.current, selectedCardContent);
+  //     } else {
+  //       setSelectedCardContent(selectedCardContent); // Ensure the new card is set
+  //     }
+
+  //     setCurrentEditorValue(selectedCardContent?.content?.data || null);
+  //     previousCardId.current = selectedCardContent.cardId;
+  //     previousCardContent.current = selectedCardContent;
+  //   }
+  // }, [selectedCardContent, location.pathname]);
+
+  // const excludedPaths = ['/jsonify', '/blank-space', '/diff-editor'];
+  // useEffect(() => {
+  //   const handleTabClose = (event) => {
+  //     handleSave();
+  //     event.preventDefault();
+  //     event.returnValue = ""; // This is required for some browsers to show a warning.
+  //   };
+
+  //   window.addEventListener("beforeunload", handleTabClose);
+
+  //   return () => {
+  //     if (!excludedPaths.includes(window.location.pathname)) {
+  //       const content = selectedCardContent;
+  //       if(content?.content){
+  //         content.content.data = currentEditorValue;
+  //         handleSave(content);
+  //       }
+  //     }
+  //     window.removeEventListener("beforeunload", handleTabClose);
+  //   };
+  // }, [selectedCardContent, currentEditorValue]);
+
+  const debounceTimeout = useRef(null);
+  const selectedCardContentRef = useRef(selectedCardContent); // Store the latest selectedCardContent
+  selectedCardContentRef.current = selectedCardContent;
   const renderEditor = () => {
     if (!selectedCardContent) {
       return (
@@ -313,9 +355,11 @@ const EditorComponent = ({ selectedCardContent, onContentChange, onDeleteCard, s
         <AppDiffEditorComponent
           editorState={{ originalEditorContent, modifiedEditorContent }}
           onEditorStateChange={(state) => {
-            console.log("Diff Editor State Updated: ", state);
-            // setCurrentEditorValue(state.editorContent);
             currentEditorRef.current = state;
+            clearTimeout(debounceTimeout.current);
+            debounceTimeout.current = setTimeout(() => {
+              handleSave(selectedCardContentRef.current);
+            }, 500);
           }}
         />
       );
@@ -325,9 +369,14 @@ const EditorComponent = ({ selectedCardContent, onContentChange, onDeleteCard, s
       <AppEditorComponent
         selectedCardContent={selectedCardContent}
         language={language}
-        onEditorStateChange={(state) =>
-          setCurrentEditorValue(state.editorContent)
-        }
+        onEditorStateChange={(state) => {
+          // setCurrentEditorValue(state.editorContent);
+          clearTimeout(debounceTimeout.current);
+          debounceTimeout.current = setTimeout(() => {
+            selectedCardContentRef.current.content.data = state.editorContent;
+            handleSave(selectedCardContentRef.current);
+          }, 500);
+        }}
       />
     );
   };
@@ -383,6 +432,6 @@ const EditorComponent = ({ selectedCardContent, onContentChange, onDeleteCard, s
       <div className="editor-component">{renderEditor()}</div>
     </div>
   );
-};
+});
 
 export default EditorComponent;
