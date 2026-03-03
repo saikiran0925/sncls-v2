@@ -20,6 +20,12 @@ function AppMarkdownEditorComponent({ selectedCardContent }) {
   const [previewHtml, setPreviewHtml] = useState("");
 
   const renderMarkdown = useCallback((text) => {
+    // Diff Editor content is an object `{ originalEditorContent, modifiedEditorContent }`.
+    // If the user navigates from Diff Editor to Markdown, AppMarkdownEditorComponent
+    // may briefly receive that object before React finishes switching `selectedCardContent`.
+    if (typeof text !== "string") {
+      text = "";
+    }
     const raw = marked.parse(text || "");
     return DOMPurify.sanitize(raw);
   }, []);
@@ -33,7 +39,10 @@ function AppMarkdownEditorComponent({ selectedCardContent }) {
   useEffect(() => {
     if (!selectedCardContent?.cardId) return;
 
-    let content = selectedCardContent?.content?.data || "";
+    let content = selectedCardContent?.content?.data;
+    if (typeof content !== "string") {
+      content = ""; // Prevent Monaco from crashing on object
+    }
 
     // Always prefer the freshest value from localStorage
     try {
@@ -60,12 +69,17 @@ function AppMarkdownEditorComponent({ selectedCardContent }) {
   function handleEditorMount(editor) {
     editorRef.current = editor;
 
+    let initialContent = selectedCardRef.current?.content?.data;
+    if (typeof initialContent !== "string") {
+      initialContent = "";
+    }
+
     // Set initial content — flag as programmatic
     isProgrammatic.current = true;
-    editor.setValue(selectedCardRef.current?.content?.data || "");
+    editor.setValue(initialContent);
     isProgrammatic.current = false;
 
-    setPreviewHtml(renderMarkdown(selectedCardRef.current?.content?.data || ""));
+    setPreviewHtml(renderMarkdown(initialContent));
 
     editor.onDidChangeModelContent(() => {
       // Ignore changes caused by our own setValue() calls (card switch, initial load)
