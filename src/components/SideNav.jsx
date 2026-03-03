@@ -2,7 +2,7 @@ import React from "react";
 import "../css/SideNav.css";
 import { BsFiletypeJson } from "react-icons/bs";
 import { GrNotes } from "react-icons/gr";
-import { MdOutlineCompare, MdLockReset, MdHelpOutline } from "react-icons/md";
+import { MdOutlineCompare, MdLockReset, MdHelpOutline, MdOutlineDescription } from "react-icons/md";
 import { Tooltip } from "antd";
 import { NavLink } from "react-router-dom";
 import { FaRegClock } from "react-icons/fa";
@@ -48,6 +48,15 @@ const SideNav = () => {
             </NavLink>
           </Tooltip>
 
+          <Tooltip placement="left" title="Markdown Previewer">
+            <NavLink
+              to="/markdown"
+              className={({ isActive }) => (isActive ? "nav-item active" : "nav-item")}
+            >
+              <MdOutlineDescription className="icon" />
+            </NavLink>
+          </Tooltip>
+
           <Tooltip placement="left" title="Time Forge">
             <NavLink
               to="/time-forge"
@@ -65,7 +74,6 @@ const SideNav = () => {
               <MdLockReset className="icon" />
             </NavLink>
           </Tooltip>
-
 
         </div>
 
