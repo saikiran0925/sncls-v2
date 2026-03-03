@@ -1,6 +1,5 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { useAuth } from "../services/contexts/AuthContext";
 import "../css/LandingPage.css";
 
 const features = [
@@ -61,10 +60,6 @@ const FeatureCard = ({ icon, title, description, route }) => {
 };
 
 const LandingPage = () => {
-  const { token } = useAuth();
-  const storedUser = JSON.parse(localStorage.getItem("user"));
-
-  const fullName = storedUser ? storedUser.username : null;
 
   return (
     <div className="landing-page">

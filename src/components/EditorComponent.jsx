@@ -2,15 +2,12 @@ import React, { useContext, useState, useEffect, useRef } from "react";
 import AppEditorComponent from "./AppEditorComponent";
 import AppDiffEditorComponent from "./AppDiffEditorComponent";
 import { useLocation } from "react-router-dom";
-import { MdFormatAlignLeft, MdCode, MdFormatAlignJustify, MdDeleteOutline } from "react-icons/md";
-import { IoMdShare } from "react-icons/io";
+import { MdFormatAlignLeft, MdFormatAlignJustify, MdDeleteOutline } from "react-icons/md";
 import { TbBandage, TbBandageFilled } from "react-icons/tb";
 import { LuClipboardCopy } from "react-icons/lu";
-import { AiOutlineSave } from "react-icons/ai";
 import "../css/EditorComponent.css";
 import { Tooltip, Empty } from "antd";
-import { showNotification, showNotificationWithDescription, generateISO8601 } from "../utilities/utils";
-import axiosInstance from "../services/axiosInstance";
+import { showNotification, generateISO8601 } from "../utilities/utils";
 import AuthContext from "../services/contexts/AuthContext";
 
 const EditorComponent = React.memo(({ selectedCardContent, onContentChange, onDeleteCard, setSelectedCardContent }) => {
@@ -28,7 +25,6 @@ const EditorComponent = React.memo(({ selectedCardContent, onContentChange, onDe
         { name: "Escape", icon: <TbBandageFilled /> },
         { name: "Unescape", icon: <TbBandage /> },
         { name: "Copy", icon: <LuClipboardCopy /> },
-        { name: "Share", icon: <IoMdShare /> },
         { name: "Close Tab", icon: <MdDeleteOutline /> },
       ],
     },
@@ -37,7 +33,6 @@ const EditorComponent = React.memo(({ selectedCardContent, onContentChange, onDe
       language: "",
       buttons: [
         { name: "Copy", icon: <LuClipboardCopy /> },
-        { name: "Share", icon: <IoMdShare /> },
         { name: "Close Tab", icon: <MdDeleteOutline /> },
       ],
     },
@@ -45,7 +40,6 @@ const EditorComponent = React.memo(({ selectedCardContent, onContentChange, onDe
       title: "Diff Editor",
       language: "",
       buttons: [
-        { name: "Share", icon: <IoMdShare /> },
         { name: "Close Tab", icon: <MdDeleteOutline /> },
       ],
     },
@@ -77,39 +71,6 @@ const EditorComponent = React.memo(({ selectedCardContent, onContentChange, onDe
     return updatedCard;
   };
 
-  const handleShare = async () => {
-    if (!selectedCardContent || !selectedCardContent.content?.data) {
-      showNotification("error", "No content to share", "Please select content before sharing.");
-      return;
-    }
-
-    try {
-      const response = await axiosInstance.post("/share", {
-        data: selectedCardContent.content.data,
-        path,
-      });
-
-      if (response.data?.shareId) {
-        const shareId = response.data.shareId;
-        const shareUrl = `https://sncls.com/shared/${shareId}`;
-
-        const storedLinks = JSON.parse(localStorage.getItem("sharedLinks")) || [];
-        if (!storedLinks.includes(shareId)) {
-          storedLinks.push(shareId);
-          localStorage.setItem("sharedLinks", JSON.stringify(storedLinks));
-        }
-
-        await navigator.clipboard.writeText(shareUrl);
-        showNotificationWithDescription("success", "Share Link Copied", "This link will expire in 24 hours from now.");
-      } else {
-        showNotificationWithDescription("error", "Share Failed", "An error occurred while sharing.");
-      }
-    } catch (error) {
-      console.error("Share Error:", error);
-      showNotification("error", "Share Failed", "Could not share content.");
-    }
-  };
-
   const handleSave = async (cardToSave = selectedCardContent, nextCard = null) => {
     console.log('from handle save method');
     if (!cardToSave) {
@@ -139,62 +100,29 @@ const EditorComponent = React.memo(({ selectedCardContent, onContentChange, onDe
       return;
     }
 
-    // Check if a new card is selected and set it after save
-    // if (nextCard) {
-    //   setSelectedCardContent(nextCard);
-    // }
-    if (isLocalMode) {
-      try {
-        const cardDataString = localStorage.getItem("cardData");
-        let cardData = cardDataString ? JSON.parse(cardDataString) : {};
-
-        if (cardData[cardToSave?.type]) {
-          const cardIndex = cardData[cardToSave?.type].findIndex(
-            (card) => card.cardId === cardToSave?.cardId
-          );
-
-          if (cardIndex !== -1) {
-            cardData[cardToSave?.type][cardIndex] = updatedContent;
-          } else {
-            cardData[cardToSave?.type].push(updatedContent);
-          }
-        } else {
-          cardData[cardToSave?.type] = [updatedContent];
-        }
-
-        localStorage.setItem("cardData", JSON.stringify(cardData));
-
-        // showNotification("success", "Saved Locally", "Changes have been saved successfully.");
-      } catch (error) {
-        showNotification("error", "Save Failed", "An error occurred while saving locally.");
-        console.error("Local Save Error:", error);
-      }
-      return;
-    }
-
-    const authToken = localStorage.getItem("authToken");
-    if (!authToken) {
-      showNotification("error", "Authorization Error", "Auth token not found. Please log in again.");
-      return;
-    }
-
+    // Save locally for diff-editor
     try {
-      const id = cardToSave.id;
-      const response = await axiosInstance.put(
-        `/api/dynamic/card/${id}`,
-        updatedContent,
-        {
-          headers: { Authorization: `Bearer ${authToken}` },
-        }
-      );
+      const cardDataString = localStorage.getItem("cardData");
+      let cardData = cardDataString ? JSON.parse(cardDataString) : {};
 
-      if (response.status === 200) {
-        showNotification("success", "Saved to Server", "Changes have been saved successfully.");
-        updateCardContent(cardToSave?.type, id, updatedContent);
+      if (cardData[cardToSave?.type]) {
+        const cardIndex = cardData[cardToSave?.type].findIndex(
+          (card) => card.cardId === cardToSave?.cardId
+        );
+
+        if (cardIndex !== -1) {
+          cardData[cardToSave?.type][cardIndex] = updatedContent;
+        } else {
+          cardData[cardToSave?.type].push(updatedContent);
+        }
+      } else {
+        cardData[cardToSave?.type] = [updatedContent];
       }
+
+      localStorage.setItem("cardData", JSON.stringify(cardData));
     } catch (error) {
-      showNotification("error", "Save Failed", "An error occurred while saving to the server.");
-      console.error("Server Save Error:", error);
+      showNotification("error", "Save Failed", "An error occurred while saving locally.");
+      console.error("Local Save Error:", error);
     }
   };
 
@@ -411,9 +339,6 @@ const EditorComponent = React.memo(({ selectedCardContent, onContentChange, onDe
                     case ("Escape"):
                     case ("Unescape"):
                       handleEscapeUnescape(button.name);
-                      break;
-                    case "Share":
-                      handleShare();
                       break;
                     case "Map to JSON":
                       convertMapToJson();
