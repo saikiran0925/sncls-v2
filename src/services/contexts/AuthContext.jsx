@@ -76,8 +76,6 @@ export const AuthProvider = ({ children }) => {
       contentData = JSON.stringify({ message: "New JSON content" }, null, 2);
     } else if (type === "blank-space") {
       contentData = "New content here";
-    } else if (type === "markdown") {
-      contentData = `# Heading 1\n\nWrite your **markdown** here. The preview updates *live*.\n\n## Code\n\n\`\`\`js\nconsole.log("Hello, SNCLS!");\n\`\`\`\n\n## Lists\n\n- Item one\n- Item two\n- Item three\n\n> Blockquote example\n`;
     } else {
       contentData = "";
     }

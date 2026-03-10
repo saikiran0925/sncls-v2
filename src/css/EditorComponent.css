@@ -54,13 +54,6 @@
   /* White background */
 }
 
-/* No padding for full-bleed editors like Markdown */
-.editor-component.no-pad {
-  padding: 0;
-  overflow: hidden;
-  display: flex;
-}
-
 /* Scrollbar styling (optional) */
 .editor-component::-webkit-scrollbar {
   width: 6px;

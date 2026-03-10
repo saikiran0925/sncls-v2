@@ -20,7 +20,6 @@ const App = () => {
     "/diff-editor",
     "/time-forge",
     "/encode-decode-zone",
-    "/markdown",
   ];
 
   const showUIContainer =
@@ -35,7 +34,6 @@ const App = () => {
         <Route path="/jsonify" element={<EditorRouter />} />
         <Route path="/blank-space" element={<EditorRouter />} />
         <Route path="/diff-editor" element={<EditorRouter />} />
-        <Route path="/markdown" element={<EditorRouter />} />
         <Route key={location.pathname} path="/time-forge" element={<TimeForgeApp />} />
         <Route key={location.pathname} path="/encode-decode-zone" element={<EncodeDecodeZone />} />
         <Route path="/help/:topic" element={<HelpPageWrapper />} />

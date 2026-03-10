@@ -27,10 +27,6 @@ const EditorRouter = () => {
       title: "Diff Editor - Compare Text & Code | SNCLS",
       description: "Compare and analyze differences between two pieces of text or code.",
     },
-    markdown: {
-      title: "Markdown Previewer - Live Preview | SNCLS",
-      description: "Write Markdown and see a live side-by-side rendered preview instantly.",
-    },
   };
 
   const currentMetadata = pageMetadata[path] || {
@@ -59,7 +55,7 @@ const EditorRouter = () => {
     } else {
       setSelectedCardContent(null);
     }
-  }, [path, cardData]); // Re-run when path changes OR when a card save updates cardData
+  }, [path]); // Only run when `path` changes
 
   const handleCreateCard = () => {
     let prevData = null;

@@ -33,12 +33,6 @@ const features = [
     icon: "🔤",
     route: "/encode-decode-zone",
   },
-  {
-    title: "Markdown Previewer",
-    description: "Write markdown on the left and see a live, side-by-side rendered preview on the right — instantly.",
-    icon: "📄",
-    route: "/markdown",
-  },
 ];
 
 const title = (

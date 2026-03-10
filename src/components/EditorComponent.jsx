@@ -1,7 +1,6 @@
 import React, { useContext, useState, useEffect, useRef } from "react";
 import AppEditorComponent from "./AppEditorComponent";
 import AppDiffEditorComponent from "./AppDiffEditorComponent";
-import AppMarkdownEditorComponent from "./AppMarkdownEditorComponent";
 import { useLocation } from "react-router-dom";
 import { MdFormatAlignLeft, MdFormatAlignJustify, MdDeleteOutline } from "react-icons/md";
 import { TbBandage, TbBandageFilled } from "react-icons/tb";
@@ -41,14 +40,6 @@ const EditorComponent = React.memo(({ selectedCardContent, onContentChange, onDe
       title: "Diff Editor",
       language: "",
       buttons: [
-        { name: "Close Tab", icon: <MdDeleteOutline /> },
-      ],
-    },
-    markdown: {
-      title: "Markdown Previewer",
-      language: "markdown",
-      buttons: [
-        { name: "Copy", icon: <LuClipboardCopy /> },
         { name: "Close Tab", icon: <MdDeleteOutline /> },
       ],
     },
@@ -302,14 +293,6 @@ const EditorComponent = React.memo(({ selectedCardContent, onContentChange, onDe
       );
     }
 
-    if (path === "markdown") {
-      return (
-        <AppMarkdownEditorComponent
-          selectedCardContent={selectedCardContent}
-        />
-      );
-    }
-
     return (
       <AppEditorComponent
         selectedCardContent={selectedCardContent}
@@ -371,7 +354,7 @@ const EditorComponent = React.memo(({ selectedCardContent, onContentChange, onDe
           ))}
         </div>
       </div>
-      <div className={`editor-component${path === "markdown" ? " no-pad" : ""}`}>{renderEditor()}</div>
+      <div className="editor-component">{renderEditor()}</div>
     </div>
   );
 });
