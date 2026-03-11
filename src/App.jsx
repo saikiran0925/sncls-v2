@@ -10,6 +10,7 @@ import EncodeDecodeZone from "./pages/EncodeDecodeZone";
 import { HelmetProvider } from "react-helmet-async";
 import HelpPageWrapper from "./pages/HelpPageWrapper";
 import HelpDashboard from "./pages/HelpDashboard";
+import MarkdownEditorPage from "./pages/MarkdownEditorPage";
 
 const App = () => {
   const location = useLocation();
@@ -20,6 +21,7 @@ const App = () => {
     "/diff-editor",
     "/time-forge",
     "/encode-decode-zone",
+    "/markdown-editor",
   ];
 
   const showUIContainer =
@@ -38,6 +40,7 @@ const App = () => {
         <Route key={location.pathname} path="/encode-decode-zone" element={<EncodeDecodeZone />} />
         <Route path="/help/:topic" element={<HelpPageWrapper />} />
         <Route key={location.pathname} path="/help" element={<HelpDashboard />} />
+        <Route path="/markdown-editor" element={<MarkdownEditorPage />} />
 
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>

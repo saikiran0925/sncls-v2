@@ -1,0 +1,428 @@
+/* =========================================================
+   Markdown Editor – top-level layout
+   ========================================================= */
+
+.mde-container {
+  flex-grow: 1;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #f9f9f9;
+  overflow: hidden;
+}
+
+/* =========================================================
+   Header
+   ========================================================= */
+
+.mde-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px;
+  flex-shrink: 0;
+  background-color: #f9f9f9;
+  border-bottom: 1px solid #ddd;
+  gap: 12px;
+}
+
+.mde-header-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.mde-title {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: #111;
+  white-space: nowrap;
+}
+
+/* =========================================================
+   Tab strip
+   ========================================================= */
+
+.mde-tab-strip {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  overflow-x: auto;
+  gap: 4px;
+  scrollbar-width: none;
+}
+
+.mde-tab-strip::-webkit-scrollbar {
+  display: none;
+}
+
+.mde-tab {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0 10px;
+  height: 28px;
+  border: 1px solid #ddd;
+  border-radius: 14px;
+  background-color: #fff;
+  font-size: 12px;
+  color: #555;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+  max-width: 140px;
+}
+
+.mde-tab:hover {
+  background-color: #f0f4ff;
+  border-color: #3b82f6;
+  color: #3b82f6;
+}
+
+.mde-tab.active {
+  background-color: #fff;
+  border-color: #000;
+  color: #000;
+  font-weight: 600;
+}
+
+.mde-tab-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 100px;
+  min-width: 0;
+}
+
+.mde-tab-label-input {
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 12px;
+  font-weight: 600;
+  color: #000;
+  width: 90px;
+  padding: 0;
+}
+
+.mde-tab-close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  font-size: 10px;
+  line-height: 1;
+  color: #888;
+  flex-shrink: 0;
+  transition: background-color 0.15s, color 0.15s;
+}
+
+.mde-tab-close:hover {
+  background-color: #e0e0e0;
+  color: #333;
+}
+
+.mde-add-tab {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border: 1px dashed #ccc;
+  border-radius: 50%;
+  background: transparent;
+  font-size: 16px;
+  color: #888;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+}
+
+.mde-add-tab:hover {
+  border-color: #3b82f6;
+  color: #3b82f6;
+  background-color: #f0f4ff;
+}
+
+/* =========================================================
+   Header action buttons
+   ========================================================= */
+
+.mde-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.mde-action-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #fff;
+  color: #555;
+  font-size: 15px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.mde-action-btn:hover {
+  background-color: #000;
+  border-color: #000;
+  color: #fff;
+}
+
+/* =========================================================
+   Split pane
+   ========================================================= */
+
+.mde-body {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+.mde-pane {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow: hidden;
+  min-width: 0;
+}
+
+.mde-pane + .mde-pane {
+  border-left: 1px solid #ddd;
+}
+
+/* =========================================================
+   Editor wrapper + line numbers
+   ========================================================= */
+
+.mde-editor-wrapper {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+.mde-line-numbers {
+  width: 44px;
+  background-color: #f9f9f9;
+  border-right: 1px solid #e5e7eb;
+  padding: 16px 8px 16px 0;
+  font-family: "JetBrains Mono", "Fira Code", "Cascadia Code", monospace;
+  font-size: 13.5px;
+  line-height: 1.7;
+  color: #b0b7c3;
+  text-align: right;
+  overflow: hidden;
+  user-select: none;
+  flex-shrink: 0;
+  scroll-behavior: auto;
+}
+
+.mde-line-number {
+  /* height matches the editor line-height: 13.5px * 1.7 ≈ 23px */
+  line-height: 1.7;
+}
+
+/* =========================================================
+   Editor textarea
+   ========================================================= */
+
+.mde-editor {
+  flex: 1;
+  width: 100%;
+  padding: 16px 12px;
+  border: none;
+  resize: none;
+  outline: none;
+  font-family: "JetBrains Mono", "Fira Code", "Cascadia Code", monospace;
+  font-size: 13.5px;
+  line-height: 1.7;
+  background-color: #fff;
+  color: #1a1a1a;
+  tab-size: 2;
+  overflow-y: auto;
+}
+
+.mde-editor::placeholder {
+  color: #bbb;
+}
+
+.mde-editor::-webkit-scrollbar {
+  width: 6px;
+}
+
+.mde-editor::-webkit-scrollbar-thumb {
+  background-color: #ccc;
+  border-radius: 4px;
+}
+
+/* =========================================================
+   Markdown preview
+   ========================================================= */
+
+.mde-preview {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px 24px;
+  background-color: #fff;
+  color: #1a1a1a;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 14px;
+  line-height: 1.75;
+}
+
+.mde-preview::-webkit-scrollbar {
+  width: 6px;
+}
+
+.mde-preview::-webkit-scrollbar-thumb {
+  background-color: #ccc;
+  border-radius: 4px;
+}
+
+.mde-preview-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: #ccc;
+  font-style: italic;
+  font-size: 13px;
+}
+
+/* =========================================================
+   Rendered markdown typography
+   ========================================================= */
+
+.mde-preview h1,
+.mde-preview h2,
+.mde-preview h3,
+.mde-preview h4,
+.mde-preview h5,
+.mde-preview h6 {
+  margin-top: 1.4em;
+  margin-bottom: 0.5em;
+  font-weight: 700;
+  color: #111;
+  line-height: 1.3;
+}
+
+.mde-preview h1 { font-size: 1.75em; border-bottom: 2px solid #e5e7eb; padding-bottom: 0.3em; }
+.mde-preview h2 { font-size: 1.4em; border-bottom: 1px solid #e5e7eb; padding-bottom: 0.2em; }
+.mde-preview h3 { font-size: 1.15em; }
+
+.mde-preview p {
+  margin: 0 0 0.9em;
+}
+
+.mde-preview a {
+  color: #3b82f6;
+  text-decoration: underline;
+}
+
+.mde-preview strong { font-weight: 700; }
+.mde-preview em { font-style: italic; }
+
+.mde-preview code {
+  font-family: "JetBrains Mono", "Fira Code", monospace;
+  font-size: 0.875em;
+  background-color: #f3f4f6;
+  padding: 2px 5px;
+  border-radius: 4px;
+  color: #d6336c;
+}
+
+.mde-preview pre {
+  background-color: #1e1e2e;
+  color: #cdd6f4;
+  padding: 14px 18px;
+  border-radius: 10px;
+  overflow-x: auto;
+  margin: 1em 0;
+}
+
+.mde-preview pre code {
+  background: transparent;
+  color: inherit;
+  padding: 0;
+  font-size: 0.875em;
+  border-radius: 0;
+}
+
+.mde-preview blockquote {
+  border-left: 4px solid #3b82f6;
+  margin: 1em 0;
+  padding: 6px 16px;
+  background-color: #eff6ff;
+  border-radius: 0 8px 8px 0;
+  color: #374151;
+}
+
+.mde-preview ul,
+.mde-preview ol {
+  margin: 0.5em 0 0.9em 1.5em;
+  padding: 0;
+}
+
+.mde-preview li {
+  margin-bottom: 0.25em;
+}
+
+.mde-preview table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 1em 0;
+  font-size: 13px;
+}
+
+.mde-preview th,
+.mde-preview td {
+  border: 1px solid #e5e7eb;
+  padding: 8px 12px;
+  text-align: left;
+}
+
+.mde-preview th {
+  background-color: #f3f4f6;
+  font-weight: 600;
+}
+
+.mde-preview tr:nth-child(even) td {
+  background-color: #fafafa;
+}
+
+.mde-preview hr {
+  border: none;
+  border-top: 1px solid #e5e7eb;
+  margin: 1.5em 0;
+}
+
+.mde-preview img {
+  max-width: 100%;
+  border-radius: 8px;
+}
+
+/* =========================================================
+   Empty state (no tab selected)
+   ========================================================= */
+
+.mde-no-tab {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #bbb;
+  font-size: 14px;
+  font-style: italic;
+}
