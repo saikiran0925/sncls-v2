@@ -1,105 +1,136 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
+import { siteConfig } from "../data/siteConfig";
 import "../css/LandingPage.css";
 
-const features = [
-  {
-    title: "JSONify",
-    description: "A tool that allows you to edit and format JSON data with ease. Prettify, stringify, and more with just a click.",
-    icon: "🛠️",
-    route: "/jsonify",
-  },
-  {
-    title: "Blank Space",
-    description: "A simple, blank page where you can write anything, just like taking notes.",
-    icon: "📝",
-    route: "/blank-space",
-  },
-  {
-    title: "Diff Editor",
-    description: "Easily compare and identify differences between two sets of data or code.",
-    icon: "🔍",
-    route: "/diff-editor",
-  },
-  {
-    title: "Time Forge",
-    description: "A comprehensive tool to work with epoch time, timestamp conversions, and timezone adjustments.",
-    icon: "🕒",
-    route: "/time-forge",
-  },
-  {
-    title: "Encode Decode Zone",
-    description: "A versatile tool to encode and decode data in various formats including Base64, URL, JWT, and string escaping.",
-    icon: "🔤",
-    route: "/encode-decode-zone",
-  },
-];
+/* ── Feature card ──────────────────────────────────────────── */
+const FeatureCard = ({ feature, index }) => {
+  const { title, description, icon: Icon, route, accent, badge } = feature;
 
-const title = (
-  <>
-    What's inside <span className="highlight-title">SNCLS?</span>
-  </>
-);
-
-const desc = (
-  <>
-    <span className="highlight">SNCLS</span> (pronounced as <span className="highlight">essentials</span>) is designed to
-    consolidate the most commonly used tools by developers into one convenient location.
-  </>
-);
-
-const FeatureCard = ({ icon, title, description, route }) => {
   return (
-    <Link to={route} className="feature-card">
-      <div className="icon">{icon}</div>
-      <h3>{title}</h3>
-      <p>{description}</p>
-      <div className="action-btn">Explore</div>
+    <Link
+      to={route}
+      className="lp-card"
+      style={{ "--card-accent": accent, animationDelay: `${index * 70}ms` }}
+    >
+      <div className="lp-card-inner">
+        {/* Icon bubble */}
+        <div className="lp-card-icon" style={{ backgroundColor: `${accent}18`, color: accent }}>
+          <Icon size={22} />
+        </div>
+
+        {/* Badge */}
+        {badge && (
+          <span className="lp-badge" style={{ backgroundColor: `${accent}18`, color: accent }}>
+            {badge}
+          </span>
+        )}
+
+        <h3 className="lp-card-title">{title}</h3>
+        <p className="lp-card-desc">{description}</p>
+
+        <div className="lp-card-cta" style={{ color: accent }}>
+          Open {title} →
+        </div>
+      </div>
     </Link>
   );
 };
 
+/* ── Landing page ──────────────────────────────────────────── */
 const LandingPage = () => {
+  const { name, pronunciation, tagline, description, ctaLabel, ctaRoute, features, footer } = siteConfig;
 
   return (
-    <div className="landing-page">
-      <div className="background-shapes"></div>
-      <header className="hero-section">
-        <div className="hero-content">
-          <h1>{title}</h1>
-          <p>{desc}</p>
-        </div>
-        {/* <div className="hero-buttons"> */}
-        {/*   {token ? ( */}
-        {/*     <div className="user-greeting"> */}
-        {/*       <p>Welcome, <span className="user-name">{fullName || "User"}</span>!</p> */}
-        {/*     </div> */}
-        {/*   ) : ( */}
-        {/*     <> */}
-        {/*       <Link to="/login"> */}
-        {/*         <button className="btn btn-login">Login</button> */}
-        {/*       </Link> */}
-        {/*       <Link to="/signup"> */}
-        {/*         <button className="btn btn-signup">Sign Up</button> */}
-        {/*       </Link> */}
-        {/*     </> */}
-        {/*   )} */}
-        {/* </div> */}
-        <div className="background-shapes-right"></div>
-      </header>
+    <>
+      <Helmet>
+        <title>SNCLS — Essential Developer Tools</title>
+        <meta name="description" content={description} />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet"
+        />
+      </Helmet>
 
-      <section className="features-grid">
-        {features.map((feature, index) => (
-          <FeatureCard
-            key={index}
-            icon={feature.icon}
-            title={feature.title}
-            description={feature.description}
-            route={feature.route}
-          />
-        ))}
-      </section>
-    </div>
+      <div className="lp-root">
+
+        {/* ── Navbar ───────────────────────────────────────── */}
+        <nav className="lp-nav">
+          <div className="lp-nav-inner">
+            <Link to="/" className="lp-nav-logo">
+              <span className="lp-nav-brand">{name}</span>
+              <span className="lp-nav-pronounce">/{pronunciation}/</span>
+            </Link>
+            <Link to={ctaRoute} className="lp-nav-cta">
+              {ctaLabel}
+            </Link>
+          </div>
+        </nav>
+
+        {/* ── Hero ─────────────────────────────────────────── */}
+        <section className="lp-hero">
+          {/* Decorative blobs */}
+          <div className="lp-blob lp-blob-1" aria-hidden="true" />
+          <div className="lp-blob lp-blob-2" aria-hidden="true" />
+
+          <div className="lp-hero-content">
+            <div className="lp-hero-eyebrow">Developer Toolkit</div>
+            <h1 className="lp-hero-heading">
+              Every tool you reach for,{" "}
+              <span className="lp-hero-gradient">in one place.</span>
+            </h1>
+            <p className="lp-hero-sub">{description}</p>
+            <div className="lp-hero-actions">
+              <a href="#features" className="lp-btn-primary">
+                Browse Tools ↓
+              </a>
+            </div>
+
+            {/* Stat pills */}
+            <div className="lp-stats">
+              <div className="lp-stat">
+                <span className="lp-stat-num">{features.length}</span>
+                <span className="lp-stat-label">Tools</span>
+              </div>
+              <div className="lp-stat-divider" />
+              <div className="lp-stat">
+                <span className="lp-stat-num">100%</span>
+                <span className="lp-stat-label">Offline</span>
+              </div>
+              <div className="lp-stat-divider" />
+              <div className="lp-stat">
+                <span className="lp-stat-num">0</span>
+                <span className="lp-stat-label">Sign-ups needed</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ── Feature grid ─────────────────────────────────── */}
+        <section className="lp-features" id="features">
+          <div className="lp-section-header">
+            <h2 className="lp-section-title">What's inside?</h2>
+            <p className="lp-section-sub">
+              Pick a tool and get started — no install, no signup, no wait.
+            </p>
+          </div>
+
+          <div className="lp-grid">
+            {features.map((feature, index) => (
+              <FeatureCard key={feature.id} feature={feature} index={index} />
+            ))}
+          </div>
+        </section>
+
+        {/* ── Footer ───────────────────────────────────────── */}
+        <footer className="lp-footer">
+          <span>{footer.copy}</span>
+        </footer>
+      </div>
+    </>
   );
 };
 
