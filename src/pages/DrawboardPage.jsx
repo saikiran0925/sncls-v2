@@ -182,7 +182,7 @@ const DrawboardPage = () => {
         {/* ── Header ────────────────────────────────────── */}
         <div className="db-header">
           <div className="db-header-left">
-            <h2 className="db-title">Drawboard</h2>
+            <h2 className="db-title">Drawboard(beta)</h2>
           </div>
 
           {/* ── Tab strip ─────────────────────────────── */}
@@ -231,6 +231,7 @@ const DrawboardPage = () => {
             excalidrawAPI={(api) => {
               excalidrawApiRef.current = api;
             }}
+            libraryReturnUrl={`${window.location.origin}/drawboard`}
             initialData={{
               elements: activeTab?.elements ?? [],
               appState: {
@@ -245,9 +246,6 @@ const DrawboardPage = () => {
                 loadScene: false,
                 export: false,
                 saveAsImage: true,
-              },
-              tools: {
-                image: false,
               },
             }}
           />
