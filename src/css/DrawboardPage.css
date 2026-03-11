@@ -1,0 +1,166 @@
+/* ============================================================
+   Drawboard Page
+   Matches the app's light theme; Excalidraw handles the canvas UI.
+   ============================================================ */
+
+.db-container {
+  flex-grow: 1;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #f9f9f9;
+  overflow: hidden;
+}
+
+/* ── Header ─────────────────────────────────────────────── */
+
+.db-header {
+  display: flex;
+  align-items: center;
+  padding: 16px;
+  flex-shrink: 0;
+  background-color: #f9f9f9;
+  border-bottom: 1px solid #ddd;
+  gap: 12px;
+}
+
+.db-header-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.db-title {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: #111;
+  white-space: nowrap;
+}
+
+/* ── Tab strip ──────────────────────────────────────────── */
+
+.db-tab-strip {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  overflow-x: auto;
+  gap: 4px;
+  scrollbar-width: none;
+}
+
+.db-tab-strip::-webkit-scrollbar {
+  display: none;
+}
+
+.db-tab {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0 10px;
+  height: 28px;
+  border: 1px solid #ddd;
+  border-radius: 14px;
+  background-color: #fff;
+  font-size: 12px;
+  color: #555;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+  max-width: 150px;
+}
+
+.db-tab:hover {
+  background-color: #fdf2f8;
+  border-color: #ec4899;
+  color: #ec4899;
+}
+
+.db-tab.active {
+  background-color: #fff;
+  border-color: #000;
+  color: #000;
+  font-weight: 600;
+}
+
+.db-tab-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 110px;
+  min-width: 0;
+}
+
+.db-tab-label-input {
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 12px;
+  font-weight: 600;
+  color: #000;
+  width: 100px;
+  padding: 0;
+}
+
+.db-tab-close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  font-size: 10px;
+  line-height: 1;
+  color: #888;
+  flex-shrink: 0;
+  transition: background-color 0.15s, color 0.15s;
+}
+
+.db-tab-close:hover {
+  background-color: #e0e0e0;
+  color: #333;
+}
+
+.db-add-tab {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border: 1px dashed #ccc;
+  border-radius: 50%;
+  background: transparent;
+  font-size: 16px;
+  color: #888;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+}
+
+.db-add-tab:hover {
+  border-color: #ec4899;
+  color: #ec4899;
+  background-color: #fdf2f8;
+}
+
+/* ── Canvas area ─────────────────────────────────────────── */
+
+.db-canvas-wrapper {
+  flex: 1;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Excalidraw fills the wrapper completely */
+.db-canvas-wrapper .excalidraw {
+  height: 100%;
+  width: 100%;
+}
+
+/* Slightly tone down Excalidraw's UI to feel at home */
+.db-canvas-wrapper .excalidraw .App-menu,
+.db-canvas-wrapper .excalidraw .layer-ui__wrapper {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}

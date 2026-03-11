@@ -1,11 +1,10 @@
 import {
   BsFiletypeJson,
-  BsMarkdownFill,
 } from "react-icons/bs";
 import { GrNotes } from "react-icons/gr";
 import { MdOutlineCompare, MdLockReset } from "react-icons/md";
 import { FaRegClock } from "react-icons/fa";
-import { TbMarkdown } from "react-icons/tb";
+import { TbMarkdown, TbBrush } from "react-icons/tb";
 
 /**
  * siteConfig – Single touchpoint for all landing-page content.
@@ -104,8 +103,19 @@ export const siteConfig = {
       icon: TbMarkdown,
       route: "/markdown-editor",
       accent: "#0ea5e9",   // sky
-      badge: "New",
+      badge: null,
       tags: ["markdown", "editor", "preview", "notes"],
+    },
+    {
+      id: "drawboard",
+      title: "Drawboard",
+      description:
+        "Infinite canvas drawing board powered by Excalidraw — sketch diagrams, wireframes, and ideas with multi-tab support.",
+      icon: TbBrush,
+      route: "/drawboard",
+      accent: "#ec4899",   // pink
+      badge: "New",
+      tags: ["draw", "canvas", "diagram", "sketch", "excalidraw"],
     },
   ],
 
