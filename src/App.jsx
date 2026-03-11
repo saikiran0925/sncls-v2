@@ -11,6 +11,7 @@ import { HelmetProvider } from "react-helmet-async";
 import HelpPageWrapper from "./pages/HelpPageWrapper";
 import HelpDashboard from "./pages/HelpDashboard";
 import MarkdownEditorPage from "./pages/MarkdownEditorPage";
+import DrawboardPage from "./pages/DrawboardPage";
 
 const App = () => {
   const location = useLocation();
@@ -22,6 +23,7 @@ const App = () => {
     "/time-forge",
     "/encode-decode-zone",
     "/markdown-editor",
+    "/drawboard",
   ];
 
   const showUIContainer =
@@ -41,6 +43,7 @@ const App = () => {
         <Route path="/help/:topic" element={<HelpPageWrapper />} />
         <Route key={location.pathname} path="/help" element={<HelpDashboard />} />
         <Route path="/markdown-editor" element={<MarkdownEditorPage />} />
+        <Route path="/drawboard" element={<DrawboardPage />} />
 
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>

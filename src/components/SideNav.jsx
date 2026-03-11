@@ -3,7 +3,7 @@ import "../css/SideNav.css";
 import { BsFiletypeJson } from "react-icons/bs";
 import { GrNotes } from "react-icons/gr";
 import { MdOutlineCompare, MdLockReset, MdHelpOutline } from "react-icons/md";
-import { TbMarkdown } from "react-icons/tb";
+import { TbMarkdown, TbBrush } from "react-icons/tb";
 import { Tooltip } from "antd";
 import { NavLink } from "react-router-dom";
 import { FaRegClock } from "react-icons/fa";
@@ -46,6 +46,15 @@ const SideNav = () => {
               className={({ isActive }) => (isActive ? "nav-item active" : "nav-item")}
             >
               <TbMarkdown className="icon" />
+            </NavLink>
+          </Tooltip>
+
+          <Tooltip placement="left" title="Drawboard">
+            <NavLink
+              to="/drawboard"
+              className={({ isActive }) => (isActive ? "nav-item active" : "nav-item")}
+            >
+              <TbBrush className="icon" />
             </NavLink>
           </Tooltip>
 
