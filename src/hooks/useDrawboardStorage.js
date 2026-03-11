@@ -54,12 +54,14 @@ const useDrawboardStorage = () => {
 
   const createTab = useCallback(() => {
     const tab = defaultTab();
-    tab.title = `Board ${Date.now().toString().slice(-4)}`;
-    persist((prev) => ({
-      ...prev,
-      tabs: [...prev.tabs, tab],
-      activeTabId: tab.id,
-    }));
+    persist((prev) => {
+      tab.title = `Board ${prev.tabs.length + 1}`;
+      return {
+        ...prev,
+        tabs: [...prev.tabs, tab],
+        activeTabId: tab.id,
+      };
+    });
     return tab;
   }, [persist]);
 

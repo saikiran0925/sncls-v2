@@ -1,8 +1,6 @@
 import React, { useState, useRef, useCallback, useEffect } from "react";
 import { Excalidraw } from "@excalidraw/excalidraw";
 import { Helmet } from "react-helmet-async";
-import { TbBrush } from "react-icons/tb";
-import { Tooltip } from "antd";
 import useDrawboardStorage from "../hooks/useDrawboardStorage";
 import "@excalidraw/excalidraw/index.css";
 import "../css/DrawboardPage.css";
@@ -109,7 +107,6 @@ const DrawboardPage = () => {
         {/* ── Header ────────────────────────────────────── */}
         <div className="db-header">
           <div className="db-header-left">
-            <TbBrush size={20} color="#ec4899" />
             <h2 className="db-title">Drawboard</h2>
           </div>
 
@@ -176,6 +173,9 @@ const DrawboardPage = () => {
                   loadScene: false,
                   export: false,
                   saveAsImage: true,
+                },
+                tools: {
+                  image: false,
                 },
               }}
             />
