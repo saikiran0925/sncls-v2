@@ -23,8 +23,13 @@ const MarkdownEditorPage = () => {
 
   const [editingTabId, setEditingTabId] = useState(null);
   const [editingTitle, setEditingTitle] = useState("");
+  const [lineCount, setLineCount] = useState(
+    () => (activeTab?.content?.split("\n").length ?? 1)
+  );
   const debounceRef = useRef(null);
   const titleInputRef = useRef(null);
+  const editorRef = useRef(null);
+  const lineNumRef = useRef(null);
 
   // Autofocus the title input when renaming
   useEffect(() => {
@@ -37,6 +42,7 @@ const MarkdownEditorPage = () => {
   const handleEditorChange = useCallback(
     (e) => {
       const value = e.target.value;
+      setLineCount(value.split("\n").length);
       clearTimeout(debounceRef.current);
       debounceRef.current = setTimeout(() => {
         if (activeTab) {
@@ -46,6 +52,12 @@ const MarkdownEditorPage = () => {
     },
     [activeTab, updateContent]
   );
+
+  const handleEditorScroll = useCallback(() => {
+    if (lineNumRef.current && editorRef.current) {
+      lineNumRef.current.scrollTop = editorRef.current.scrollTop;
+    }
+  }, []);
 
   const handleCopy = () => {
     if (!activeTab) return;
@@ -98,7 +110,6 @@ const MarkdownEditorPage = () => {
         {/* ── Header ─────────────────────────────────────────── */}
         <div className="mde-header">
           <div className="mde-header-left">
-            <TbMarkdown size={20} color="#3b82f6" />
             <h2 className="mde-title">Markdown</h2>
           </div>
 
@@ -159,22 +170,29 @@ const MarkdownEditorPage = () => {
         {/* ── Split body ─────────────────────────────────────── */}
         {activeTab ? (
           <div className="mde-body">
-            {/* Left: editor textarea */}
+            {/* Left: editor with line numbers */}
             <div className="mde-pane">
-              <div className="mde-pane-label">✏️ Editor</div>
-              <textarea
-                key={activeTab.id}
-                className="mde-editor"
-                defaultValue={activeTab.content}
-                onChange={handleEditorChange}
-                placeholder="Start writing markdown here…"
-                spellCheck={false}
-              />
+              <div className="mde-editor-wrapper">
+                <div className="mde-line-numbers" ref={lineNumRef}>
+                  {Array.from({ length: lineCount }, (_, i) => (
+                    <div key={i + 1} className="mde-line-number">{i + 1}</div>
+                  ))}
+                </div>
+                <textarea
+                  key={activeTab.id}
+                  ref={editorRef}
+                  className="mde-editor"
+                  defaultValue={activeTab.content}
+                  onChange={handleEditorChange}
+                  onScroll={handleEditorScroll}
+                  placeholder="Start writing markdown here…"
+                  spellCheck={false}
+                />
+              </div>
             </div>
 
             {/* Right: preview */}
             <div className="mde-pane">
-              <div className="mde-pane-label">👁 Preview</div>
               <div className="mde-preview">
                 {activeTab.content ? (
                   <ReactMarkdown remarkPlugins={[remarkGfm]}>

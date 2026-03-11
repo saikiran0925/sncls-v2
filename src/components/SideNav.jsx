@@ -40,6 +40,15 @@ const SideNav = () => {
             </NavLink>
           </Tooltip>
 
+          <Tooltip placement="left" title="Markdown Editor">
+            <NavLink
+              to="/markdown-editor"
+              className={({ isActive }) => (isActive ? "nav-item active" : "nav-item")}
+            >
+              <TbMarkdown className="icon" />
+            </NavLink>
+          </Tooltip>
+
           <Tooltip placement="left" title="Diff Editor">
             <NavLink
               to="/diff-editor"
@@ -66,16 +75,6 @@ const SideNav = () => {
               <MdLockReset className="icon" />
             </NavLink>
           </Tooltip>
-
-          <Tooltip placement="left" title="Markdown Editor">
-            <NavLink
-              to="/markdown-editor"
-              className={({ isActive }) => (isActive ? "nav-item active" : "nav-item")}
-            >
-              <TbMarkdown className="icon" />
-            </NavLink>
-          </Tooltip>
-
 
         </div>
 
