@@ -23,6 +23,3 @@ dist-ssr
 *.sln
 *.sw?
 
-
-deploy.sh
-deploy-backend.sh
