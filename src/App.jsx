@@ -12,6 +12,7 @@ import HelpPageWrapper from "./pages/HelpPageWrapper";
 import HelpDashboard from "./pages/HelpDashboard";
 import MarkdownEditorPage from "./pages/MarkdownEditorPage";
 import DrawboardPage from "./pages/DrawboardPage";
+import TaskManagerPage from "./pages/TaskManagerPage";
 
 const App = () => {
   const location = useLocation();
@@ -24,6 +25,7 @@ const App = () => {
     "/encode-decode-zone",
     "/markdown-editor",
     "/drawboard",
+    "/taskify",
   ];
 
   const showUIContainer =
@@ -44,6 +46,7 @@ const App = () => {
         <Route key={location.pathname} path="/help" element={<HelpDashboard />} />
         <Route path="/markdown-editor" element={<MarkdownEditorPage />} />
         <Route path="/drawboard" element={<DrawboardPage />} />
+        <Route path="/taskify" element={<TaskManagerPage />} />
 
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
