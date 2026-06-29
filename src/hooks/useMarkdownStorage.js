@@ -58,7 +58,7 @@ const useMarkdownStorage = () => {
     tab.content = "";
     persist((prev) => ({
       ...prev,
-      tabs: [...prev.tabs, tab],
+      tabs: [tab, ...prev.tabs],
       activeTabId: tab.id,
     }));
     return tab;

@@ -94,7 +94,7 @@ export const AuthProvider = ({ children }) => {
       },
     };
 
-    cardContent[type].push(newCard);
+    cardContent[type].unshift(newCard);
     localStorage.setItem("cardData", JSON.stringify(cardContent));
     setCardData(JSON.stringify(cardContent));
 

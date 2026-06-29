@@ -65,7 +65,7 @@ const EditorRouter = () => {
       prevData = cardDataObject[path]
     }
     const newCard = createNewCard(path);
-    setCardsForSelectedPath((prev) => [...(prevData ? prevData : prev), newCard]);
+    setCardsForSelectedPath((prev) => [newCard, ...(prevData ? prevData : prev)]);
     setSelectedCardContent(newCard); // Set the newly created card as the selected card
   };
 

@@ -2,7 +2,7 @@ import {
   BsFiletypeJson,
 } from "react-icons/bs";
 import { GrNotes } from "react-icons/gr";
-import { MdOutlineCompare, MdLockReset } from "react-icons/md";
+import { MdOutlineCompare, MdLockReset, MdOutlineChecklist } from "react-icons/md";
 import { FaRegClock } from "react-icons/fa";
 import { TbMarkdown, TbBrush } from "react-icons/tb";
 
@@ -63,6 +63,17 @@ export const siteConfig = {
       tags: ["notes", "text", "scratchpad"],
     },
     {
+      id: "taskify",
+      title: "Taskify",
+      description:
+        "A daily task manager for standups and 1:1s — track what you did, carry over pending items, and keep pinned tasks always visible.",
+      icon: MdOutlineChecklist,
+      route: "/taskify",
+      accent: "#14b8a6",   // teal
+      badge: "New",
+      tags: ["tasks", "checklist", "standup", "daily", "todo"],
+    },
+    {
       id: "diff-editor",
       title: "Diff Editor",
       description:
@@ -114,7 +125,7 @@ export const siteConfig = {
       icon: TbBrush,
       route: "/drawboard",
       accent: "#ec4899",   // pink
-      badge: "New",
+      badge: null,
       tags: ["draw", "canvas", "diagram", "sketch", "excalidraw"],
     },
   ],

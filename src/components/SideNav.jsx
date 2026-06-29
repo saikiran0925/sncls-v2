@@ -2,7 +2,7 @@ import React from "react";
 import "../css/SideNav.css";
 import { BsFiletypeJson } from "react-icons/bs";
 import { GrNotes } from "react-icons/gr";
-import { MdOutlineCompare, MdLockReset, MdHelpOutline } from "react-icons/md";
+import { MdOutlineCompare, MdLockReset, MdHelpOutline, MdOutlineChecklist } from "react-icons/md";
 import { TbMarkdown, TbBrush } from "react-icons/tb";
 import { Tooltip } from "antd";
 import { NavLink } from "react-router-dom";
@@ -37,6 +37,15 @@ const SideNav = () => {
               className={({ isActive }) => (isActive ? "nav-item active" : "nav-item")}
             >
               <GrNotes className="icon" />
+            </NavLink>
+          </Tooltip>
+
+          <Tooltip placement="left" title="Taskify">
+            <NavLink
+              to="/taskify"
+              className={({ isActive }) => (isActive ? "nav-item active" : "nav-item")}
+            >
+              <MdOutlineChecklist className="icon" />
             </NavLink>
           </Tooltip>
 
@@ -84,6 +93,7 @@ const SideNav = () => {
               <MdLockReset className="icon" />
             </NavLink>
           </Tooltip>
+
 
         </div>
 

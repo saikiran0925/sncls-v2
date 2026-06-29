@@ -58,7 +58,7 @@ const useDrawboardStorage = () => {
       tab.title = `Board ${prev.tabs.length + 1}`;
       return {
         ...prev,
-        tabs: [...prev.tabs, tab],
+        tabs: [tab, ...prev.tabs],
         activeTabId: tab.id,
       };
     });
