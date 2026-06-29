@@ -3,7 +3,7 @@ import React, { useContext, useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { Empty, Button, Input } from "antd";
 import { FaStar, FaRegStar } from "react-icons/fa";
-import { CheckOutlined, CloseOutlined, EditOutlined } from "@ant-design/icons";
+import { CheckOutlined, CloseOutlined, EditOutlined, SearchOutlined, CloseCircleFilled } from "@ant-design/icons";
 import { timeAgo, generateISO8601 } from "../utilities/utils";
 import AuthContext from "../services/contexts/AuthContext";
 
@@ -16,6 +16,7 @@ const CardSideBar = ({ cardsData, onCardSelect, onCreateCard, selectedCardConten
   const [localCards, setLocalCards] = useState([]);
   const [editingCardId, setEditingCardId] = useState(null);
   const [editedTitle, setEditedTitle] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     if (path === 'diff-editor') {
@@ -97,9 +98,16 @@ const CardSideBar = ({ cardsData, onCardSelect, onCreateCard, selectedCardConten
     setEditingCardId(null);
   };
 
-  const displayedCards = Array.isArray(localCards)
+  const query = searchQuery.trim().toLowerCase();
+  const displayedCards = (Array.isArray(localCards)
     ? (selectedTab === "Starred" ? localCards.filter(card => card.isStarred) : localCards)
-    : [];
+    : []
+  ).filter(card => {
+    if (!query) return true;
+    const title = (card.title || "").toLowerCase();
+    const content = typeof card?.content?.data === "string" ? card.content.data.toLowerCase() : "";
+    return title.includes(query) || content.includes(query);
+  });
 
   return (
     <div className="sidebar-container">
@@ -110,7 +118,22 @@ const CardSideBar = ({ cardsData, onCardSelect, onCreateCard, selectedCardConten
           <button className={`tab ${selectedTab === "Starred" ? "active" : ""}`} onClick={() => handleTabChange("Starred")}>Starred</button>
         </div>
       </div>
-      {/* <input className="search-bar" type="text" placeholder="Search" /> */}
+      <div className="search-wrapper">
+        <SearchOutlined className="search-icon" />
+        <input
+          className="search-bar"
+          type="text"
+          placeholder="Search cards"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+        />
+        {searchQuery && (
+          <CloseCircleFilled
+            className="search-clear"
+            onClick={() => setSearchQuery("")}
+          />
+        )}
+      </div>
       <div style={{ width: "100%", padding: "10px", textAlign: "center" }}>
         <Button type="primary" onClick={onCreateCard} style={{ width: "100%" }}>
           Create Card
