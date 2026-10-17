@@ -1,0 +1,4 @@
+aws_region  = "ap-south-1"
+domain_name = "sncls.com"
+app_name    = "sncls"
+environment = "prod"
